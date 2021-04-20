@@ -41,7 +41,7 @@ public class AbiUtils {
     }
 
     public AbiUtils(File apkFile) {
-        ZipFile zipFile;
+        ZipFile zipFile = null;
         try {
             zipFile = new ZipFile(apkFile);
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
@@ -59,7 +59,7 @@ public class AbiUtils {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            CloseUtils.close();
+            CloseUtils.close(zipFile);
         }
     }
 

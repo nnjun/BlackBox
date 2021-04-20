@@ -44,6 +44,7 @@ import mirror.android.app.LoadedApk;
 import mirror.com.android.internal.content.ReferrerIntent;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.client.hook.IOManager;
+import top.niunaijun.blackbox.client.hook.env.VirtualRuntime;
 import top.niunaijun.blackbox.client.hook.fixer.ContextFixer;
 import top.niunaijun.blackbox.client.hook.proxies.app.HCallbackStub;
 import top.niunaijun.blackbox.client.hook.proxies.context.providers.ContentProviderStub;
@@ -325,7 +326,7 @@ public class BClient extends IBClient.Stub {
             throw new RuntimeException("Unable to makeApplication", e);
         }
 
-//        VirtualRuntime.setupRuntime(bindData.processName, applicationInfo);
+        VirtualRuntime.setupRuntime(bindData.processName, applicationInfo);
     }
 
     private Context createPackageContext(ApplicationInfo info) {

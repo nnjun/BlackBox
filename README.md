@@ -5,10 +5,11 @@
 黑盒BlackBox，是一款虚拟引擎，可以在Android上克隆、运行虚拟应用，拥有免安装运行能力。黑盒可以掌控被运行的虚拟应用，做任何想做的事情。
 
 ## 项目声明
-本项目为个人**学习项目**。有重复造轮的嫌疑，许多设计细节有参考[VirtualApp](https://github.com/asLody/VirtualApp)、[VirtualAPK](https://github.com/didi/VirtualAPK)、许多资料和文章。本项目部分工具类来自VirtualApp，例如mirror、小部分Utils。author注释不修改，永久保留在项目内，感谢作者无私奉献。
+- 本项目为个人**学习项目**。有重复造轮的嫌疑，许多设计细节有参考[VirtualApp](https://github.com/asLody/VirtualApp)、[VirtualAPK](https://github.com/didi/VirtualAPK)、许多资料和文章。本项目部分工具类来自VirtualApp，例如mirror、小部分Utils。author注释不修改，永久保留在项目内，感谢作者无私奉献。
 
-但是在此声明，本项目**并非CV项目**，项目内每一行代码都是亲自手敲下，深入至所有核心原理。
+- 但是在此声明，本项目**并非CV项目**，项目内每一行代码都是亲自手敲下，深入至所有核心原理。
 
+- **本项目(app)仅为测试demo，用于初期测试稳定性。后续可能考虑开发成黑科技盒子之类的应用。**
 ## 反馈
 **issue 或者 QQ群：970690922**
 

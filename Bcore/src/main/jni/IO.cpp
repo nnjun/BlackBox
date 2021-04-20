@@ -40,7 +40,7 @@ const char *IO::redirectPath(const char *__path) {
     list<IO::RelocateInfo>::iterator iterator;
     for (iterator = relocate_rule.begin(); iterator != relocate_rule.end(); ++iterator) {
         IO::RelocateInfo info = *iterator;
-        if (strstr(__path, info.targetPath) && !strstr(__path, "top.niunaijun.blackbox")) {
+        if (strstr(__path, info.targetPath) && !strstr(__path, "/virtual/")) {
             char *ret = replace(__path, info.targetPath, info.relocatePath);
             ALOGD("redirectPath %s  => %s", __path, ret);
             return ret;

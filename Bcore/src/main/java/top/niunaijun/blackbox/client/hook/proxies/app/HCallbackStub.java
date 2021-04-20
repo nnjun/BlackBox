@@ -139,7 +139,7 @@ public class HCallbackStub implements IInjectHook, Handler.Callback {
             }
 
             int taskId = IActivityManager.getTaskForActivity.call(ActivityManagerNative.getDefault.call(), token, false);
-            BlackBoxCore.getVActivityManager().onActivityCreated(taskId, token, stubRecord.mActivityRecord);
+            BlackBoxCore.getBActivityManager().onActivityCreated(taskId, token, stubRecord.mActivityRecord);
 
             if (BuildCompat.isPie()) {
                 LaunchActivityItem.mIntent.set(r, stubRecord.mTarget);

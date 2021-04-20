@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.entity.pm.InstallResult;
 import top.niunaijun.blackbox.utils.NativeUtils;
 import top.niunaijun.blackbox.utils.Reflector;
 import top.niunaijun.blackbox.utils.compat.ObjectsCompat;
@@ -55,16 +56,6 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
 
     @Override
     public ApplicationInfo getApplicationInfo(String packageName, int flags, int userId) {
-//        ApplicationInfo applicationInfo = null;
-//        try {
-//            applicationInfo = VirtualCore.getPackageManager().getApplicationInfo(packageName, flags);
-//            if (ObjectsCompat.equals(applicationInfo.packageName, VirtualCore.getHostPkg())) {
-//                return applicationInfo;
-//            }
-//        } catch (PackageManager.NameNotFoundException ignored) {
-//        }
-//        IOManager.redirectApplication(applicationInfo);
-//        return applicationInfo;
         if (ObjectsCompat.equals(packageName, BlackBoxCore.getHostPkg())) {
             try {
                 return BlackBoxCore.getPackageManager().getApplicationInfo(packageName, flags);
@@ -439,6 +430,12 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
             t.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public InstallResult installPackageAsUser(String file, int userId) {
+
+        return null;
     }
 
     static String fixProcessName(String defProcessName, String processName) {

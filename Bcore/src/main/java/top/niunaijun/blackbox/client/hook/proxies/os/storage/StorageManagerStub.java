@@ -69,7 +69,7 @@ public class StorageManagerStub extends BinderInvocationStub {
             int uid = (int) args[0];
             String packageName = (String) args[1];
             int flags = (int) args[2];
-            return BlackBoxCore.getVStorageManager().getVolumeList(uid, packageName, flags);
+            return BlackBoxCore.getBStorageManager().getVolumeList(uid, packageName, flags);
         }
     }
 }

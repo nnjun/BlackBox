@@ -45,7 +45,7 @@ QQ | 无网 | 仍在努力中，可能姿势不对
 
 #### Step 2.运行APK
 运行未安装应用，只需提供一个可访问的APK路径
-```
+```java
     try {
         BlackBoxCore.get().launchApk(new File("/sdcard/123.apk"));
     } catch (RuntimeException e) {

@@ -41,8 +41,12 @@ public class TaskRecord {
     }
 
     public ActivityRecord getTopActivityRecord() {
-        if (activities.isEmpty())
-            return null;
-        return activities.get(activities.size() - 1);
+        for (int i = activities.size() - 1; i >= 0; i--) {
+            ActivityRecord activityRecord = activities.get(i);
+            if (!activityRecord.finished) {
+                return activityRecord;
+            }
+        }
+        return null;
     }
 }

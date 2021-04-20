@@ -69,7 +69,7 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
  * 此处无Bug
  */
 public class BClient extends IBClient.Stub {
-    public static final String TAG = "VClient";
+    public static final String TAG = "BClient";
 
     private static BClient sVClient;
     private AppBindData mBoundApplication;
@@ -246,7 +246,7 @@ public class BClient extends IBClient.Stub {
     }
 
     public void handleBindApplication(String packageName, String processName) {
-        PackageInfo packageInfo = BlackBoxCore.getVPackageManager().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, 0);
+        PackageInfo packageInfo = BlackBoxCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, 0);
         ApplicationInfo applicationInfo = packageInfo.applicationInfo;
         if (packageInfo.providers == null) {
             packageInfo.providers = new ProviderInfo[]{};

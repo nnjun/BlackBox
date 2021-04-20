@@ -175,6 +175,14 @@ public class BActivityManager {
         }
     }
 
+    public void onFinishActivity(IBinder token) {
+        try {
+            getService().onFinishActivity(token);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     private IBActivityManagerService getService() {
         if (mService != null && mService.asBinder().isBinderAlive()) {
             return mService;

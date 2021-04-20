@@ -11,6 +11,8 @@ import android.content.pm.ProviderInfo;
 import android.content.Intent;
 import android.content.ComponentName;
 import java.util.List;
+import top.niunaijun.blackbox.entity.pm.InstallResult;
+
 
 interface IBPackageManagerService {
     ResolveInfo resolveService(in Intent intent, int flags, String resolvedType, int userId);
@@ -28,5 +30,7 @@ interface IBPackageManagerService {
     List<ResolveInfo> queryIntentActivities(in Intent intent, int flags, String resolvedType, int userId);
     List<ResolveInfo> queryBroadcastReceivers(in Intent intent, int flags, String resolvedType, int userId);
     List<ProviderInfo> queryContentProviders(String processName, int uid, int flags, int userId);
+
     PackageInfo loadPackage(String file, int userId);
+    InstallResult installPackageAsUser(String file, int userId);
 }

@@ -51,7 +51,7 @@ public class JobServiceStub extends BinderInvocationStub {
             @Override
             protected Object hook(Object who, Method method, Object[] args) throws Throwable {
                 JobInfo jobInfo = (JobInfo) args[0];
-                JobInfo proxyJobInfo = BlackBoxCore.getVJobManager()
+                JobInfo proxyJobInfo = BlackBoxCore.getBJobManager()
                         .schedule(jobInfo);
                 args[0] = proxyJobInfo;
                 return method.invoke(who, args);
@@ -65,7 +65,7 @@ public class JobServiceStub extends BinderInvocationStub {
 
             @Override
             protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-                args[0] = BlackBoxCore.getVJobManager()
+                args[0] = BlackBoxCore.getBJobManager()
                         .cancel(BClient.getClientConfig().processName, (Integer) args[0]);
                 return method.invoke(who, args);
             }
@@ -78,7 +78,7 @@ public class JobServiceStub extends BinderInvocationStub {
 
             @Override
             protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-                BlackBoxCore.getVJobManager().cancelAll(BClient.getClientConfig().processName);
+                BlackBoxCore.getBJobManager().cancelAll(BClient.getClientConfig().processName);
                 return method.invoke(who, args);
             }
         });

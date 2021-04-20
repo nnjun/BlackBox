@@ -206,7 +206,10 @@ public class ActivityStack {
         }
 
         if (resultTo == null) {
-            ActivityRecord top = taskRecord.activities.get(0);
+            ActivityRecord top = taskRecord.getTopActivityRecord();
+            resultTo = top.token;
+        } else if (sourceTask != null) {
+            ActivityRecord top = sourceTask.getTopActivityRecord();
             resultTo = top.token;
         }
         return startActivityInSourceTask(intent,
@@ -427,6 +430,18 @@ public class ActivityStack {
             activityRecord.finished = true;
             Log.d("TestActivity", "onActivityDestroyed : " + activityRecord.component.toString());
             activityRecord.task.removeActivity(activityRecord);
+        }
+    }
+
+    public void onFinishActivity(int userId, IBinder token) {
+        synchronized (mTasks) {
+            synchronizeTasks();
+            ActivityRecord activityRecord = findActivityRecordByToken(userId, token);
+            if (activityRecord == null) {
+                return;
+            }
+            activityRecord.finished = true;
+            Log.d("TestActivity", "onFinishActivity : " + activityRecord.component.toString());
         }
     }
 

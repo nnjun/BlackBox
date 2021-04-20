@@ -85,7 +85,7 @@ public class ClientServiceManager {
         record.setStartId(stubRecord.mStartId);
         try {
             int i = service.onStartCommand(stubRecord.mServiceIntent, flags, stubRecord.mStartId);
-            BlackBoxCore.getVActivityManager().onStartCommand(proxyIntent, stubRecord.mUserId);
+            BlackBoxCore.getBActivityManager().onStartCommand(proxyIntent, stubRecord.mUserId);
             return i;
         } catch (Throwable e) {
             e.printStackTrace();
@@ -154,7 +154,7 @@ public class ClientServiceManager {
         Intent intent = stubRecord.mServiceIntent;
 
         try {
-            UnbindRecord unbindRecord = BlackBoxCore.getVActivityManager().onServiceUnbind(proxyIntent, BClient.getUserId());
+            UnbindRecord unbindRecord = BlackBoxCore.getBActivityManager().onServiceUnbind(proxyIntent, BClient.getUserId());
             if (unbindRecord == null)
                 return false;
 
@@ -168,7 +168,7 @@ public class ClientServiceManager {
                 boolean b = service.onUnbind(intent);
                 if (destroy) {
                     service.onDestroy();
-                    BlackBoxCore.getVActivityManager().onServiceDestroy(proxyIntent, BClient.getUserId());
+                    BlackBoxCore.getBActivityManager().onServiceDestroy(proxyIntent, BClient.getUserId());
                     mService.remove(new Intent.FilterComparison(intent));
                 }
                 record.setRebind(true);

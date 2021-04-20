@@ -127,6 +127,18 @@ public class BActivityManagerService extends IBActivityManagerService.Stub {
     }
 
     @Override
+    public void onFinishActivity(IBinder token) throws RemoteException {
+        synchronized (mStack) {
+            int callingPid = Binder.getCallingPid();
+            ProcessRecord process = BProcessManager.get().findProcessByPid(callingPid);
+            if (process == null) {
+                return;
+            }
+            mStack.onFinishActivity(process.userId, token);
+        }
+    }
+
+    @Override
     public void onStartCommand(Intent intent, int userId) throws RemoteException {
         synchronized (mActiveServices) {
             mActiveServices.onStartCommand(intent, userId);

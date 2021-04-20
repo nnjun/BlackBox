@@ -28,7 +28,7 @@ public class FileProviderHandler {
                 try {
                     File fileForUri = FileProvider.getFileForUri(context, provider.authority, uri);
                     if (fileForUri != null && fileForUri.exists()) {
-                        return BlackBoxCore.getVStorageManager().getUriForFile(fileForUri.getAbsolutePath());
+                        return BlackBoxCore.getBStorageManager().getUriForFile(fileForUri.getAbsolutePath());
                     }
                 } catch (Exception ignored) {
                 }

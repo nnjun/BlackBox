@@ -98,7 +98,7 @@ public class PackageManagerStub extends BinderInvocationStub {
             Intent intent = (Intent) args[0];
             String resolvedType = (String) args[1];
             int flags = (int) args[2];
-            return BlackBoxCore.getVPackageManager().resolveIntent(intent, resolvedType, flags, BClient.getUserId());
+            return BlackBoxCore.getBPackageManager().resolveIntent(intent, resolvedType, flags, BClient.getUserId());
         }
     }
 
@@ -127,7 +127,7 @@ public class PackageManagerStub extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             String packageName = (String) args[0];
             int flag = (int) args[1];
-            PackageInfo packageInfo = BlackBoxCore.getVPackageManager().getPackageInfo(packageName, flag, BClient.getUserId());
+            PackageInfo packageInfo = BlackBoxCore.getBPackageManager().getPackageInfo(packageName, flag, BClient.getUserId());
             if (packageInfo != null) {
                 return packageInfo;
             }
@@ -146,7 +146,7 @@ public class PackageManagerStub extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             ComponentName componentName = (ComponentName) args[0];
             int flags = (int) args[1];
-            ProviderInfo providerInfo = BlackBoxCore.getVPackageManager().getProviderInfo(componentName, flags, BClient.getUserId());
+            ProviderInfo providerInfo = BlackBoxCore.getBPackageManager().getProviderInfo(componentName, flags, BClient.getUserId());
             if (providerInfo != null)
                 return providerInfo;
             return method.invoke(who, args);
@@ -164,7 +164,7 @@ public class PackageManagerStub extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             ComponentName componentName = (ComponentName) args[0];
             int flags = (int) args[1];
-            ActivityInfo receiverInfo = BlackBoxCore.getVPackageManager().getReceiverInfo(componentName, flags, BClient.getUserId());
+            ActivityInfo receiverInfo = BlackBoxCore.getBPackageManager().getReceiverInfo(componentName, flags, BClient.getUserId());
             if (receiverInfo != null)
                 return receiverInfo;
             return method.invoke(who, args);
@@ -181,7 +181,7 @@ public class PackageManagerStub extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             ComponentName componentName = (ComponentName) args[0];
             int flags = (int) args[1];
-            ActivityInfo activityInfo = BlackBoxCore.getVPackageManager().getActivityInfo(componentName, flags, BClient.getUserId());
+            ActivityInfo activityInfo = BlackBoxCore.getBPackageManager().getActivityInfo(componentName, flags, BClient.getUserId());
             if (activityInfo != null)
                 return activityInfo;
             return method.invoke(who, args);
@@ -200,7 +200,7 @@ public class PackageManagerStub extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             ComponentName componentName = (ComponentName) args[0];
             int flags = (int) args[1];
-            ServiceInfo serviceInfo = BlackBoxCore.getVPackageManager().getServiceInfo(componentName, flags, BClient.getUserId());
+            ServiceInfo serviceInfo = BlackBoxCore.getBPackageManager().getServiceInfo(componentName, flags, BClient.getUserId());
             if (serviceInfo != null)
                 return serviceInfo;
             return method.invoke(who, args);
@@ -244,7 +244,7 @@ public class PackageManagerStub extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             String packageName = (String) args[0];
             int flags = (int) args[1];
-            ApplicationInfo applicationInfo = BlackBoxCore.getVPackageManager().getApplicationInfo(packageName, flags, BClient.getUserId());
+            ApplicationInfo applicationInfo = BlackBoxCore.getBPackageManager().getApplicationInfo(packageName, flags, BClient.getUserId());
             if (applicationInfo != null) {
                 return applicationInfo;
             }
@@ -261,7 +261,7 @@ public class PackageManagerStub extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            List<ProviderInfo> providers = BlackBoxCore.getVPackageManager().
+            List<ProviderInfo> providers = BlackBoxCore.getBPackageManager().
                     queryContentProviders(BClient.getVProcessName(), Process.myUid(), 0, BClient.getUserId());
 
             if (BuildCompat.isQ()) {
@@ -287,7 +287,7 @@ public class PackageManagerStub extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             String authority = (String) args[0];
             int flags = (int) args[1];
-            ProviderInfo providerInfo = BlackBoxCore.getVPackageManager().resolveContentProvider(authority, flags, BClient.getUserId());
+            ProviderInfo providerInfo = BlackBoxCore.getBPackageManager().resolveContentProvider(authority, flags, BClient.getUserId());
             if (providerInfo == null) {
                 return method.invoke(who, args);
             }

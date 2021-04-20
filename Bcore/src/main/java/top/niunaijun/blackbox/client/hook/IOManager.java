@@ -168,7 +168,7 @@ public class IOManager {
         String packageName = context.getPackageName();
 
         try {
-            ApplicationInfo packageInfo = BlackBoxCore.getVPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA, BClient.getUserId());
+            ApplicationInfo packageInfo = BlackBoxCore.getBPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA, BClient.getUserId());
             rule.put("/data/data/" + packageName, packageInfo.dataDir);
             rule.put("/data/user/0/" + packageName, packageInfo.dataDir);
 

@@ -84,7 +84,7 @@ public class ClientJobServiceManager {
                 return jobRecord.mJobService;
             }
             try {
-                JobRecord record = BlackBoxCore.getVJobManager().queryJobRecord(BClient.getClientConfig().processName, jobId);
+                JobRecord record = BlackBoxCore.getBJobManager().queryJobRecord(BClient.getClientConfig().processName, jobId);
                 record.mJobService = BClient.getClient().createJobService(record.mServiceInfo);
                 mJobRecords.put(jobId, record);
                 return record.mJobService;

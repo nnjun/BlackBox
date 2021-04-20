@@ -89,7 +89,7 @@ public class BlackBoxCore {
         String processName = getProcessName(getContext());
         if (processName.equals(BlackBoxCore.getHostPkg())) {
             mProcessType = ProcessType.Main;
-        } else if (processName.endsWith(":black")) {
+        } else if (processName.endsWith(getContext().getString(R.string.black_box_service_name))) {
             mProcessType = ProcessType.Server;
         } else {
             mProcessType = ProcessType.VAppClient;
@@ -137,9 +137,9 @@ public class BlackBoxCore {
             throw new RuntimeException("The current environment does not support running this app");
         }
         int userId = 0;
-        PackageInfo packageInfo = getVPackageManager().loadPackage(apk.getAbsolutePath(), userId);
+        PackageInfo packageInfo = getBPackageManager().loadPackage(apk.getAbsolutePath(), userId);
         if (packageInfo != null) {
-            Intent launchIntentForPackage = getVPackageManager().getLaunchIntentForPackage(packageInfo.packageName, userId);
+            Intent launchIntentForPackage = getBPackageManager().getLaunchIntentForPackage(packageInfo.packageName, userId);
             if (launchIntentForPackage == null) {
                 return;
             }
@@ -155,8 +155,8 @@ public class BlackBoxCore {
                 throw new RuntimeException("The current environment does not support running this app");
             }
             ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-            getVPackageManager().loadPackage(applicationInfo.sourceDir, userId);
-            Intent launchIntentForPackage = getVPackageManager().getLaunchIntentForPackage(packageInfo.packageName, userId);
+            getBPackageManager().loadPackage(applicationInfo.sourceDir, userId);
+            Intent launchIntentForPackage = getBPackageManager().getLaunchIntentForPackage(packageInfo.packageName, userId);
             if (launchIntentForPackage == null) {
                 return;
             }
@@ -167,22 +167,22 @@ public class BlackBoxCore {
     }
 
     public void startActivity(Intent intent, int userId) {
-        getVActivityManager().startActivity(intent, userId);
+        getBActivityManager().startActivity(intent, userId);
     }
 
-    public static BJobManager getVJobManager() {
+    public static BJobManager getBJobManager() {
         return BJobManager.get();
     }
 
-    public static BPackageManager getVPackageManager() {
+    public static BPackageManager getBPackageManager() {
         return BPackageManager.get();
     }
 
-    public static BActivityManager getVActivityManager() {
+    public static BActivityManager getBActivityManager() {
         return BActivityManager.get();
     }
 
-    public static BStorageManager getVStorageManager() {
+    public static BStorageManager getBStorageManager() {
         return BStorageManager.get();
     }
 

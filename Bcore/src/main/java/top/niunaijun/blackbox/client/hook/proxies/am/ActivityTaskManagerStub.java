@@ -47,8 +47,11 @@ public class ActivityTaskManagerStub extends BinderInvocationStub {
 
     @Override
     protected void onBindMethod() {
-        addMethodHook(new StartActivity());
-        addMethodHook(new StartActivities());
+        addMethodHook(new CommonStub.StartActivity());
+        addMethodHook(new CommonStub.StartActivities());
+        addMethodHook(new CommonStub.ActivityDestroyed());
+        addMethodHook(new CommonStub.ActivityResumed());
+        addMethodHook(new CommonStub.FinishActivity());
     }
 
     @Override
@@ -56,82 +59,4 @@ public class ActivityTaskManagerStub extends BinderInvocationStub {
         return false;
     }
 
-    static class StartActivity extends MethodHook {
-
-        @Override
-        protected String getMethodName() {
-            return "startActivity";
-        }
-
-        @Override
-        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Object arg = args[getIntentIndex()];
-            if (arg instanceof Intent) {
-                Intent intent = (Intent) arg;
-                if (intent.getParcelableExtra("_VM_|_target_") != null) {
-                    return method.invoke(who, args);
-                }
-                if (ComponentUtils.isRequestInstall(intent)) {
-                    intent.setData(FileProviderHandler.convertFileUri(BClient.getApplication(), intent.getData()));
-                    return method.invoke(who, args);
-                }
-                if (!ComponentUtils.isSelf(intent)) {
-                    return method.invoke(who, args);
-                }
-                ResolveInfo resolveInfo = BlackBoxCore.getVPackageManager().resolveActivity(
-                        intent,
-                        GET_META_DATA,
-                        StartActivityCompat.getResolvedType(args),
-                        BClient.getUserId());
-                if (resolveInfo == null) {
-                    return method.invoke(who, args);
-                }
-
-                intent.setExtrasClassLoader(who.getClass().getClassLoader());
-                BlackBoxCore.getVActivityManager().startActivityAms(BClient.getUserId(),
-                        StartActivityCompat.getIntent(args),
-                        StartActivityCompat.getResolvedType(args),
-                        StartActivityCompat.getResultTo(args),
-                        StartActivityCompat.getResultWho(args),
-                        StartActivityCompat.getRequestCode(args),
-                        StartActivityCompat.getFlags(args),
-                        StartActivityCompat.getOptions(args));
-                return 0;
-            }
-            return method.invoke(who, args);
-        }
-
-        private int getIntentIndex() {
-            if (BuildCompat.isR()) {
-                return 3;
-            } else {
-                return 2;
-            }
-        }
-    }
-
-    static class StartActivities extends MethodHook {
-
-        @Override
-        protected String getMethodName() {
-            return "startActivities";
-        }
-
-        @Override
-        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Intent[] intents = (Intent[]) args[2];
-            String[] resolvedTypes = (String[]) args[3];
-            IBinder resultTo = (IBinder) args[4];
-            Bundle options = (Bundle) args[5];
-            if (!ComponentUtils.isSelf(intents)) {
-                return method.invoke(who, args);
-            }
-
-            for (Intent intent : intents) {
-                intent.setExtrasClassLoader(who.getClass().getClassLoader());
-            }
-            return BlackBoxCore.getVActivityManager().startActivities(BClient.getUserId(),
-                    intents, resolvedTypes, resultTo, options);
-        }
-    }
 }

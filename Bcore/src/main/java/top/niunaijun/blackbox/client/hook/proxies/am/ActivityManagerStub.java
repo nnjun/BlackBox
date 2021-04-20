@@ -87,8 +87,11 @@ public class ActivityManagerStub extends ClassInvocationStub {
         addMethodHook(new RegisterReceiver());
         addMethodHook(new GrantUriPermission());
 
-        addMethodHook(new ActivityTaskManagerStub.StartActivity());
-        addMethodHook(new ActivityTaskManagerStub.StartActivities());
+        addMethodHook(new CommonStub.StartActivity());
+        addMethodHook(new CommonStub.StartActivities());
+        addMethodHook(new CommonStub.ActivityDestroyed());
+        addMethodHook(new CommonStub.ActivityResumed());
+        addMethodHook(new CommonStub.FinishActivity());
     }
 
     @Override
@@ -113,7 +116,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
                     return method.invoke(who, args);
                 }
 
-                if (auth.equals("settings") || auth.equals("media")) {
+                if (auth.equals("settings") || auth.equals("media") || auth.equals("telephony")) {
                     content = method.invoke(who, args);
                     ContentProviderDelegate.update(content, (String) auth);
                     return content;
@@ -124,7 +127,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
                         args[1] = BlackBoxCore.getHostPkg();
                     }
 
-                    ProviderInfo providerInfo = BlackBoxCore.getVPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BClient.getUserId());
+                    ProviderInfo providerInfo = BlackBoxCore.getBPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BClient.getUserId());
                     if (providerInfo == null || !providerInfo.packageName.equals(BClient.getVPackageName())) {
                         Object invoke = method.invoke(who, args);
                         if (invoke != null) {
@@ -142,9 +145,9 @@ public class ActivityManagerStub extends ClassInvocationStub {
 
                     IBinder providerBinder = null;
                     if (BClient.getVPid() != -1) {
-                        ClientConfig clientConfig = BlackBoxCore.getVActivityManager().initProcess(providerInfo.packageName, providerInfo.processName, BClient.getUserId());
+                        ClientConfig clientConfig = BlackBoxCore.getBActivityManager().initProcess(providerInfo.packageName, providerInfo.processName, BClient.getUserId());
                         if (clientConfig.vpid != BClient.getVPid()) {
-                            providerBinder = BlackBoxCore.getVActivityManager().acquireContentProviderClient(providerInfo);
+                            providerBinder = BlackBoxCore.getBActivityManager().acquireContentProviderClient(providerInfo);
                         }
                         args[authIndex] = StubManifest.getStubAuthorities(clientConfig.vpid);
                     }
@@ -190,7 +193,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
             if (!ComponentUtils.isSelf(intent)) {
                 return method.invoke(who, args);
             }
-            return BlackBoxCore.getVActivityManager().startService(intent, resolvedType, BClient.getUserId());
+            return BlackBoxCore.getBActivityManager().startService(intent, resolvedType, BClient.getUserId());
         }
     }
 
@@ -204,7 +207,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Intent intent = (Intent) args[1];
             String resolvedType = (String) args[2];
-            return BlackBoxCore.getVActivityManager().stopService(intent, resolvedType, BClient.getUserId());
+            return BlackBoxCore.getBActivityManager().stopService(intent, resolvedType, BClient.getUserId());
         }
     }
 
@@ -226,7 +229,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
             if (!ComponentUtils.isSelf(intent)) {
                 return method.invoke(who, args);
             }
-            Intent proxyIntent = BlackBoxCore.getVActivityManager().bindService(intent,
+            Intent proxyIntent = BlackBoxCore.getBActivityManager().bindService(intent,
                     connection == null ? null : connection.asBinder(),
                     resolvedType,
                     BClient.getUserId());
@@ -261,7 +264,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
             if (iServiceConnection == null) {
                 return method.invoke(who, args);
             }
-            BlackBoxCore.getVActivityManager().unbindService(iServiceConnection.asBinder(), BClient.getUserId());
+            BlackBoxCore.getBActivityManager().unbindService(iServiceConnection.asBinder(), BClient.getUserId());
             ServiceConnectionDelegate delegate = ServiceConnectionDelegate.getDelegate(iServiceConnection.asBinder());
             if (delegate != null) {
                 args[0] = delegate;
@@ -338,7 +341,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Intent intent = (Intent) args[1];
             String resolvedType = (String) args[2];
-            Intent proxyIntent = BlackBoxCore.getVActivityManager().sendBroadcast(intent, resolvedType, BClient.getUserId());
+            Intent proxyIntent = BlackBoxCore.getBActivityManager().sendBroadcast(intent, resolvedType, BClient.getUserId());
             if (proxyIntent != null) {
                 args[1] = proxyIntent;
             }
@@ -371,7 +374,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
             MethodParameterUtils.replaceLastAppPkg(args);
             Intent intent = (Intent) args[0];
             String resolvedType = (String) args[1];
-            IBinder peek = BlackBoxCore.getVActivityManager().peekService(intent, resolvedType, BClient.getUserId());
+            IBinder peek = BlackBoxCore.getBActivityManager().peekService(intent, resolvedType, BClient.getUserId());
             return peek;
         }
     }

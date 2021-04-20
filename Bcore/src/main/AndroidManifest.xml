@@ -328,13 +328,13 @@
             android:name="top.niunaijun.blackbox.server.BindProvider"
             android:authorities="${applicationId}.virtual.BindProvider"
             android:exported="false"
-            android:process=":black" />
+            android:process="@string/black_box_service_name" />
 
         <receiver
             android:name="top.niunaijun.blackbox.client.stub.StubBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
-            android:process=":black">
+            android:process="@string/black_box_service_name">
             <intent-filter>
                 <action android:name="${applicationId}.stub_receiver" />
             </intent-filter>
@@ -354,614 +354,713 @@
         <service
             android:name="top.niunaijun.blackbox.server.DaemonService"
             android:exported="false"
-            android:process=":black"/>
+            android:process="@string/black_box_service_name" />
 
         <service
             android:name="top.niunaijun.blackbox.server.DaemonService$DaemonInnerService"
             android:exported="false"
-            android:process=":black"/>
-
+            android:process="@string/black_box_service_name" />
 
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP0"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p0"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP1"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p1"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP2"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p2"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP3"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p3"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP4"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p4"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP5"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p5"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP6"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p6"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP7"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p7"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP8"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p8"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP9"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p9"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP10"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p10"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP11"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p11"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP12"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p12"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP13"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p13"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP14"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p14"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP15"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p15"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP16"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p16"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP17"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p17"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP18"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p18"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP19"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p19"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP20"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p20"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP21"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p21"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP22"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p22"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP23"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p23"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP24"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p24"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP25"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p25"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP26"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p26"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP27"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p27"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP28"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p28"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP29"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p29"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP30"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p30"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP31"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p31"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP32"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p32"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP33"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p33"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP34"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p34"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP35"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p35"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP36"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p36"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP37"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p37"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP38"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p38"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP39"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p39"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP40"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p40"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP41"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p41"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP42"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p42"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP43"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p43"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP44"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p44"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP45"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p45"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP46"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p46"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP47"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p47"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP48"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p48"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP49"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p49"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP50"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p50"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP51"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p51"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP52"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p52"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP53"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p53"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP54"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p54"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP55"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p55"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP56"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p56"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP57"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p57"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP58"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p58"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP59"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p59"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP60"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p60"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP61"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p61"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP62"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p62"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP63"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p63"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP64"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p64"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP65"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p65"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP66"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p66"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP67"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p67"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP68"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p68"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP69"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p69"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP70"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p70"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP71"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p71"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP72"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p72"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP73"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p73"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP74"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p74"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP75"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p75"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP76"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p76"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP77"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p77"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP78"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p78"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP79"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p79"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP80"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p80"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP81"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p81"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP82"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p82"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP83"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p83"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP84"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p84"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP85"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p85"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP86"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p86"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP87"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p87"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP88"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p88"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP89"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p89"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP90"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p90"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP91"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p91"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP92"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p92"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP93"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p93"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP94"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p94"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP95"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p95"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP96"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p96"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP97"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p97"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP98"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p98"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
         <activity
             android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP99"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p99"
-            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+            android:taskAffinity="top.niunaijun.virtual.task_affinity"
+            android:theme="@style/BTheme" />
 
 
         <service

@@ -19,17 +19,32 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        ndk {
-            // 设置支持的SO库架构
-//            abiFilters 'armeabi-v7a'
-            abiFilters 'arm64-v8a', 'armeabi-v7a'
-        }
+
+        flavorDimensions "BlockBox32"
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        BlockBox32 {
+            applicationId "top.niunaijun.blackboxa32"
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+            resValue "string", "app_name", "BlockBox32"
+        }
+
+        BlockBox64 {
+            applicationId "top.niunaijun.blackboxa64"
+            ndk {
+                abiFilters "arm64-v8a"
+            }
+            resValue "string", "app_name", "BlockBox64"
         }
     }
 

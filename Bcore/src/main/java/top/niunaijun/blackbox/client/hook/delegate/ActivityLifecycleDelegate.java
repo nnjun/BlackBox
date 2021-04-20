@@ -16,30 +16,24 @@ import top.niunaijun.blackbox.BlackBoxCore;
  * 此处无Bug
  */
 public class ActivityLifecycleDelegate implements Application.ActivityLifecycleCallbacks {
-
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-        BlackBoxCore.getVActivityManager().onActivityResumed(toToken(activity));
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
-
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-
     }
 
     @Override
@@ -49,7 +43,6 @@ public class ActivityLifecycleDelegate implements Application.ActivityLifecycleC
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        BlackBoxCore.getVActivityManager().onActivityDestroyed(toToken(activity));
     }
 
     private IBinder toToken(Activity activity) {

@@ -1,0 +1,2470 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="top.niunaijun.blackbox">
+
+    <!-- unknown -->
+    <uses-permission android:name="android.permission.WRITE_SOCIAL_STREAM" />
+    <uses-permission android:name="android.permission.READ_SOCIAL_STREAM" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.WRITE_PROFILE" />
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+
+    <!-- samsung start -->
+    <uses-permission android:name="com.samsung.svoice.sync.READ_DATABASE" />
+    <uses-permission android:name="com.samsung.svoice.sync.ACCESS_SERVICE" />
+    <uses-permission android:name="com.samsung.svoice.sync.WRITE_DATABASE" />
+    <uses-permission android:name="com.sec.android.app.voicenote.Controller" />
+    <uses-permission android:name="com.sec.android.permission.VOIP_INTERFACE" />
+    <uses-permission android:name="com.sec.android.permission.LAUNCH_PERSONAL_PAGE_SERVICE" />
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
+    <uses-permission android:name="com.samsung.android.providers.context.permission.READ_RECORD_AUDIO" />
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_RECORD_AUDIO" />
+    <uses-permission android:name="com.sec.android.settings.permission.SOFT_RESET" />
+    <uses-permission android:name="sec.android.permission.READ_MSG_PREF" />
+    <uses-permission android:name="com.samsung.android.scloud.backup.lib.read" />
+    <uses-permission android:name="com.samsung.android.scloud.backup.lib.write" />
+    <!-- samsung end -->
+
+    <!-- other app start -->
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="com.android.voicemail.permission.ADD_VOICEMAIL" />
+    <uses-permission android:name="com.android.voicemail.permission.READ_WRITE_ALL_VOICEMAIL" />
+    <uses-permission android:name="com.huawei.authentication.HW_ACCESS_AUTH_SERVICE" />
+    <!-- other app end -->
+
+    <!-- google play store start -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+    <!-- google play store end -->
+
+    <!-- google services framework start -->
+    <uses-permission android:name="com.google.android.providers.talk.permission.READ_ONLY" />
+    <uses-permission android:name="com.google.android.providers.talk.permission.WRITE_ONLY" />
+
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID_NOTIFICATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!-- google services framework end -->
+
+    <!-- shortcut and badge start -->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.READ_APP_BADGE" />
+
+    <uses-permission android:name="com.google.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.oppo.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.oppo.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_READ" />
+    <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_WRITE" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
+    <uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.htc.launcher.permission.UPDATE_SHORTCUT" />
+    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
+    <uses-permission android:name="com.sonymobile.home.permission.PROVIDER_INSERT_BADGE" />
+    <uses-permission android:name="com.anddoes.launcher.permission.UPDATE_COUNT" />
+    <uses-permission android:name="com.majeur.launcher.permission.UPDATE_BADGE" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.android.launcher3.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher2.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.teslacoilsw.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.actionlauncher.playstore.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.mx.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.anddoes.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.apusapps.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.tsf.shell.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.lenovo.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.oppo.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.bbk.launcher2.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.s.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="cn.nubia.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
+    <!-- shortcut and badge end -->
+    <!-- 常用 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <!-- 相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <!-- 位置服务 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 网络 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- sdcard -->
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 电量 -->
+    <uses-permission
+        android:name="android.permission.BATTERY_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <!-- 身体传感器 -->
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <!-- 锁屏-->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!-- 允许应用程序展开或折叠状态栏 -->
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <!-- 账号相关 -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <!-- 通话状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 修改当前配置-->
+    <uses-permission
+        android:name="android.permission.CHANGE_CONFIGURATION"
+        tools:ignore="ProtectedPermissions" />
+    <!-- 设置 -->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <!-- 最近任务/进程 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.PERSISTENT_ACTIVITY" />
+    <!-- 录音 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- bluetooth -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- nfc -->
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <!-- 震动 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 指纹 -->
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
+    <!-- 下面自己按需保留 -->
+
+    <!-- browser history start -->
+    <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
+    <uses-permission android:name="com.android.browser.permission.WRITE_HISTORY_BOOKMARKS" />
+    <!-- browser history end -->
+
+    <!-- 清空应用缓存-->
+    <uses-permission
+        android:name="android.permission.CLEAR_APP_CACHE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+    <!-- 同步设置 -->
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <!-- rss -->
+    <uses-permission android:name="android.permission.SUBSCRIBED_FEEDS_READ" />
+    <uses-permission android:name="android.permission.SUBSCRIBED_FEEDS_WRITE" />
+    <!-- 日历 -->
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <!-- 通讯录 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <!-- 系统日志 -->
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
+    <!-- 重启应用 -->
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <!-- 时间/时区 -->
+    <uses-permission
+        android:name="android.permission.SET_TIME"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.SET_TIME_ZONE"
+        tools:ignore="ProtectedPermissions" />
+    <!-- 墙纸 -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
+    <!-- 红外线 -->
+    <uses-permission android:name="android.permission.TRANSMIT_IR" />
+
+    <!-- SIP服务 -->
+    <uses-permission android:name="android.permission.USE_SIP" />
+    <!-- 唤醒屏幕 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- float window -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <!-- boot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- system app start -->
+    <uses-permission
+        android:name="android.permission.GET_INTENT_SENDER_INTENT"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.BIND_DIRECTORY_SEARCH"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.UPDATE_APP_OPS_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.DELETE_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.CLEAR_APP_USER_DATA"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.WRITE_MEDIA_STORAGE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.ACCESS_CACHE_FILESYSTEM"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.DEVICE_POWER"
+        tools:ignore="ProtectedPermissions" />
+    <!--    <uses-permission-->
+    <!--        android:name="android.permission.WRITE_APN_SETTINGS"-->
+    <!--        tools:ignore="ProtectedPermissions" />-->
+
+    <!-- xdja -->
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <!-- xdja -->
+
+    <uses-permission
+        android:name="android.permission.BIND_APPWIDGET"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.ACCOUNT_MANAGER"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <!-- system app end -->
+    <!-- not found -->
+    <uses-permission android:name="android.permission.READ_INSTALL_SESSIONS" />
+    <uses-permission android:name="android.permission.READ_OWNER_DATA" />
+    <uses-permission android:name="android.permission.READ_CELL_BROADCASTS" />
+    <uses-permission android:name="android.permission.WRITE_CLIPS" />
+    <uses-permission android:name="android.permission.READ_CLIPS" />
+    <uses-permission android:name="android.permission.GET_CLIPS" />
+    <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_WIMAX_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.CHANGE_WIMAX_STATE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+    <!-- xdja -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <!-- 安全接入 -->
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <!-- xdja -->
+
+    <!-- 通话记录 -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <!-- call phone -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <uses-permission android:name="android.permission.BIND_VPN_SERVICE" />
+
+    <uses-permission android:name="android.permission.READ_DEVICE_CONFIG" />
+
+    <uses-permission android:name="android.provider.Telephony.SMS_RECEIVED" />
+    <uses-permission
+        android:name="android.permission.BROADCAST_WAP_PUSH"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.BROADCAST_SMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.SEND_RESPOND_VIA_MESSAGE"
+        tools:ignore="ProtectedPermissions" />
+
+    <uses-permission
+        android:name="android.permission.GET_INTENT_SENDER_INTENT"
+        tools:ignore="ProtectedPermissions" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false" />
+
+    <uses-permission android:name="android.hardware.usb.host" />
+    <uses-permission
+        android:name="android.permission.HARDWARE_TEST"
+        tools:ignore="ProtectedPermissions" />
+
+    <application>
+        <provider
+            android:name="top.niunaijun.blackbox.server.BindProvider"
+            android:authorities="${applicationId}.virtual.BindProvider"
+            android:exported="false"
+            android:process=":black" />
+
+        <receiver
+            android:name="top.niunaijun.blackbox.client.stub.StubBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":black">
+            <intent-filter>
+                <action android:name="${applicationId}.stub_receiver" />
+            </intent-filter>
+        </receiver>
+
+        <!--file provider-->
+        <provider
+            android:name="top.niunaijun.blackbox.client.hook.provider.FileProvider"
+            android:authorities="${applicationId}.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepath" />
+        </provider>
+
+        <service
+            android:name="top.niunaijun.blackbox.server.DaemonService"
+            android:exported="false"
+            android:process=":black"/>
+
+        <service
+            android:name="top.niunaijun.blackbox.server.DaemonService$DaemonInnerService"
+            android:exported="false"
+            android:process=":black"/>
+
+
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP0"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p0"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP1"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p1"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP2"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p2"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP3"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p3"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP4"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p4"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP5"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p5"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP6"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p6"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP7"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p7"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP8"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p8"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP9"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p9"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP10"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p10"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP11"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p11"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP12"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p12"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP13"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p13"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP14"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p14"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP15"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p15"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP16"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p16"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP17"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p17"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP18"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p18"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP19"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p19"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP20"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p20"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP21"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p21"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP22"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p22"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP23"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p23"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP24"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p24"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP25"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p25"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP26"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p26"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP27"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p27"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP28"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p28"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP29"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p29"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP30"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p30"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP31"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p31"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP32"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p32"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP33"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p33"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP34"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p34"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP35"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p35"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP36"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p36"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP37"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p37"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP38"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p38"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP39"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p39"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP40"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p40"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP41"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p41"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP42"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p42"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP43"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p43"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP44"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p44"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP45"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p45"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP46"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p46"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP47"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p47"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP48"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p48"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP49"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p49"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP50"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p50"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP51"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p51"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP52"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p52"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP53"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p53"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP54"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p54"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP55"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p55"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP56"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p56"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP57"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p57"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP58"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p58"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP59"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p59"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP60"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p60"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP61"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p61"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP62"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p62"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP63"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p63"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP64"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p64"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP65"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p65"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP66"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p66"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP67"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p67"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP68"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p68"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP69"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p69"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP70"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p70"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP71"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p71"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP72"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p72"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP73"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p73"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP74"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p74"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP75"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p75"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP76"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p76"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP77"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p77"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP78"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p78"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP79"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p79"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP80"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p80"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP81"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p81"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP82"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p82"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP83"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p83"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP84"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p84"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP85"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p85"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP86"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p86"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP87"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p87"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP88"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p88"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP89"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p89"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP90"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p90"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP91"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p91"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP92"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p92"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP93"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p93"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP94"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p94"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP95"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p95"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP96"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p96"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP97"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p97"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP98"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p98"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+        <activity
+            android:name="top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP99"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:exported="true"
+            android:process=":p99"
+            android:taskAffinity="top.niunaijun.virtual.task_affinity" />
+
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP0"
+            android:exported="true"
+            android:process=":p0" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP1"
+            android:exported="true"
+            android:process=":p1" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP2"
+            android:exported="true"
+            android:process=":p2" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP3"
+            android:exported="true"
+            android:process=":p3" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP4"
+            android:exported="true"
+            android:process=":p4" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP5"
+            android:exported="true"
+            android:process=":p5" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP6"
+            android:exported="true"
+            android:process=":p6" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP7"
+            android:exported="true"
+            android:process=":p7" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP8"
+            android:exported="true"
+            android:process=":p8" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP9"
+            android:exported="true"
+            android:process=":p9" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP10"
+            android:exported="true"
+            android:process=":p10" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP11"
+            android:exported="true"
+            android:process=":p11" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP12"
+            android:exported="true"
+            android:process=":p12" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP13"
+            android:exported="true"
+            android:process=":p13" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP14"
+            android:exported="true"
+            android:process=":p14" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP15"
+            android:exported="true"
+            android:process=":p15" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP16"
+            android:exported="true"
+            android:process=":p16" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP17"
+            android:exported="true"
+            android:process=":p17" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP18"
+            android:exported="true"
+            android:process=":p18" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP19"
+            android:exported="true"
+            android:process=":p19" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP20"
+            android:exported="true"
+            android:process=":p20" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP21"
+            android:exported="true"
+            android:process=":p21" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP22"
+            android:exported="true"
+            android:process=":p22" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP23"
+            android:exported="true"
+            android:process=":p23" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP24"
+            android:exported="true"
+            android:process=":p24" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP25"
+            android:exported="true"
+            android:process=":p25" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP26"
+            android:exported="true"
+            android:process=":p26" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP27"
+            android:exported="true"
+            android:process=":p27" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP28"
+            android:exported="true"
+            android:process=":p28" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP29"
+            android:exported="true"
+            android:process=":p29" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP30"
+            android:exported="true"
+            android:process=":p30" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP31"
+            android:exported="true"
+            android:process=":p31" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP32"
+            android:exported="true"
+            android:process=":p32" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP33"
+            android:exported="true"
+            android:process=":p33" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP34"
+            android:exported="true"
+            android:process=":p34" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP35"
+            android:exported="true"
+            android:process=":p35" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP36"
+            android:exported="true"
+            android:process=":p36" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP37"
+            android:exported="true"
+            android:process=":p37" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP38"
+            android:exported="true"
+            android:process=":p38" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP39"
+            android:exported="true"
+            android:process=":p39" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP40"
+            android:exported="true"
+            android:process=":p40" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP41"
+            android:exported="true"
+            android:process=":p41" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP42"
+            android:exported="true"
+            android:process=":p42" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP43"
+            android:exported="true"
+            android:process=":p43" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP44"
+            android:exported="true"
+            android:process=":p44" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP45"
+            android:exported="true"
+            android:process=":p45" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP46"
+            android:exported="true"
+            android:process=":p46" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP47"
+            android:exported="true"
+            android:process=":p47" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP48"
+            android:exported="true"
+            android:process=":p48" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP49"
+            android:exported="true"
+            android:process=":p49" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP50"
+            android:exported="true"
+            android:process=":p50" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP51"
+            android:exported="true"
+            android:process=":p51" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP52"
+            android:exported="true"
+            android:process=":p52" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP53"
+            android:exported="true"
+            android:process=":p53" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP54"
+            android:exported="true"
+            android:process=":p54" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP55"
+            android:exported="true"
+            android:process=":p55" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP56"
+            android:exported="true"
+            android:process=":p56" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP57"
+            android:exported="true"
+            android:process=":p57" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP58"
+            android:exported="true"
+            android:process=":p58" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP59"
+            android:exported="true"
+            android:process=":p59" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP60"
+            android:exported="true"
+            android:process=":p60" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP61"
+            android:exported="true"
+            android:process=":p61" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP62"
+            android:exported="true"
+            android:process=":p62" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP63"
+            android:exported="true"
+            android:process=":p63" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP64"
+            android:exported="true"
+            android:process=":p64" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP65"
+            android:exported="true"
+            android:process=":p65" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP66"
+            android:exported="true"
+            android:process=":p66" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP67"
+            android:exported="true"
+            android:process=":p67" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP68"
+            android:exported="true"
+            android:process=":p68" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP69"
+            android:exported="true"
+            android:process=":p69" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP70"
+            android:exported="true"
+            android:process=":p70" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP71"
+            android:exported="true"
+            android:process=":p71" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP72"
+            android:exported="true"
+            android:process=":p72" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP73"
+            android:exported="true"
+            android:process=":p73" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP74"
+            android:exported="true"
+            android:process=":p74" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP75"
+            android:exported="true"
+            android:process=":p75" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP76"
+            android:exported="true"
+            android:process=":p76" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP77"
+            android:exported="true"
+            android:process=":p77" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP78"
+            android:exported="true"
+            android:process=":p78" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP79"
+            android:exported="true"
+            android:process=":p79" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP80"
+            android:exported="true"
+            android:process=":p80" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP81"
+            android:exported="true"
+            android:process=":p81" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP82"
+            android:exported="true"
+            android:process=":p82" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP83"
+            android:exported="true"
+            android:process=":p83" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP84"
+            android:exported="true"
+            android:process=":p84" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP85"
+            android:exported="true"
+            android:process=":p85" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP86"
+            android:exported="true"
+            android:process=":p86" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP87"
+            android:exported="true"
+            android:process=":p87" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP88"
+            android:exported="true"
+            android:process=":p88" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP89"
+            android:exported="true"
+            android:process=":p89" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP90"
+            android:exported="true"
+            android:process=":p90" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP91"
+            android:exported="true"
+            android:process=":p91" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP92"
+            android:exported="true"
+            android:process=":p92" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP93"
+            android:exported="true"
+            android:process=":p93" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP94"
+            android:exported="true"
+            android:process=":p94" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP95"
+            android:exported="true"
+            android:process=":p95" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP96"
+            android:exported="true"
+            android:process=":p96" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP97"
+            android:exported="true"
+            android:process=":p97" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP98"
+            android:exported="true"
+            android:process=":p98" />
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubService$StubServiceP99"
+            android:exported="true"
+            android:process=":p99" />
+
+
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP0"
+            android:authorities="${applicationId}.stub_content_provider_0"
+            android:exported="true"
+            android:process=":p0" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP1"
+            android:authorities="${applicationId}.stub_content_provider_1"
+            android:exported="true"
+            android:process=":p1" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP2"
+            android:authorities="${applicationId}.stub_content_provider_2"
+            android:exported="true"
+            android:process=":p2" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP3"
+            android:authorities="${applicationId}.stub_content_provider_3"
+            android:exported="true"
+            android:process=":p3" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP4"
+            android:authorities="${applicationId}.stub_content_provider_4"
+            android:exported="true"
+            android:process=":p4" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP5"
+            android:authorities="${applicationId}.stub_content_provider_5"
+            android:exported="true"
+            android:process=":p5" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP6"
+            android:authorities="${applicationId}.stub_content_provider_6"
+            android:exported="true"
+            android:process=":p6" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP7"
+            android:authorities="${applicationId}.stub_content_provider_7"
+            android:exported="true"
+            android:process=":p7" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP8"
+            android:authorities="${applicationId}.stub_content_provider_8"
+            android:exported="true"
+            android:process=":p8" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP9"
+            android:authorities="${applicationId}.stub_content_provider_9"
+            android:exported="true"
+            android:process=":p9" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP10"
+            android:authorities="${applicationId}.stub_content_provider_10"
+            android:exported="true"
+            android:process=":p10" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP11"
+            android:authorities="${applicationId}.stub_content_provider_11"
+            android:exported="true"
+            android:process=":p11" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP12"
+            android:authorities="${applicationId}.stub_content_provider_12"
+            android:exported="true"
+            android:process=":p12" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP13"
+            android:authorities="${applicationId}.stub_content_provider_13"
+            android:exported="true"
+            android:process=":p13" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP14"
+            android:authorities="${applicationId}.stub_content_provider_14"
+            android:exported="true"
+            android:process=":p14" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP15"
+            android:authorities="${applicationId}.stub_content_provider_15"
+            android:exported="true"
+            android:process=":p15" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP16"
+            android:authorities="${applicationId}.stub_content_provider_16"
+            android:exported="true"
+            android:process=":p16" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP17"
+            android:authorities="${applicationId}.stub_content_provider_17"
+            android:exported="true"
+            android:process=":p17" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP18"
+            android:authorities="${applicationId}.stub_content_provider_18"
+            android:exported="true"
+            android:process=":p18" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP19"
+            android:authorities="${applicationId}.stub_content_provider_19"
+            android:exported="true"
+            android:process=":p19" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP20"
+            android:authorities="${applicationId}.stub_content_provider_20"
+            android:exported="true"
+            android:process=":p20" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP21"
+            android:authorities="${applicationId}.stub_content_provider_21"
+            android:exported="true"
+            android:process=":p21" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP22"
+            android:authorities="${applicationId}.stub_content_provider_22"
+            android:exported="true"
+            android:process=":p22" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP23"
+            android:authorities="${applicationId}.stub_content_provider_23"
+            android:exported="true"
+            android:process=":p23" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP24"
+            android:authorities="${applicationId}.stub_content_provider_24"
+            android:exported="true"
+            android:process=":p24" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP25"
+            android:authorities="${applicationId}.stub_content_provider_25"
+            android:exported="true"
+            android:process=":p25" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP26"
+            android:authorities="${applicationId}.stub_content_provider_26"
+            android:exported="true"
+            android:process=":p26" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP27"
+            android:authorities="${applicationId}.stub_content_provider_27"
+            android:exported="true"
+            android:process=":p27" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP28"
+            android:authorities="${applicationId}.stub_content_provider_28"
+            android:exported="true"
+            android:process=":p28" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP29"
+            android:authorities="${applicationId}.stub_content_provider_29"
+            android:exported="true"
+            android:process=":p29" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP30"
+            android:authorities="${applicationId}.stub_content_provider_30"
+            android:exported="true"
+            android:process=":p30" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP31"
+            android:authorities="${applicationId}.stub_content_provider_31"
+            android:exported="true"
+            android:process=":p31" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP32"
+            android:authorities="${applicationId}.stub_content_provider_32"
+            android:exported="true"
+            android:process=":p32" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP33"
+            android:authorities="${applicationId}.stub_content_provider_33"
+            android:exported="true"
+            android:process=":p33" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP34"
+            android:authorities="${applicationId}.stub_content_provider_34"
+            android:exported="true"
+            android:process=":p34" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP35"
+            android:authorities="${applicationId}.stub_content_provider_35"
+            android:exported="true"
+            android:process=":p35" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP36"
+            android:authorities="${applicationId}.stub_content_provider_36"
+            android:exported="true"
+            android:process=":p36" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP37"
+            android:authorities="${applicationId}.stub_content_provider_37"
+            android:exported="true"
+            android:process=":p37" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP38"
+            android:authorities="${applicationId}.stub_content_provider_38"
+            android:exported="true"
+            android:process=":p38" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP39"
+            android:authorities="${applicationId}.stub_content_provider_39"
+            android:exported="true"
+            android:process=":p39" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP40"
+            android:authorities="${applicationId}.stub_content_provider_40"
+            android:exported="true"
+            android:process=":p40" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP41"
+            android:authorities="${applicationId}.stub_content_provider_41"
+            android:exported="true"
+            android:process=":p41" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP42"
+            android:authorities="${applicationId}.stub_content_provider_42"
+            android:exported="true"
+            android:process=":p42" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP43"
+            android:authorities="${applicationId}.stub_content_provider_43"
+            android:exported="true"
+            android:process=":p43" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP44"
+            android:authorities="${applicationId}.stub_content_provider_44"
+            android:exported="true"
+            android:process=":p44" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP45"
+            android:authorities="${applicationId}.stub_content_provider_45"
+            android:exported="true"
+            android:process=":p45" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP46"
+            android:authorities="${applicationId}.stub_content_provider_46"
+            android:exported="true"
+            android:process=":p46" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP47"
+            android:authorities="${applicationId}.stub_content_provider_47"
+            android:exported="true"
+            android:process=":p47" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP48"
+            android:authorities="${applicationId}.stub_content_provider_48"
+            android:exported="true"
+            android:process=":p48" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP49"
+            android:authorities="${applicationId}.stub_content_provider_49"
+            android:exported="true"
+            android:process=":p49" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP50"
+            android:authorities="${applicationId}.stub_content_provider_50"
+            android:exported="true"
+            android:process=":p50" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP51"
+            android:authorities="${applicationId}.stub_content_provider_51"
+            android:exported="true"
+            android:process=":p51" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP52"
+            android:authorities="${applicationId}.stub_content_provider_52"
+            android:exported="true"
+            android:process=":p52" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP53"
+            android:authorities="${applicationId}.stub_content_provider_53"
+            android:exported="true"
+            android:process=":p53" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP54"
+            android:authorities="${applicationId}.stub_content_provider_54"
+            android:exported="true"
+            android:process=":p54" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP55"
+            android:authorities="${applicationId}.stub_content_provider_55"
+            android:exported="true"
+            android:process=":p55" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP56"
+            android:authorities="${applicationId}.stub_content_provider_56"
+            android:exported="true"
+            android:process=":p56" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP57"
+            android:authorities="${applicationId}.stub_content_provider_57"
+            android:exported="true"
+            android:process=":p57" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP58"
+            android:authorities="${applicationId}.stub_content_provider_58"
+            android:exported="true"
+            android:process=":p58" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP59"
+            android:authorities="${applicationId}.stub_content_provider_59"
+            android:exported="true"
+            android:process=":p59" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP60"
+            android:authorities="${applicationId}.stub_content_provider_60"
+            android:exported="true"
+            android:process=":p60" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP61"
+            android:authorities="${applicationId}.stub_content_provider_61"
+            android:exported="true"
+            android:process=":p61" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP62"
+            android:authorities="${applicationId}.stub_content_provider_62"
+            android:exported="true"
+            android:process=":p62" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP63"
+            android:authorities="${applicationId}.stub_content_provider_63"
+            android:exported="true"
+            android:process=":p63" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP64"
+            android:authorities="${applicationId}.stub_content_provider_64"
+            android:exported="true"
+            android:process=":p64" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP65"
+            android:authorities="${applicationId}.stub_content_provider_65"
+            android:exported="true"
+            android:process=":p65" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP66"
+            android:authorities="${applicationId}.stub_content_provider_66"
+            android:exported="true"
+            android:process=":p66" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP67"
+            android:authorities="${applicationId}.stub_content_provider_67"
+            android:exported="true"
+            android:process=":p67" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP68"
+            android:authorities="${applicationId}.stub_content_provider_68"
+            android:exported="true"
+            android:process=":p68" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP69"
+            android:authorities="${applicationId}.stub_content_provider_69"
+            android:exported="true"
+            android:process=":p69" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP70"
+            android:authorities="${applicationId}.stub_content_provider_70"
+            android:exported="true"
+            android:process=":p70" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP71"
+            android:authorities="${applicationId}.stub_content_provider_71"
+            android:exported="true"
+            android:process=":p71" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP72"
+            android:authorities="${applicationId}.stub_content_provider_72"
+            android:exported="true"
+            android:process=":p72" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP73"
+            android:authorities="${applicationId}.stub_content_provider_73"
+            android:exported="true"
+            android:process=":p73" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP74"
+            android:authorities="${applicationId}.stub_content_provider_74"
+            android:exported="true"
+            android:process=":p74" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP75"
+            android:authorities="${applicationId}.stub_content_provider_75"
+            android:exported="true"
+            android:process=":p75" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP76"
+            android:authorities="${applicationId}.stub_content_provider_76"
+            android:exported="true"
+            android:process=":p76" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP77"
+            android:authorities="${applicationId}.stub_content_provider_77"
+            android:exported="true"
+            android:process=":p77" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP78"
+            android:authorities="${applicationId}.stub_content_provider_78"
+            android:exported="true"
+            android:process=":p78" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP79"
+            android:authorities="${applicationId}.stub_content_provider_79"
+            android:exported="true"
+            android:process=":p79" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP80"
+            android:authorities="${applicationId}.stub_content_provider_80"
+            android:exported="true"
+            android:process=":p80" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP81"
+            android:authorities="${applicationId}.stub_content_provider_81"
+            android:exported="true"
+            android:process=":p81" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP82"
+            android:authorities="${applicationId}.stub_content_provider_82"
+            android:exported="true"
+            android:process=":p82" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP83"
+            android:authorities="${applicationId}.stub_content_provider_83"
+            android:exported="true"
+            android:process=":p83" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP84"
+            android:authorities="${applicationId}.stub_content_provider_84"
+            android:exported="true"
+            android:process=":p84" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP85"
+            android:authorities="${applicationId}.stub_content_provider_85"
+            android:exported="true"
+            android:process=":p85" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP86"
+            android:authorities="${applicationId}.stub_content_provider_86"
+            android:exported="true"
+            android:process=":p86" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP87"
+            android:authorities="${applicationId}.stub_content_provider_87"
+            android:exported="true"
+            android:process=":p87" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP88"
+            android:authorities="${applicationId}.stub_content_provider_88"
+            android:exported="true"
+            android:process=":p88" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP89"
+            android:authorities="${applicationId}.stub_content_provider_89"
+            android:exported="true"
+            android:process=":p89" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP90"
+            android:authorities="${applicationId}.stub_content_provider_90"
+            android:exported="true"
+            android:process=":p90" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP91"
+            android:authorities="${applicationId}.stub_content_provider_91"
+            android:exported="true"
+            android:process=":p91" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP92"
+            android:authorities="${applicationId}.stub_content_provider_92"
+            android:exported="true"
+            android:process=":p92" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP93"
+            android:authorities="${applicationId}.stub_content_provider_93"
+            android:exported="true"
+            android:process=":p93" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP94"
+            android:authorities="${applicationId}.stub_content_provider_94"
+            android:exported="true"
+            android:process=":p94" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP95"
+            android:authorities="${applicationId}.stub_content_provider_95"
+            android:exported="true"
+            android:process=":p95" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP96"
+            android:authorities="${applicationId}.stub_content_provider_96"
+            android:exported="true"
+            android:process=":p96" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP97"
+            android:authorities="${applicationId}.stub_content_provider_97"
+            android:exported="true"
+            android:process=":p97" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP98"
+            android:authorities="${applicationId}.stub_content_provider_98"
+            android:exported="true"
+            android:process=":p98" />
+        <provider
+            android:name="top.niunaijun.blackbox.client.stub.StubContentProvider$StubContentProviderP99"
+            android:authorities="${applicationId}.stub_content_provider_99"
+            android:exported="true"
+            android:process=":p99" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP0"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p0" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP1"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p1" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP2"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p2" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP3"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p3" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP4"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p4" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP5"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p5" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP6"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p6" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP7"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p7" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP8"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p8" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP9"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p9" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP10"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p10" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP11"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p11" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP12"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p12" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP13"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p13" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP14"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p14" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP15"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p15" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP16"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p16" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP17"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p17" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP18"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p18" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP19"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p19" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP20"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p20" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP21"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p21" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP22"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p22" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP23"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p23" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP24"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p24" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP25"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p25" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP26"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p26" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP27"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p27" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP28"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p28" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP29"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p29" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP30"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p30" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP31"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p31" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP32"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p32" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP33"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p33" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP34"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p34" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP35"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p35" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP36"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p36" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP37"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p37" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP38"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p38" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP39"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p39" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP40"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p40" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP41"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p41" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP42"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p42" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP43"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p43" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP44"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p44" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP45"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p45" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP46"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p46" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP47"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p47" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP48"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p48" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP49"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p49" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP50"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p50" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP51"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p51" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP52"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p52" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP53"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p53" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP54"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p54" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP55"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p55" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP56"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p56" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP57"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p57" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP58"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p58" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP59"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p59" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP60"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p60" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP61"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p61" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP62"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p62" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP63"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p63" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP64"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p64" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP65"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p65" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP66"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p66" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP67"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p67" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP68"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p68" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP69"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p69" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP70"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p70" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP71"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p71" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP72"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p72" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP73"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p73" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP74"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p74" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP75"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p75" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP76"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p76" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP77"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p77" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP78"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p78" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP79"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p79" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP80"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p80" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP81"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p81" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP82"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p82" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP83"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p83" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP84"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p84" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP85"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p85" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP86"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p86" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP87"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p87" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP88"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p88" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP89"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p89" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP90"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p90" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP91"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p91" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP92"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p92" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP93"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p93" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP94"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p94" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP95"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p95" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP96"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p96" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP97"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p97" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP98"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p98" />
+
+        <service
+            android:name="top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP99"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":p99" />
+    </application>
+</manifest>

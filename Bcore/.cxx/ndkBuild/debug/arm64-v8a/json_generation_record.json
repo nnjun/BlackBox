@@ -1,0 +1,20 @@
+[
+  {
+    "level": "INFO",
+    "message": "Start JSON generation. Platform version: 21 min SDK version: arm64-v8a",
+    "file": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/src/main/jni/Android.mk",
+    "tag": "debug|arm64-v8a"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON \u0027/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/.cxx/ndkBuild/debug/arm64-v8a/android_gradle_build.json\u0027 was up-to-date",
+    "file": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/src/main/jni/Android.mk",
+    "tag": "debug|arm64-v8a"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON generation completed without problems",
+    "file": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/src/main/jni/Android.mk",
+    "tag": "debug|arm64-v8a"
+  }
+]

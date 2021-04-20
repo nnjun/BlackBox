@@ -1,0 +1,126 @@
+{
+  "abi": "ARMEABI_V7A",
+  "abiPlatformVersion": 21,
+  "buildSettings": {
+    "environmentVariables": []
+  },
+  "cxxBuildFolder": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/.cxx/ndkBuild/release/armeabi-v7a",
+  "info": {
+    "abi": "ARMEABI_V7A",
+    "bitness": 32,
+    "deprecated": false,
+    "default": true
+  },
+  "originalCxxBuildFolder": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/.cxx/ndkBuild/release/armeabi-v7a",
+  "variant": {
+    "buildSystemArgumentList": [],
+    "buildTargetSet": [],
+    "cFlagsList": [],
+    "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
+    "cppFlagsList": [],
+    "isDebuggableEnabled": false,
+    "module": {
+      "buildSystem": "NDK_BUILD",
+      "cmakeToolchainFile": "/Users/milk/Library/Android/ndk/android-ndk-r20b/build/cmake/android.toolchain.cmake",
+      "cxxFolder": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/.cxx",
+      "gradleModulePathName": ":Bcore",
+      "intermediatesFolder": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/build/intermediates",
+      "makeFile": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/src/main/jni/Android.mk",
+      "moduleBuildFile": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/build.gradle",
+      "moduleRootFolder": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore",
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkFolder": "/Users/milk/Library/Android/ndk/android-ndk-r20b",
+      "ndkMetaAbiList": [
+        {
+          "abi": "ARMEABI_V7A",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "ARM64_V8A",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86_64",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        }
+      ],
+      "ndkMetaPlatforms": {
+        "min": 16,
+        "max": 29,
+        "aliases": {
+          "20": 19,
+          "25": 24,
+          "J": 16,
+          "J-MR1": 17,
+          "J-MR2": 18,
+          "K": 19,
+          "L": 21,
+          "L-MR1": 22,
+          "M": 23,
+          "N": 24,
+          "N-MR1": 24,
+          "O": 26,
+          "O-MR1": 27,
+          "P": 28,
+          "Q": 29
+        }
+      },
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultStl": "SYSTEM",
+      "ndkVersion": "20.1.5948944",
+      "project": {
+        "compilerSettingsCacheFolder": "/Users/milk/Documents/works/android_workspace/BlackBox/.cxx",
+        "cxxFolder": "/Users/milk/Documents/works/android_workspace/BlackBox/.cxx",
+        "isBuildOnlyTargetAbiEnabled": true,
+        "isCmakeBuildCohabitationEnabled": false,
+        "isNativeCompilerSettingsCacheEnabled": false,
+        "rootBuildGradleFolder": "/Users/milk/Documents/works/android_workspace/BlackBox",
+        "sdkFolder": "/Users/milk/Library/Android/sdk",
+        "isPrefabEnabled": false
+      },
+      "splitsAbiFilterSet": [],
+      "stlSharedObjectMap": {
+        "LIBCXX_SHARED": {
+          "ARMEABI_V7A": "/Users/milk/Library/Android/ndk/android-ndk-r20b/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/arm-linux-androideabi/libc++_shared.so",
+          "ARM64_V8A": "/Users/milk/Library/Android/ndk/android-ndk-r20b/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so",
+          "X86": "/Users/milk/Library/Android/ndk/android-ndk-r20b/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/i686-linux-android/libc++_shared.so",
+          "X86_64": "/Users/milk/Library/Android/ndk/android-ndk-r20b/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/libc++_shared.so"
+        },
+        "LIBCXX_STATIC": {},
+        "NONE": {},
+        "SYSTEM": {}
+      }
+    },
+    "objFolder": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/build/intermediates/ndkBuild/release/obj/local",
+    "variantName": "release",
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A"
+    ],
+    "prefabDirectory": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/.cxx/ndkBuild/release/prefab",
+    "prefabPackageDirectoryList": []
+  },
+  "prefabFolder": "/Users/milk/Documents/works/android_workspace/BlackBox/Bcore/.cxx/ndkBuild/release/prefab/armeabi-v7a"
+}

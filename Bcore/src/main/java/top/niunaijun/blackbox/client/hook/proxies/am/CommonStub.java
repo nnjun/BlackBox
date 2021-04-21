@@ -2,6 +2,7 @@ package top.niunaijun.blackbox.client.hook.proxies.am;
 
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 
@@ -12,6 +13,7 @@ import top.niunaijun.blackbox.client.BClient;
 import top.niunaijun.blackbox.client.hook.MethodHook;
 import top.niunaijun.blackbox.client.hook.provider.FileProviderHandler;
 import top.niunaijun.blackbox.utils.ComponentUtils;
+import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.StartActivityCompat;
 
@@ -26,8 +28,9 @@ import static android.content.pm.PackageManager.GET_META_DATA;
  * 此处无Bug
  */
 public class CommonStub {
-    static class StartActivity extends MethodHook {
+    public static final String TAG = "CommonStub";
 
+    static class StartActivity extends MethodHook {
         @Override
         protected String getMethodName() {
             return "startActivity";
@@ -45,6 +48,11 @@ public class CommonStub {
                     intent.setData(FileProviderHandler.convertFileUri(BClient.getApplication(), intent.getData()));
                     return method.invoke(who, args);
                 }
+                String dataString = intent.getDataString();
+                if (dataString != null && dataString.equals("package:" + BClient.getVPackageName())) {
+                    intent.setData(Uri.parse("package:" + BlackBoxCore.getHostPkg()));
+                }
+
                 if (!ComponentUtils.isSelf(intent)) {
                     return method.invoke(who, args);
                 }

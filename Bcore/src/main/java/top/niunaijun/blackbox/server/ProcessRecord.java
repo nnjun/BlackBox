@@ -58,7 +58,7 @@ public class ProcessRecord extends Binder implements Parcelable {
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(new Object[]{processName, pid, vuid, vpid, uid, userId});
+        return Arrays.hashCode(new Object[]{processName, pid, vuid, vpid, uid, pid, userId});
     }
 
     public String getProviderAuthority() {

@@ -38,6 +38,14 @@ public class BActivityManager {
         return null;
     }
 
+    public void restartProcess(String packageName, String processName, int userId) {
+        try {
+            getService().restartProcess(packageName, processName, userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void startActivity(Intent intent, int userId) {
         try {
             getService().startActivity(intent, userId);

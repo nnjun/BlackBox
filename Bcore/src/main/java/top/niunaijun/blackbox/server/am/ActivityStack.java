@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.IInterface;
@@ -227,7 +228,7 @@ public class ActivityStack {
     private Intent startActivityProcess(int userId, Intent intent, ActivityInfo
             info, ActivityRecord record, int callingUid) {
         StubActivityRecord stubRecord = new StubActivityRecord(userId, info, intent, record);
-        ProcessRecord targetApp = BProcessManager.get().startProcessIfNeedLocked(info.processName, userId, info.packageName, -1, callingUid);
+        ProcessRecord targetApp = BProcessManager.get().startProcessIfNeedLocked(info.processName, userId, info.packageName, -1, Binder.getCallingUid(), Binder.getCallingPid());
         if (targetApp == null) {
             throw new RuntimeException("Unable to create process, name:" + info.name);
         }

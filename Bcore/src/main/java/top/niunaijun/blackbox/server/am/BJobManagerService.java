@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
+import android.os.Binder;
 import android.os.Process;
 import android.os.RemoteException;
 import android.text.TextUtils;
@@ -51,7 +52,7 @@ public class BJobManagerService extends IBJobManagerService.Stub {
         ProcessRecord processRecord = BProcessManager.get().findProcessRecord(serviceInfo.processName);
         if (processRecord == null) {
             processRecord = BProcessManager.get().
-                    startProcessIfNeedLocked(serviceInfo.processName, 0, serviceInfo.packageName, -1, Process.myUid());
+                    startProcessIfNeedLocked(serviceInfo.processName, 0, serviceInfo.packageName, -1, Binder.getCallingUid(), Binder.getCallingPid());
             if (processRecord == null) {
                 throw new RuntimeException(
                         "Unable to create Process " + serviceInfo.processName);

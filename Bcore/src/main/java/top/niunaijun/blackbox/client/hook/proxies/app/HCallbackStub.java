@@ -79,8 +79,6 @@ public class HCallbackStub implements IInjectHook, Handler.Callback {
                         }
                     }
                 }
-
-
                 if (mOtherCallback != null) {
                     return mOtherCallback.handleMessage(msg);
                 }
@@ -131,6 +129,10 @@ public class HCallbackStub implements IInjectHook, Handler.Callback {
         StubActivityRecord stubRecord = StubActivityRecord.create(intent);
         ActivityInfo activityInfo = stubRecord.mActivityInfo;
         if (activityInfo != null) {
+            if (BClient.getClientConfig() == null) {
+                BlackBoxCore.getBActivityManager().restartProcess(activityInfo.packageName, activityInfo.processName, stubRecord.mUserId);
+                return true;
+            }
             // bind
             if (!BClient.getClient().isInit()) {
                 BClient.getClient().bindApplication(activityInfo.packageName,

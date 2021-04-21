@@ -50,7 +50,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub {
 
     @Override
     public IBinder acquireContentProviderClient(ProviderInfo providerInfo) throws RemoteException {
-        ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(providerInfo.processName, 0, providerInfo.packageName, -1, Process.myUid());
+        ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(providerInfo.processName, 0, providerInfo.packageName, -1, Binder.getCallingUid(), Binder.getCallingPid());
         if (processRecord == null) {
             throw new RuntimeException("Unable to create process " + providerInfo.name);
         }
@@ -62,7 +62,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub {
         List<ResolveInfo> resolves = BPackageManagerService.get().queryBroadcastReceivers(intent, GET_META_DATA, resolvedType, userId);
 
         for (ResolveInfo resolve : resolves) {
-            ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(resolve.activityInfo.processName, userId, resolve.activityInfo.packageName, -1, Process.myUid());
+            ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(resolve.activityInfo.processName, userId, resolve.activityInfo.packageName, -1, Binder.getCallingUid(), Binder.getCallingPid());
             if (processRecord == null) {
 //                throw new RuntimeException("Unable to create process " + resolve.activityInfo.name);
                 continue;
@@ -183,10 +183,15 @@ public class BActivityManagerService extends IBActivityManagerService.Stub {
 
     @Override
     public ClientConfig initProcess(String packageName, String processName, int userId) throws RemoteException {
-        ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(processName, userId, packageName, -1, Process.myUid());
+        ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(processName, userId, packageName, -1, Binder.getCallingUid(), Binder.getCallingPid());
         if (processRecord == null)
             return null;
         return processRecord.getClientConfig();
+    }
+
+    @Override
+    public void restartProcess(String packageName, String processName, int userId) throws RemoteException {
+        BProcessManager.get().restartProcess(packageName, processName, userId);
     }
 
     @Override

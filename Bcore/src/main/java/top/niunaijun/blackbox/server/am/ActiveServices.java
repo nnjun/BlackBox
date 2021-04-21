@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
+import android.os.Binder;
 import android.os.IBinder;
 import android.os.Process;
 import android.os.RemoteException;
@@ -42,7 +43,7 @@ public class ActiveServices {
             return;
 //            throw new RuntimeException("resolveService service exception");
         ServiceInfo serviceInfo = resolveInfo.serviceInfo;
-        ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(serviceInfo.processName, userId, serviceInfo.packageName, -1, Process.myUid());
+        ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(serviceInfo.processName, userId, serviceInfo.packageName, -1, Binder.getCallingUid(), Binder.getCallingPid());
         if (processRecord == null) {
             throw new RuntimeException("Unable to create " + serviceInfo.name);
         }
@@ -84,7 +85,7 @@ public class ActiveServices {
                 userId,
                 serviceInfo.packageName,
                 -1,
-                Process.myUid());
+                Binder.getCallingUid(), Binder.getCallingPid());
 
         if (processRecord == null) {
             throw new RuntimeException("Unable to create " + serviceInfo.name);

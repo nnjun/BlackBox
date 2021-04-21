@@ -16,6 +16,8 @@ import android.os.Bundle;
 
 interface IBActivityManagerService {
     ClientConfig initProcess(String packageName, String processName, int userId);
+    void restartProcess(String packageName, String processName, int userId);
+
     void startActivity(in Intent intent, int userId);
     int startActivityAms(int userId, in Intent intent, String resolvedType, IBinder resultTo, String resultWho, int requestCode, int flags, in Bundle options);
     int startActivities(int userId, in Intent[] intent, in String[] resolvedType, IBinder resultTo, in Bundle options);

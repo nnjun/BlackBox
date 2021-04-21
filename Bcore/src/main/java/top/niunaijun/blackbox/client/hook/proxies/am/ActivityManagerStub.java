@@ -345,6 +345,12 @@ public class ActivityManagerStub extends ClassInvocationStub {
             if (proxyIntent != null) {
                 args[1] = proxyIntent;
             }
+            for (int i = 0; i < args.length; i++) {
+                Object o = args[i];
+                if (o instanceof String[]) {
+                    args[i] = null;
+                }
+            }
             return method.invoke(who, args);
         }
     }
@@ -403,6 +409,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             MethodParameterUtils.replaceFirstAppPkg(args);
+            args[4] = null;
             return method.invoke(who, args);
         }
     }

@@ -98,6 +98,7 @@ public class BlackBoxCore {
             if (processName.endsWith("p0")) {
 //                android.os.Debug.waitForDebugger();
             }
+//            android.os.Debug.waitForDebugger();
         }
         if (isServerProcess()) {
             Intent intent = new Intent();

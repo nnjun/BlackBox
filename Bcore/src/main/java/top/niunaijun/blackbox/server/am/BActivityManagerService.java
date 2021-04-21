@@ -67,6 +67,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub {
 //                throw new RuntimeException("Unable to create process " + resolve.activityInfo.name);
                 continue;
             }
+            processRecord.client.bindApplication();
         }
 
         if (intent.getPackage() != null) {

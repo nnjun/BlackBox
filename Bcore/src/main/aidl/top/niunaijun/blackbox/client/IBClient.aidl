@@ -11,10 +11,10 @@ import android.content.pm.ResolveInfo;
 
 interface IBClient {
     IBinder getActivityThread();
+    void bindApplication();
     void stopService(in ComponentName componentName);
     void restartJobService(String selfId);
     IBinder acquireContentProviderClient(in ProviderInfo providerInfo);
-//    void registerReceiver(in Intent intent, in ActivityInfo activityList);
 
     IBinder peekService(in Intent intent);
     void finishActivity(IBinder token);

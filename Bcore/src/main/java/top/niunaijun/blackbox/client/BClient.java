@@ -15,6 +15,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageParser;
 import android.content.pm.ProviderInfo;
+import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Binder;
 import android.os.Build;
@@ -358,6 +359,13 @@ public class BClient extends IBClient.Stub {
     }
 
     @Override
+    public void bindApplication() {
+        if (!isInit()) {
+            bindApplication(getVPackageName(), getVProcessName());
+        }
+    }
+
+    @Override
     public void stopService(ComponentName componentName) {
         ClientServiceManager.get().stopService(componentName);
     }
@@ -384,21 +392,20 @@ public class BClient extends IBClient.Stub {
 
     public void registerReceivers(Application application) {
         try {
-            PackageParser parser = PackageParserCompat.createParser(new File(application.getApplicationInfo().sourceDir));
-            PackageParser.Package aPackage = PackageParserCompat.parsePackage(parser, new File(application.getApplicationInfo().sourceDir), 0);
-            for (PackageParser.Activity receiver : aPackage.receivers) {
-                for (PackageParser.ActivityIntentInfo intent : receiver.intents) {
-                    try {
-                        if (receiver.info.processName != null && !receiver.info.processName.equals(BClient.getVProcessName())) {
-                            continue;
-                        }
-                        BroadcastReceiver broadcastReceiver = (BroadcastReceiver) mInitialApplication.getClassLoader().loadClass(receiver.info.name).newInstance();
-                        mInitialApplication.registerReceiver(broadcastReceiver, intent);
-                    } catch (Throwable e) {
-//                        e.printStackTrace();
-                        Slog.d(TAG, "Unable to registerReceiver " + receiver.info.name
-                                + ": " + e.toString());
+            Intent intent = new Intent();
+            intent.setPackage(application.getPackageName());
+            List<ResolveInfo> resolves = BlackBoxCore.getBPackageManager().queryBroadcastReceivers(intent, PackageManager.GET_RESOLVED_FILTER, null, BClient.getUserId());
+            for (ResolveInfo resolve : resolves) {
+                try {
+                    if (resolve.activityInfo.processName != null && !resolve.activityInfo.processName.equals(BClient.getVProcessName())) {
+                        continue;
                     }
+                    BroadcastReceiver broadcastReceiver = (BroadcastReceiver) mInitialApplication.getClassLoader().loadClass(resolve.activityInfo.name).newInstance();
+                    mInitialApplication.registerReceiver(broadcastReceiver, resolve.filter);
+                } catch (Throwable e) {
+//                        e.printStackTrace();
+                    Slog.d(TAG, "Unable to registerReceiver " + resolve.activityInfo.name
+                            + ": " + e.toString());
                 }
             }
         } catch (Throwable throwable) {

@@ -93,6 +93,7 @@ public class PackageManagerCompat {
             }
         }
         if ((flags & PackageManager.GET_ACTIVITIES) != 0) {
+            pi.activities = null;
             final int N = p.activities.size();
             if (N > 0) {
                 int num = 0;
@@ -105,6 +106,7 @@ public class PackageManagerCompat {
             }
         }
         if ((flags & PackageManager.GET_RECEIVERS) != 0) {
+            pi.receivers = null;
             final int N = p.receivers.size();
             if (N > 0) {
                 int num = 0;
@@ -117,6 +119,7 @@ public class PackageManagerCompat {
             }
         }
         if ((flags & PackageManager.GET_SERVICES) != 0) {
+            pi.services = null;
             final int N = p.services.size();
             if (N > 0) {
                 int num = 0;
@@ -129,6 +132,7 @@ public class PackageManagerCompat {
             }
         }
         if ((flags & PackageManager.GET_PROVIDERS) != 0) {
+            pi.providers = null;
             final int N = p.providers.size();
             if (N > 0) {
                 int num = 0;
@@ -144,6 +148,7 @@ public class PackageManagerCompat {
             }
         }
         if ((flags & PackageManager.GET_INSTRUMENTATION) != 0) {
+            pi.instrumentation = null;
             int N = p.instrumentation.size();
             if (N > 0) {
                 pi.instrumentation = new InstrumentationInfo[N];
@@ -154,6 +159,7 @@ public class PackageManagerCompat {
             }
         }
         if ((flags & PackageManager.GET_PERMISSIONS) != 0) {
+            pi.permissions = null;
             int N = p.permissions.size();
             if (N > 0) {
                 pi.permissions = new PermissionInfo[N];
@@ -161,6 +167,7 @@ public class PackageManagerCompat {
                     pi.permissions[i] = generatePermissionInfo(p.permissions.get(i), flags);
                 }
             }
+            pi.requestedPermissions = null;
             N = p.requestedPermissions.size();
             if (N > 0) {
                 pi.requestedPermissions = new String[N];

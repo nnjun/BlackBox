@@ -53,9 +53,6 @@ public class CommonStub {
                     intent.setData(Uri.parse("package:" + BlackBoxCore.getHostPkg()));
                 }
 
-                if (!ComponentUtils.isSelf(intent)) {
-                    return method.invoke(who, args);
-                }
                 ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveActivity(
                         intent,
                         GET_META_DATA,

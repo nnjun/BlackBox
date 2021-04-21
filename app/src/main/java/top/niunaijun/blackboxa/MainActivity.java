@@ -2,6 +2,7 @@ package top.niunaijun.blackboxa;
 
 import android.Manifest;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import top.niunaijun.aop_api.annotations.AsyncThread;
 import top.niunaijun.aop_api.annotations.UIThread;
+import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.utils.AbiUtils;
 import top.niunaijun.blackboxa.adapter.AppsAdapter;
 import top.niunaijun.blackboxa.bean.AppInfo;

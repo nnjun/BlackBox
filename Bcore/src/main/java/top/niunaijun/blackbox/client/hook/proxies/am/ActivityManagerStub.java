@@ -5,6 +5,7 @@ import android.app.IServiceConnection;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
+import android.content.pm.ResolveInfo;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Process;
@@ -19,6 +20,7 @@ import mirror.android.app.ActivityManagerOreo;
 
 import mirror.android.content.ContentProviderNative;
 import mirror.android.util.Singleton;
+import top.niunaijun.blackbox.client.hook.env.ClientSystemEnv;
 import top.niunaijun.blackbox.client.hook.proxies.context.providers.ContentProviderStub;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.ClientConfig;
@@ -226,19 +228,19 @@ public class ActivityManagerStub extends ClassInvocationStub {
             if (ComponentUtils.isGmsService(intent)) {
                 return 0;
             }
-            if (!ComponentUtils.isSelf(intent)) {
-                return method.invoke(who, args);
-            }
-            Intent proxyIntent = BlackBoxCore.getBActivityManager().bindService(intent,
-                    connection == null ? null : connection.asBinder(),
-                    resolvedType,
-                    BClient.getUserId());
-            if (connection != null) {
-                args[4] = ServiceConnectionDelegate.createProxy(connection, intent);
-            }
-            if (proxyIntent != null) {
-                args[2] = proxyIntent;
-                return method.invoke(who, args);
+            ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveService(intent, 0, resolvedType, BClient.getUserId());
+            if (resolveInfo != null || ClientSystemEnv.isOpenPackage(intent.getComponent())) {
+                Intent proxyIntent = BlackBoxCore.getBActivityManager().bindService(intent,
+                        connection == null ? null : connection.asBinder(),
+                        resolvedType,
+                        BClient.getUserId());
+                if (connection != null) {
+                    args[4] = ServiceConnectionDelegate.createProxy(connection, intent);
+                }
+                if (proxyIntent != null) {
+                    args[2] = proxyIntent;
+                    return method.invoke(who, args);
+                }
             }
             return 0;
         }

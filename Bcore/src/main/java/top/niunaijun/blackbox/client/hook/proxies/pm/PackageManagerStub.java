@@ -22,6 +22,7 @@ import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.BClient;
 import top.niunaijun.blackbox.client.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.client.hook.MethodHook;
+import top.niunaijun.blackbox.client.hook.env.ClientSystemEnv;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
@@ -131,7 +132,10 @@ public class PackageManagerStub extends BinderInvocationStub {
             if (packageInfo != null) {
                 return packageInfo;
             }
-            return method.invoke(who, args);
+            if (ClientSystemEnv.isOpenPackage(packageName)) {
+                return method.invoke(who, args);
+            }
+            return null;
         }
     }
 
@@ -149,7 +153,10 @@ public class PackageManagerStub extends BinderInvocationStub {
             ProviderInfo providerInfo = BlackBoxCore.getBPackageManager().getProviderInfo(componentName, flags, BClient.getUserId());
             if (providerInfo != null)
                 return providerInfo;
-            return method.invoke(who, args);
+            if (ClientSystemEnv.isOpenPackage(componentName)) {
+                return method.invoke(who, args);
+            }
+            return null;
         }
     }
 
@@ -167,7 +174,10 @@ public class PackageManagerStub extends BinderInvocationStub {
             ActivityInfo receiverInfo = BlackBoxCore.getBPackageManager().getReceiverInfo(componentName, flags, BClient.getUserId());
             if (receiverInfo != null)
                 return receiverInfo;
-            return method.invoke(who, args);
+            if (ClientSystemEnv.isOpenPackage(componentName)) {
+                return method.invoke(who, args);
+            }
+            return null;
         }
     }
     static class GetActivityInfo extends MethodHook {
@@ -184,7 +194,10 @@ public class PackageManagerStub extends BinderInvocationStub {
             ActivityInfo activityInfo = BlackBoxCore.getBPackageManager().getActivityInfo(componentName, flags, BClient.getUserId());
             if (activityInfo != null)
                 return activityInfo;
-            return method.invoke(who, args);
+            if (ClientSystemEnv.isOpenPackage(componentName)) {
+                return method.invoke(who, args);
+            }
+            return null;
         }
     }
 
@@ -203,7 +216,10 @@ public class PackageManagerStub extends BinderInvocationStub {
             ServiceInfo serviceInfo = BlackBoxCore.getBPackageManager().getServiceInfo(componentName, flags, BClient.getUserId());
             if (serviceInfo != null)
                 return serviceInfo;
-            return method.invoke(who, args);
+            if (ClientSystemEnv.isOpenPackage(componentName)) {
+                return method.invoke(who, args);
+            }
+            return null;
         }
     }
 
@@ -211,7 +227,7 @@ public class PackageManagerStub extends BinderInvocationStub {
 
         @Override
         protected String getMethodName() {
-            return "GetInstalledApplications";
+            return "getInstalledApplications";
         }
 
         @Override
@@ -248,7 +264,10 @@ public class PackageManagerStub extends BinderInvocationStub {
             if (applicationInfo != null) {
                 return applicationInfo;
             }
-            return method.invoke(who, args);
+            if (ClientSystemEnv.isOpenPackage(packageName)) {
+                return method.invoke(who, args);
+            }
+            return null;
         }
     }
 

@@ -20,7 +20,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        flavorDimensions "BlockBox32"
+        flavorDimensions "BlackBox32"
     }
 
     buildTypes {
@@ -31,20 +31,20 @@ android {
     }
 
     productFlavors {
-        BlockBox32 {
+        BlackBox32 {
             applicationId "top.niunaijun.blackboxa32"
             ndk {
                 abiFilters "armeabi-v7a"
             }
-            resValue "string", "app_name", "BlockBox32"
+            resValue "string", "app_name", "BlackBox32"
         }
 
-        BlockBox64 {
+        BlackBox64 {
             applicationId "top.niunaijun.blackboxa64"
             ndk {
                 abiFilters "arm64-v8a"
             }
-            resValue "string", "app_name", "BlockBox64"
+            resValue "string", "app_name", "BlackBox64"
         }
     }
 

@@ -9,7 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import top.niunaijun.blackbox.client.ClientConfig;
+import top.niunaijun.blackbox.entity.ClientConfig;
 import top.niunaijun.blackbox.client.BClient;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 

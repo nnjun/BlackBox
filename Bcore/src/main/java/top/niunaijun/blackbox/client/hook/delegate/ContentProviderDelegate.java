@@ -3,8 +3,8 @@ package top.niunaijun.blackbox.client.hook.delegate;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IInterface;
+import android.util.ArrayMap;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashSet;
 import java.util.Map;
@@ -15,10 +15,9 @@ import mirror.android.app.IActivityManager;
 import mirror.android.content.ContentProviderHolderOreo;
 import mirror.android.providers.Settings;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.client.hook.BinderInvocationStub;
+import top.niunaijun.blackbox.client.BClient;
 import top.niunaijun.blackbox.client.hook.proxies.context.providers.ContentProviderStub;
 import top.niunaijun.blackbox.client.hook.proxies.context.providers.SettingsProviderStub;
-import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 /**
@@ -29,7 +28,7 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat;
  * しーＪ
  * 此处无Bug
  */
-public class ContentProviderDelegate extends BinderInvocationStub {
+public class ContentProviderDelegate {
     public static final String TAG = "ContentProviderDelegate";
     private static Set<String> sInjected = new HashSet<>();
 
@@ -60,7 +59,7 @@ public class ContentProviderDelegate extends BinderInvocationStub {
         if (BuildCompat.isOreo()) {
             ContentProviderHolderOreo.provider.set(holder, vContentProvider);
         } else {
-           IActivityManager.ContentProviderHolder.provider.set(holder, vContentProvider);
+            IActivityManager.ContentProviderHolder.provider.set(holder, vContentProvider);
         }
     }
 
@@ -69,7 +68,7 @@ public class ContentProviderDelegate extends BinderInvocationStub {
 
         BlackBoxCore.getContext().getContentResolver().call(Uri.parse("content://settings"), "", null, null);
         Object activityThread = BlackBoxCore.mainThread();
-        Map<?, ?> map = ActivityThread.mProviderMap.get(activityThread);
+        ArrayMap<Object, Object> map = (ArrayMap<Object, Object>) ActivityThread.mProviderMap.get(activityThread);
 
         for (Object value : map.values()) {
             String[] mNames = ActivityThread.ProviderClientRecordP.mNames.get(value);
@@ -117,29 +116,29 @@ public class ContentProviderDelegate extends BinderInvocationStub {
         }
     }
 
-    public ContentProviderDelegate(IInterface provider) {
-        super(provider.asBinder());
-        mProvider = provider;
-    }
-
-    @Override
-    protected Object getWho() {
-        return mProvider;
-    }
-
-    @Override
-    protected void inject(Object baseInvocation, Object proxyInvocation) {
-
-    }
-
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        MethodParameterUtils.replaceLastAppPkg(args);
-        return super.invoke(mProvider, method, args);
-    }
-
-    @Override
-    public boolean isBadEnv() {
-        return false;
-    }
+//    public ContentProviderDelegate(IInterface provider) {
+//        super(provider.asBinder());
+//        mProvider = provider;
+//    }
+//
+//    @Override
+//    protected Object getWho() {
+//        return mProvider;
+//    }
+//
+//    @Override
+//    protected void inject(Object baseInvocation, Object proxyInvocation) {
+//
+//    }
+//
+//    @Override
+//    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+//        MethodParameterUtils.replaceLastAppPkg(args);
+//        return super.invoke(mProvider, method, args);
+//    }
+//
+//    @Override
+//    public boolean isBadEnv() {
+//        return false;
+//    }
 }

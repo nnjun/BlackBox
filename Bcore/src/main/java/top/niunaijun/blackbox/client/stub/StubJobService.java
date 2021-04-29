@@ -57,403 +57,403 @@ public class StubJobService extends JobService {
         ClientJobServiceManager.get().onTrimMemory(level);
     }
 
-    public static class StubJobServiceP0 extends StubJobService {
+    public static class P0 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP1 extends StubJobService {
+    public static class P1 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP2 extends StubJobService {
+    public static class P2 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP3 extends StubJobService {
+    public static class P3 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP4 extends StubJobService {
+    public static class P4 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP5 extends StubJobService {
+    public static class P5 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP6 extends StubJobService {
+    public static class P6 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP7 extends StubJobService {
+    public static class P7 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP8 extends StubJobService {
+    public static class P8 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP9 extends StubJobService {
+    public static class P9 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP10 extends StubJobService {
+    public static class P10 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP11 extends StubJobService {
+    public static class P11 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP12 extends StubJobService {
+    public static class P12 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP13 extends StubJobService {
+    public static class P13 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP14 extends StubJobService {
+    public static class P14 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP15 extends StubJobService {
+    public static class P15 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP16 extends StubJobService {
+    public static class P16 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP17 extends StubJobService {
+    public static class P17 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP18 extends StubJobService {
+    public static class P18 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP19 extends StubJobService {
+    public static class P19 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP20 extends StubJobService {
+    public static class P20 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP21 extends StubJobService {
+    public static class P21 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP22 extends StubJobService {
+    public static class P22 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP23 extends StubJobService {
+    public static class P23 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP24 extends StubJobService {
+    public static class P24 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP25 extends StubJobService {
+    public static class P25 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP26 extends StubJobService {
+    public static class P26 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP27 extends StubJobService {
+    public static class P27 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP28 extends StubJobService {
+    public static class P28 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP29 extends StubJobService {
+    public static class P29 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP30 extends StubJobService {
+    public static class P30 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP31 extends StubJobService {
+    public static class P31 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP32 extends StubJobService {
+    public static class P32 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP33 extends StubJobService {
+    public static class P33 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP34 extends StubJobService {
+    public static class P34 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP35 extends StubJobService {
+    public static class P35 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP36 extends StubJobService {
+    public static class P36 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP37 extends StubJobService {
+    public static class P37 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP38 extends StubJobService {
+    public static class P38 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP39 extends StubJobService {
+    public static class P39 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP40 extends StubJobService {
+    public static class P40 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP41 extends StubJobService {
+    public static class P41 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP42 extends StubJobService {
+    public static class P42 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP43 extends StubJobService {
+    public static class P43 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP44 extends StubJobService {
+    public static class P44 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP45 extends StubJobService {
+    public static class P45 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP46 extends StubJobService {
+    public static class P46 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP47 extends StubJobService {
+    public static class P47 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP48 extends StubJobService {
+    public static class P48 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP49 extends StubJobService {
+    public static class P49 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP50 extends StubJobService {
+    public static class P50 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP51 extends StubJobService {
+    public static class P51 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP52 extends StubJobService {
+    public static class P52 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP53 extends StubJobService {
+    public static class P53 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP54 extends StubJobService {
+    public static class P54 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP55 extends StubJobService {
+    public static class P55 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP56 extends StubJobService {
+    public static class P56 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP57 extends StubJobService {
+    public static class P57 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP58 extends StubJobService {
+    public static class P58 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP59 extends StubJobService {
+    public static class P59 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP60 extends StubJobService {
+    public static class P60 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP61 extends StubJobService {
+    public static class P61 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP62 extends StubJobService {
+    public static class P62 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP63 extends StubJobService {
+    public static class P63 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP64 extends StubJobService {
+    public static class P64 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP65 extends StubJobService {
+    public static class P65 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP66 extends StubJobService {
+    public static class P66 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP67 extends StubJobService {
+    public static class P67 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP68 extends StubJobService {
+    public static class P68 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP69 extends StubJobService {
+    public static class P69 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP70 extends StubJobService {
+    public static class P70 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP71 extends StubJobService {
+    public static class P71 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP72 extends StubJobService {
+    public static class P72 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP73 extends StubJobService {
+    public static class P73 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP74 extends StubJobService {
+    public static class P74 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP75 extends StubJobService {
+    public static class P75 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP76 extends StubJobService {
+    public static class P76 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP77 extends StubJobService {
+    public static class P77 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP78 extends StubJobService {
+    public static class P78 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP79 extends StubJobService {
+    public static class P79 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP80 extends StubJobService {
+    public static class P80 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP81 extends StubJobService {
+    public static class P81 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP82 extends StubJobService {
+    public static class P82 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP83 extends StubJobService {
+    public static class P83 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP84 extends StubJobService {
+    public static class P84 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP85 extends StubJobService {
+    public static class P85 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP86 extends StubJobService {
+    public static class P86 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP87 extends StubJobService {
+    public static class P87 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP88 extends StubJobService {
+    public static class P88 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP89 extends StubJobService {
+    public static class P89 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP90 extends StubJobService {
+    public static class P90 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP91 extends StubJobService {
+    public static class P91 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP92 extends StubJobService {
+    public static class P92 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP93 extends StubJobService {
+    public static class P93 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP94 extends StubJobService {
+    public static class P94 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP95 extends StubJobService {
+    public static class P95 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP96 extends StubJobService {
+    public static class P96 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP97 extends StubJobService {
+    public static class P97 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP98 extends StubJobService {
+    public static class P98 extends StubJobService {
 
     }
 
-    public static class StubJobServiceP99 extends StubJobService {
+    public static class P99 extends StubJobService {
 
     }
 }

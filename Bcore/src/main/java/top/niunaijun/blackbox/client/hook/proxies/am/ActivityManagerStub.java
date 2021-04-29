@@ -23,7 +23,7 @@ import mirror.android.util.Singleton;
 import top.niunaijun.blackbox.client.hook.env.ClientSystemEnv;
 import top.niunaijun.blackbox.client.hook.proxies.context.providers.ContentProviderStub;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.client.ClientConfig;
+import top.niunaijun.blackbox.entity.ClientConfig;
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.client.BClient;
 import top.niunaijun.blackbox.client.hook.ClassInvocationStub;
@@ -152,6 +152,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
                             providerBinder = BlackBoxCore.getBActivityManager().acquireContentProviderClient(providerInfo);
                         }
                         args[authIndex] = StubManifest.getStubAuthorities(clientConfig.vpid);
+                        args[getUserIndex()] = 0;
                     }
                     content = method.invoke(who, args);
 
@@ -179,6 +180,10 @@ public class ActivityManagerStub extends ClassInvocationStub {
                 return 1;
             }
         }
+
+        private int getUserIndex() {
+            return getAuthIndex() + 1;
+        }
     }
 
     static class StartService extends MethodHook {
@@ -192,7 +197,8 @@ public class ActivityManagerStub extends ClassInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Intent intent = (Intent) args[1];
             String resolvedType = (String) args[2];
-            if (!ComponentUtils.isSelf(intent)) {
+            ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveService(intent, 0, resolvedType, BClient.getUserId());
+            if (resolveInfo == null) {
                 return method.invoke(who, args);
             }
             return BlackBoxCore.getBActivityManager().startService(intent, resolvedType, BClient.getUserId());
@@ -310,8 +316,10 @@ public class ActivityManagerStub extends ClassInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             MethodParameterUtils.replaceFirstAppPkg(args);
             Intent[] intents = (Intent[]) args[getIntentsIndex()];
+
+            // todo
             for (Intent intent : intents) {
-                intent.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), StubActivity.StubActivityP0.class.getName()));
+                intent.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), StubActivity.P0.class.getName()));
             }
             return method.invoke(who, args);
         }

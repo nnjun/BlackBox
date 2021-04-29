@@ -2,8 +2,8 @@ package top.niunaijun.blackboxa;
 
 import android.Manifest;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import top.niunaijun.aop_api.annotations.AsyncThread;
 import top.niunaijun.aop_api.annotations.UIThread;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.server.user.BUserInfo;
 import top.niunaijun.blackbox.utils.AbiUtils;
 import top.niunaijun.blackboxa.adapter.AppsAdapter;
 import top.niunaijun.blackboxa.bean.AppInfo;
@@ -44,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
         swipeLayout.setRefreshing(true);
         swipeLayout.setOnRefreshListener(this::loadData);
         loadData();
+        List<BUserInfo> users = BlackBoxCore.get().getUsers();
+        for (BUserInfo user : users) {
+            Log.d(TAG, "BUserInfo: " + user.toString());
+        }
     }
 
     @AsyncThread

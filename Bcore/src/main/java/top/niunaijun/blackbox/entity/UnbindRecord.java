@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.client.record.service;
+package top.niunaijun.blackbox.entity;
 
 import android.content.ComponentName;
 import android.os.Parcel;

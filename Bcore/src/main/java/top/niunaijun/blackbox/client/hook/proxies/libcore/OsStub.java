@@ -5,9 +5,11 @@ import android.util.Log;
 import java.lang.reflect.Method;
 
 import mirror.libcore.io.Libcore;
+import top.niunaijun.blackbox.client.BClient;
 import top.niunaijun.blackbox.client.hook.ClassInvocationStub;
 import top.niunaijun.blackbox.client.hook.IOManager;
 import top.niunaijun.blackbox.client.hook.MethodHook;
+import top.niunaijun.blackbox.utils.compat.ObjectsCompat;
 
 /**
  * Created by Milk on 4/9/21.
@@ -37,7 +39,7 @@ public class OsStub extends ClassInvocationStub {
 
     @Override
     protected void onBindMethod() {
-        addMethodHook(new Access());
+        addMethodHook(new Getuid());
     }
 
     @Override
@@ -60,10 +62,23 @@ public class OsStub extends ClassInvocationStub {
                 }
             }
         }
-        try {
-            return method.invoke(getWho(), args);
-        } catch (Throwable e) {
-            throw e.getCause();
+        return super.invoke(proxy, method, args);
+    }
+
+    static class Getuid extends MethodHook {
+        @Override
+        protected String getMethodName() {
+            return "getuid";
+        }
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            int uid = (int) method.invoke(who, args);
+//            if (!BClient.getClient().isInit()) {
+//                return uid;
+//            }
+//            return BClient.getBaseVUid();
+            return uid;
         }
     }
 

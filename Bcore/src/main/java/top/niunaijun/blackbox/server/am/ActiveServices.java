@@ -6,7 +6,6 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Binder;
 import android.os.IBinder;
-import android.os.Process;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -18,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.server.pm.BPackageManagerService;
-import top.niunaijun.blackbox.client.record.service.UnbindRecord;
+import top.niunaijun.blackbox.entity.UnbindRecord;
 import top.niunaijun.blackbox.client.stub.record.StubServiceRecord;
 import top.niunaijun.blackbox.server.ProcessRecord;
 import top.niunaijun.blackbox.server.BProcessManager;
@@ -43,7 +42,7 @@ public class ActiveServices {
             return;
 //            throw new RuntimeException("resolveService service exception");
         ServiceInfo serviceInfo = resolveInfo.serviceInfo;
-        ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(serviceInfo.processName, userId, serviceInfo.packageName, -1, Binder.getCallingUid(), Binder.getCallingPid());
+        ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
         if (processRecord == null) {
             throw new RuntimeException("Unable to create " + serviceInfo.name);
         }
@@ -81,9 +80,9 @@ public class ActiveServices {
             return intent;
         ServiceInfo serviceInfo = resolveInfo.serviceInfo;
         ProcessRecord processRecord = BProcessManager.get().startProcessIfNeedLocked(
+                serviceInfo.packageName,
                 serviceInfo.processName,
                 userId,
-                serviceInfo.packageName,
                 -1,
                 Binder.getCallingUid(), Binder.getCallingPid());
 
@@ -192,7 +191,8 @@ public class ActiveServices {
         ResolveInfo resolveInfo = resolveService(intent, resolvedType, userId);
         if (resolveInfo == null)
             return null;
-        ProcessRecord processRecord = BProcessManager.get().findProcessRecord(resolveInfo.serviceInfo.processName);
+        ProcessRecord processRecord =
+                BProcessManager.get().findProcessRecord(resolveInfo.serviceInfo.packageName, resolveInfo.serviceInfo.processName, userId);
         if (processRecord == null)
             return null;
         try {

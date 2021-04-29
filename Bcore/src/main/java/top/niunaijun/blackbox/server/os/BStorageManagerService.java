@@ -8,8 +8,10 @@ import android.os.storage.StorageVolume;
 
 import java.io.File;
 
+import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.StubManifest;
+import top.niunaijun.blackbox.server.ISystemService;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.client.hook.provider.FileProvider;
 
@@ -21,37 +23,30 @@ import top.niunaijun.blackbox.client.hook.provider.FileProvider;
  * しーＪ
  * 此处无Bug
  */
-public class VStorageManagerService extends IBStorageManagerService.Stub {
-    private static VStorageManagerService sService = new VStorageManagerService();
+public class BStorageManagerService extends IBStorageManagerService.Stub implements ISystemService {
+    private static BStorageManagerService sService = new BStorageManagerService();
     private StorageManager mStorageManager;
 
-    public static VStorageManagerService get() {
+    public static BStorageManagerService get() {
         return sService;
     }
 
-    public VStorageManagerService() {
+    public BStorageManagerService() {
         mStorageManager = (StorageManager) BlackBoxCore.getContext().getSystemService(Context.STORAGE_SERVICE);
     }
 
     @Override
-    public StorageVolume[] getVolumeList(int uid, String packageName, int flags) throws RemoteException {
+    public StorageVolume[] getVolumeList(int uid, String packageName, int flags, int userId) throws RemoteException {
         try {
             StorageVolume[] storageVolumes = mirror.android.os.storage.StorageManager.getVolumeList.call(0, 0);
 //            if (VirtualCore.getHostPkg().equals(packageName)) {
 //                return storageVolumes;
 //            }
             for (StorageVolume storageVolume : storageVolumes) {
-                if (mirror.android.os.storage.StorageVolume.mPath.get(storageVolume).getAbsolutePath().contains(BlackBoxCore.getHostPkg())){
-                    continue;
-                }
-                mirror.android.os.storage.StorageVolume.mPath.set(storageVolume,
-                        new File(BlackBoxCore.getContext().getExternalFilesDir("virtual"),
-                                mirror.android.os.storage.StorageVolume.mPath.get(storageVolume).getAbsolutePath()));
+                mirror.android.os.storage.StorageVolume.mPath.set(storageVolume, BEnvironment.getExternalUserDir(userId));
 
                 if (BuildCompat.isPie()) {
-                    mirror.android.os.storage.StorageVolume.mInternalPath.set(storageVolume,
-                            new File(BlackBoxCore.getContext().getExternalFilesDir("virtual"),
-                                    mirror.android.os.storage.StorageVolume.mInternalPath.get(storageVolume).getAbsolutePath()));
+                    mirror.android.os.storage.StorageVolume.mInternalPath.set(storageVolume, BEnvironment.getExternalUserDir(userId));
                 }
             }
             return storageVolumes;
@@ -64,5 +59,10 @@ public class VStorageManagerService extends IBStorageManagerService.Stub {
     @Override
     public Uri getUriForFile(String file) throws RemoteException {
         return FileProvider.getUriForFile(BlackBoxCore.getContext(), StubManifest.getStubFileProvider(), new File(file));
+    }
+
+    @Override
+    public void systemReady() {
+
     }
 }

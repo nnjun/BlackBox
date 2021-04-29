@@ -22,7 +22,12 @@ import top.niunaijun.blackbox.utils.compat.BundleCompat;
 public class BindProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
-        return false;
+        return initSystem();
+    }
+
+    private boolean initSystem() {
+        BlackBoxSystem.getSystem().startup();
+        return true;
     }
 
     @Nullable

@@ -43,35 +43,41 @@ QQ | 无网 | 仍在努力中，可能姿势不对
     }
 ```
 
-#### Step 2.运行APK
-运行未安装应用，只需提供一个可访问的APK路径
+#### Step 2.安装应用至黑盒内
 ```java
-    try {
-        BlackBoxCore.get().launchApk(new File("/sdcard/123.apk"));
-    } catch (RuntimeException e) {
-        e.printStackTrace();
-        // 当前架构不支持运行此APP
-    }
+    // 已安装的应用可以提供包名
+    BlackBoxCore.get().installPackageAsUser("com.tencent.mm", userId);
+    
+    // 未安装的应用可以提供路径
+    BlackBoxCore.get().installPackageAsUser("/sdcard/com.tencent.mm", userId);
 ```
 
-运行已安装应用提供包名即可
+#### Step 2.运行黑盒内的应用
 ```java
-    try {
-        BlackBoxCore.get().launchApk("com.tencent.mm");
-    } catch (RuntimeException e) {
-        e.printStackTrace();
-        // 当前架构不支持运行此APP
-    }
+   BlackBoxCore.get().launchApk("com.tencent.mm", userId);
 ```
+
+### 相关API
+#### 获取黑盒内已安装的应用
+```java
+   // flgas与常规获取已安装应用保持一致即可
+   BlackBoxCore.get().getInstalledApplications(flgas, userId);
+   
+   BlackBoxCore.get().getInstalledPackages(flgas, userId);
+```
+
+#### 获取黑盒内的User信息
+```java
+   List<BUserInfo> users = BlackBoxCore.get().getUsers();
+```
+
+#### 更多其他操作看BlackBoxCore函数名大概就知道了。
+
 
 ### 架构不支持特别说明
 由于Android系统的原因，当前进程以arm64-v8a启动，无法再运行armeabi-v7a的so库。所以如果宿主是arm64-v8a，则无法双开运行armeabi-v7a架构的APP，需要切换宿主的架构。后续会参考市面上双开的做法，集成64位或32位插件版。
 
 ## 计划
- - 多用户态、目前仅支持双开，但是所有细节均有预留。
- - 应用安装，目前仅有启动一说，只需提供Apk路径（未安装）或者包名（已安装）即可启动虚拟应用，类似于VirtualApk的loadPlugin，重启后需要重新load。原因是先想做成方便插件化引入项目线上进行测试。
- - vpid回收再使用（目前getAndIncrement，因为有100个坑位也用不完，所以暂时怎么方便怎么来）
- - PaddingIntent
  - JobService调度可优化，但是目前仍然采取占坑。
  - Service API 虚拟化（目前许多是使用系统API，只有少数已实现）
  - 太多了我靠，慢慢来吧。

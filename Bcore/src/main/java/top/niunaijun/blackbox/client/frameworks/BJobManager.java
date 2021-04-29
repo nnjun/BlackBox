@@ -4,7 +4,8 @@ import android.app.job.JobInfo;
 import android.os.RemoteException;
 
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.server.JobRecord;
+import top.niunaijun.blackbox.client.BClient;
+import top.niunaijun.blackbox.entity.JobRecord;
 import top.niunaijun.blackbox.server.ServiceManager;
 import top.niunaijun.blackbox.server.am.IBJobManagerService;
 
@@ -27,7 +28,7 @@ public class BJobManager {
 
     public JobInfo schedule(JobInfo info) {
         try {
-            return getService().schedule(info);
+            return getService().schedule(info, BClient.getUserId());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -36,7 +37,7 @@ public class BJobManager {
 
     public JobRecord queryJobRecord(String processName, int jobId) {
         try {
-            return getService().queryJobRecord(processName, jobId);
+            return getService().queryJobRecord(processName, jobId, BClient.getUserId());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -45,7 +46,7 @@ public class BJobManager {
 
     public void cancelAll(String processName) {
         try {
-            getService().cancelAll(processName);
+            getService().cancelAll(processName, BClient.getUserId());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -53,7 +54,7 @@ public class BJobManager {
 
     public int cancel(String processName, int jobId) {
         try {
-            return getService().cancel(processName, jobId);
+            return getService().cancel(processName, jobId, BClient.getUserId());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

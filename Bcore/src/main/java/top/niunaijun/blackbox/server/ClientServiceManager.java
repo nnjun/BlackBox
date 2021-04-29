@@ -14,7 +14,7 @@ import java.util.Map;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.BClient;
 import top.niunaijun.blackbox.client.record.service.ServiceRecord;
-import top.niunaijun.blackbox.client.record.service.UnbindRecord;
+import top.niunaijun.blackbox.entity.UnbindRecord;
 import top.niunaijun.blackbox.client.stub.record.StubServiceRecord;
 
 import static android.app.Service.START_NOT_STICKY;

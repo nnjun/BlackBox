@@ -9,6 +9,7 @@ import java.util.Map;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.BClient;
+import top.niunaijun.blackbox.entity.JobRecord;
 
 /**
  * Created by Milk on 4/1/21.

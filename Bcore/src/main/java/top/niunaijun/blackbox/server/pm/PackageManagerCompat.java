@@ -14,15 +14,16 @@ import android.content.pm.ProviderInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Build;
 
-import java.io.File;
-import java.util.Locale;
+import java.util.HashSet;
+import java.util.Set;
 
 import mirror.android.content.pm.ApplicationInfoL;
 import mirror.android.content.pm.ApplicationInfoN;
 import mirror.android.content.pm.SigningInfo;
+import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.client.hook.IOManager;
 import top.niunaijun.blackbox.utils.ArrayUtils;
+import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 /**
@@ -36,15 +37,15 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat;
 @SuppressLint("SdCardPath")
 public class PackageManagerCompat {
 
-    public static PackageInfo generatePackageInfo(PackageSetting ps, int flags, int userId) {
+    public static PackageInfo generatePackageInfo(BPackageSettings ps, int flags, BPackageUserState state, int userId) {
         if (ps == null) {
             return null;
         }
-        PackageParser.Package p = ps.pkg;
+        BPackage p = ps.pkg;
         if (p != null) {
             PackageInfo packageInfo = null;
             try {
-                packageInfo = generatePackageInfo(p, flags, 0, 0, 0);
+                packageInfo = generatePackageInfo(p, flags, 0, 0, state, userId);
             } catch (Throwable ignored) {
             }
             return packageInfo;
@@ -52,7 +53,11 @@ public class PackageManagerCompat {
         return null;
     }
 
-    public static PackageInfo generatePackageInfo(PackageParser.Package p, int flags, long firstInstallTime, long lastUpdateTime, int userId) {
+    public static PackageInfo generatePackageInfo(BPackage p, int flags, long firstInstallTime, long lastUpdateTime, BPackageUserState state, int userId) {
+        if (!checkUseInstalledOrHidden(flags, state, p.applicationInfo)) {
+            return null;
+        }
+
         PackageInfo pi = null;
         try {
             pi = BlackBoxCore.getPackageManager().getPackageInfo(BlackBoxCore.getHostPkg(), flags);
@@ -67,7 +72,7 @@ public class PackageManagerCompat {
         pi.versionName = p.mVersionName;
         pi.sharedUserId = p.mSharedUserId;
         pi.sharedUserLabel = p.mSharedUserLabel;
-        pi.applicationInfo = generateApplicationInfo(p, flags, userId);
+        pi.applicationInfo = generateApplicationInfo(p, flags, state, userId);
 
         pi.firstInstallTime = firstInstallTime;
         pi.lastUpdateTime = lastUpdateTime;
@@ -99,8 +104,8 @@ public class PackageManagerCompat {
                 int num = 0;
                 final ActivityInfo[] res = new ActivityInfo[N];
                 for (int i = 0; i < N; i++) {
-                    final PackageParser.Activity a = p.activities.get(i);
-                    res[num++] = generateActivityInfo(a, flags, userId);
+                    final BPackage.Activity a = p.activities.get(i);
+                    res[num++] = generateActivityInfo(a, flags, state, userId);
                 }
                 pi.activities = ArrayUtils.trimToSize(res, num);
             }
@@ -112,8 +117,8 @@ public class PackageManagerCompat {
                 int num = 0;
                 final ActivityInfo[] res = new ActivityInfo[N];
                 for (int i = 0; i < N; i++) {
-                    final PackageParser.Activity a = p.receivers.get(i);
-                    res[num++] = generateActivityInfo(a, flags, userId);
+                    final BPackage.Activity a = p.receivers.get(i);
+                    res[num++] = generateActivityInfo(a, flags, state, userId);
                 }
                 pi.receivers = ArrayUtils.trimToSize(res, num);
             }
@@ -125,8 +130,8 @@ public class PackageManagerCompat {
                 int num = 0;
                 final ServiceInfo[] res = new ServiceInfo[N];
                 for (int i = 0; i < N; i++) {
-                    final PackageParser.Service s = p.services.get(i);
-                    res[num++] = generateServiceInfo(s, flags, userId);
+                    final BPackage.Service s = p.services.get(i);
+                    res[num++] = generateServiceInfo(s, flags, state, userId);
                 }
                 pi.services = ArrayUtils.trimToSize(res, num);
             }
@@ -138,8 +143,8 @@ public class PackageManagerCompat {
                 int num = 0;
                 final ProviderInfo[] res = new ProviderInfo[N];
                 for (int i = 0; i < N; i++) {
-                    final PackageParser.Provider pr = p.providers.get(i);
-                    ProviderInfo providerInfo = generateProviderInfo(pr, flags, userId);
+                    final BPackage.Provider pr = p.providers.get(i);
+                    ProviderInfo providerInfo = generateProviderInfo(pr, flags, state, userId);
                     if (providerInfo != null) {
                         res[num++] = providerInfo;
                     }
@@ -192,43 +197,57 @@ public class PackageManagerCompat {
         }
         if (BuildCompat.isPie()) {
             if ((flags & PackageManager.GET_SIGNING_CERTIFICATES) != 0) {
-                SigningInfo.mSigningDetails.set(pi.signingInfo, p.mSigningDetails);
+                PackageParser.SigningDetails signingDetails = PackageParser.SigningDetails.UNKNOWN;
+                signingDetails.signatures = p.mSigningDetails.signatures;
+                SigningInfo.mSigningDetails.set(pi.signingInfo, signingDetails);
             }
         }
         return pi;
     }
 
-    public static ActivityInfo generateActivityInfo(PackageParser.Activity a, int flags, int userId) {
+    public static ActivityInfo generateActivityInfo(BPackage.Activity a, int flags, BPackageUserState state, int userId) {
+        if (!checkUseInstalledOrHidden(flags, state, a.info.applicationInfo)) {
+            return null;
+        }
         // Make shallow copies so we can store the metadata safely
         ActivityInfo ai = new ActivityInfo(a.info);
         ai.metaData = a.metaData;
-        ai.applicationInfo = generateApplicationInfo(a.owner, flags, userId);
+        ai.processName = BPackageManagerService.fixProcessName(ai.packageName, ai.processName);
+        ai.applicationInfo = generateApplicationInfo(a.owner, flags, state, userId);
         return ai;
     }
 
-    public static final ServiceInfo generateServiceInfo(PackageParser.Service s, int flags, int userId) {
+    public static final ServiceInfo generateServiceInfo(BPackage.Service s, int flags, BPackageUserState state, int userId) {
+        if (!checkUseInstalledOrHidden(flags, state, s.info.applicationInfo)) {
+            return null;
+        }
         // Make shallow copies so we can store the metadata safely
         ServiceInfo si = new ServiceInfo(s.info);
         si.metaData = s.metaData;
-        si.applicationInfo = generateApplicationInfo(s.owner, flags, userId);
+        si.processName = BPackageManagerService.fixProcessName(si.packageName, si.processName);
+        si.applicationInfo = generateApplicationInfo(s.owner, flags, state, userId);
         return si;
     }
 
-    public static final ProviderInfo generateProviderInfo(PackageParser.Provider p, int flags, int userId) {
+    public static final ProviderInfo generateProviderInfo(BPackage.Provider p, int flags, BPackageUserState state, int userId) {
+        if (!checkUseInstalledOrHidden(flags, state, p.info.applicationInfo)) {
+            return null;
+        }
         // Make shallow copies so we can store the metadata safely
         ProviderInfo pi = new ProviderInfo(p.info);
         if (pi.authority == null)
             return null;
         pi.metaData = p.metaData;
+        pi.processName = BPackageManagerService.fixProcessName(pi.packageName, pi.processName);
         if ((flags & PackageManager.GET_URI_PERMISSION_PATTERNS) == 0) {
             pi.uriPermissionPatterns = null;
         }
-        pi.applicationInfo = generateApplicationInfo(p.owner, flags, userId);
+        pi.applicationInfo = generateApplicationInfo(p.owner, flags, state, userId);
         return pi;
     }
 
     public static final PermissionInfo generatePermissionInfo(
-            PackageParser.Permission p, int flags) {
+            BPackage.Permission p, int flags) {
         if (p == null) return null;
         if ((flags & PackageManager.GET_META_DATA) == 0) {
             return p.info;
@@ -239,7 +258,7 @@ public class PackageManagerCompat {
     }
 
     public static final InstrumentationInfo generateInstrumentationInfo(
-            PackageParser.Instrumentation i, int flags) {
+            BPackage.Instrumentation i, int flags) {
         if (i == null) return null;
         if ((flags & PackageManager.GET_META_DATA) == 0) {
             return i.info;
@@ -249,33 +268,40 @@ public class PackageManagerCompat {
         return ii;
     }
 
-    public static ApplicationInfo generateApplicationInfo(PackageParser.Package p, int flags, int userId) {
+    public static ApplicationInfo generateApplicationInfo(BPackage p, int flags, BPackageUserState state, int userId) {
+        if (!checkUseInstalledOrHidden(flags, state, p.applicationInfo)) {
+            return null;
+        }
         ApplicationInfo baseApplication;
         try {
             baseApplication = BlackBoxCore.getPackageManager().getApplicationInfo(BlackBoxCore.getHostPkg(), flags);
         } catch (Exception e) {
             return null;
         }
+        String sourceDir = p.baseCodePath;
         if (p.applicationInfo == null) {
-            p.applicationInfo = BlackBoxCore.getPackageManager().getPackageArchiveInfo(p.baseCodePath, 0).applicationInfo;
+            p.applicationInfo = BlackBoxCore.getPackageManager()
+                    .getPackageArchiveInfo(sourceDir, 0).applicationInfo;
         }
         ApplicationInfo ai = new ApplicationInfo(p.applicationInfo);
         if ((flags & PackageManager.GET_META_DATA) != 0) {
             ai.metaData = p.mAppMetaData;
         }
-        ai.dataDir = String.format(Locale.CHINA, "/data/user/%d/%s", userId, p.packageName);
-        ai.nativeLibraryDir = new File(ai.dataDir, "lib").getAbsolutePath();
+        ai.dataDir = BEnvironment.getDataDir(ai.packageName, userId).getAbsolutePath();
+        ai.nativeLibraryDir = BEnvironment.getAppLibDir(ai.packageName).getAbsolutePath();
         ai.processName = BPackageManagerService.fixProcessName(p.packageName, ai.packageName);
-        ai.publicSourceDir = p.baseCodePath;
-        ai.sourceDir = p.baseCodePath;
+        ai.publicSourceDir = sourceDir;
+        ai.sourceDir = sourceDir;
+//        ai.uid = p.mExtras.appId;
         ai.uid = baseApplication.uid;
+
         if (BuildCompat.isL()) {
             ApplicationInfoL.primaryCpuAbi.set(ai, Build.CPU_ABI);
             ApplicationInfoL.scanPublicSourceDir.set(ai, ApplicationInfoL.scanPublicSourceDir.get(baseApplication));
             ApplicationInfoL.scanSourceDir.set(ai, ApplicationInfoL.scanSourceDir.get(baseApplication));
         }
         if (BuildCompat.isN()) {
-            ai.deviceProtectedDataDir = String.format(Locale.CHINA, "/data/user_de/%d/%s", userId, p.packageName);
+            ai.deviceProtectedDataDir = BEnvironment.getDeDataDir(p.packageName, userId).getAbsolutePath();
 
             if (ApplicationInfoN.deviceEncryptedDataDir != null) {
                 ApplicationInfoN.deviceEncryptedDataDir.set(ai, ai.deviceProtectedDataDir);
@@ -290,7 +316,32 @@ public class PackageManagerCompat {
                 ApplicationInfoN.credentialProtectedDataDir.set(ai, ai.dataDir);
             }
         }
-        IOManager.redirectApplication(ai);
+        fixApache(ai);
         return ai;
+    }
+
+    private static boolean checkUseInstalledOrHidden(int flags, BPackageUserState state,
+                                                     ApplicationInfo appInfo) {
+        // Returns false if the package is hidden system app until installed.
+        if (!state.installed || state.hidden) {
+            return false;
+        }
+        return true;
+    }
+
+    private static void fixApache(ApplicationInfo info) {
+        String APACHE_LEGACY_JAR = "/system/framework/org.apache.http.legacy.boot.jar";
+        String APACHE_LEGACY_JAR_Q = "/system/framework/org.apache.http.legacy.jar";
+        Set<String> sharedLibraryFileList = new HashSet<>();
+        if (BuildCompat.isQ()) {
+            if (!FileUtils.isExist(APACHE_LEGACY_JAR_Q)) {
+                sharedLibraryFileList.add(APACHE_LEGACY_JAR);
+            } else {
+                sharedLibraryFileList.add(APACHE_LEGACY_JAR_Q);
+            }
+        } else {
+            sharedLibraryFileList.add(APACHE_LEGACY_JAR);
+        }
+        info.sharedLibraryFiles = sharedLibraryFileList.toArray(new String[]{});
     }
 }

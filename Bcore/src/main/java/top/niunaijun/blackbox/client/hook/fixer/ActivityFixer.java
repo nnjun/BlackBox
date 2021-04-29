@@ -15,7 +15,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.WindowManager;
 
+import java.util.Locale;
+
 import mirror.com.android.internal.R_Hide;
+import top.niunaijun.blackbox.client.BClient;
 
 /**
  * Created by Milk on 3/31/21.
@@ -56,7 +59,7 @@ public class ActivityFixer {
             PackageManager pm = activity.getPackageManager();
             if (intent != null && activity.isTaskRoot()) {
                 try {
-                    String label = applicationInfo.loadLabel(pm) + "";
+                    String label = String.format(Locale.CHINA, "[B%d]%s", BClient.getUserId(), applicationInfo.loadLabel(pm));
                     Bitmap icon = null;
                     Drawable drawable = applicationInfo.loadIcon(pm);
                     if (drawable instanceof BitmapDrawable) {

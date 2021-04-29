@@ -11,6 +11,7 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.IInterface;
 import android.os.Process;
+import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -26,6 +27,7 @@ import top.niunaijun.blackbox.client.hook.env.ClientSystemEnv;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
+import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 
 /**
  * Created by Milk on 3/30/21.
@@ -36,7 +38,7 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat;
  * 此处无Bug
  */
 public class PackageManagerStub extends BinderInvocationStub {
-    public static final String TAG = "PackageManager";
+    public static final String TAG = "PackageManagerStub";
 
     public PackageManagerStub() {
         super(ActivityThread.sPackageManager.get().asBinder());
@@ -180,6 +182,7 @@ public class PackageManagerStub extends BinderInvocationStub {
             return null;
         }
     }
+
     static class GetActivityInfo extends MethodHook {
 
         @Override
@@ -232,7 +235,9 @@ public class PackageManagerStub extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            return method.invoke(who, args);
+            int flags = (int) args[0];
+            List<ApplicationInfo> installedApplications = BlackBoxCore.getBPackageManager().getInstalledApplications(flags, BClient.getUserId());
+            return ParceledListSliceCompat.create(installedApplications);
         }
     }
 
@@ -245,7 +250,9 @@ public class PackageManagerStub extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            return method.invoke(who, args);
+            int flags = (int) args[0];
+            List<PackageInfo> installedPackages = BlackBoxCore.getBPackageManager().getInstalledPackages(flags, BClient.getUserId());
+            return ParceledListSliceCompat.create(installedPackages);
         }
     }
 
@@ -280,18 +287,10 @@ public class PackageManagerStub extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            int flags = (int) args[2];
             List<ProviderInfo> providers = BlackBoxCore.getBPackageManager().
-                    queryContentProviders(BClient.getVProcessName(), Process.myUid(), 0, BClient.getUserId());
-
-            if (BuildCompat.isQ()) {
-                return ParceledListSlice.ctorQ.newInstance(providers);
-            } else {
-                Object list = ParceledListSlice.ctor.newInstance();
-                for (ProviderInfo provider : providers) {
-                    ParceledListSlice.append.call(list, provider);
-                }
-                return list;
-            }
+                    queryContentProviders(BClient.getVProcessName(), Process.myUid(), flags, BClient.getUserId());
+            return ParceledListSliceCompat.create(providers);
         }
     }
 

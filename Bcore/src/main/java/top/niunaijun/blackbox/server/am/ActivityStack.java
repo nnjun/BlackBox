@@ -75,7 +75,7 @@ public class ActivityStack {
             synchronizeTasks();
         }
 
-        ResolveInfo resolveInfo = BPackageManagerService.get().resolveActivity(intent, GET_ACTIVITIES, resolvedType, 0);
+        ResolveInfo resolveInfo = BPackageManagerService.get().resolveActivity(intent, GET_ACTIVITIES, resolvedType, userId);
         if (resolveInfo == null || resolveInfo.activityInfo == null) {
             return 0;
         }
@@ -104,11 +104,13 @@ public class ActivityStack {
             case ActivityInfo.LAUNCH_SINGLE_TOP:
             case ActivityInfo.LAUNCH_MULTIPLE:
             case ActivityInfo.LAUNCH_SINGLE_TASK:
-            case ActivityInfo.LAUNCH_SINGLE_INSTANCE:
                 taskRecord = findTaskRecordByTaskAffinityLocked(userId, taskAffinity);
                 if (taskRecord == null && !newTask) {
                     taskRecord = sourceTask;
                 }
+                break;
+            case ActivityInfo.LAUNCH_SINGLE_INSTANCE:
+                taskRecord = findTaskRecordByTaskAffinityLocked(userId, taskAffinity);
                 break;
         }
 
@@ -130,7 +132,7 @@ public class ActivityStack {
                 synchronized (targetActivityRecord.task.activities) {
                     for (int i = targetActivityRecord.task.activities.size() - 1; i >= 0; i--) {
                         ActivityRecord next = targetActivityRecord.task.activities.get(i);
-                        if (next != targetActivityRecord && !next.finished) {
+                        if (next != targetActivityRecord) {
                             next.finished = true;
                             Log.d("TestActivity", "makerFinish: " + next.component.toString());
                         } else {
@@ -228,7 +230,7 @@ public class ActivityStack {
     private Intent startActivityProcess(int userId, Intent intent, ActivityInfo
             info, ActivityRecord record, int callingUid) {
         StubActivityRecord stubRecord = new StubActivityRecord(userId, info, intent, record);
-        ProcessRecord targetApp = BProcessManager.get().startProcessIfNeedLocked(info.processName, userId, info.packageName, -1, Binder.getCallingUid(), Binder.getCallingPid());
+        ProcessRecord targetApp = BProcessManager.get().startProcessIfNeedLocked(info.packageName, info.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
         if (targetApp == null) {
             throw new RuntimeException("Unable to create process, name:" + info.name);
         }

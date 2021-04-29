@@ -8,8 +8,8 @@ import android.content.pm.ProviderInfo;
 import android.os.IBinder;
 import java.lang.String;
 import android.app.IServiceConnection;
-import top.niunaijun.blackbox.client.ClientConfig;
-import top.niunaijun.blackbox.client.record.service.UnbindRecord;
+import top.niunaijun.blackbox.entity.ClientConfig;
+import top.niunaijun.blackbox.entity.UnbindRecord;
 import android.os.Bundle;
 
 // Declare any non-default types here with import statements

@@ -8,6 +8,7 @@ import mirror.android.os.ServiceManager;
 import mirror.android.os.mount.IMountService;
 import mirror.android.os.storage.IStorageManager;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.client.BClient;
 import top.niunaijun.blackbox.client.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.client.hook.MethodHook;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
@@ -63,13 +64,12 @@ public class StorageManagerStub extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             if (args == null) {
-                Object invoke = method.invoke(who, args);
-                return invoke;
+                return BlackBoxCore.getBStorageManager().getVolumeList(0, null, 0, BClient.getUserId());
             }
             int uid = (int) args[0];
             String packageName = (String) args[1];
             int flags = (int) args[2];
-            return BlackBoxCore.getBStorageManager().getVolumeList(uid, packageName, flags);
+            return BlackBoxCore.getBStorageManager().getVolumeList(uid, packageName, flags, BClient.getUserId());
         }
     }
 }

@@ -41,7 +41,7 @@ import top.niunaijun.blackbox.utils.Slog;
 /**
  * {@hide}
  */
-public abstract class IntentResolver<F extends IntentFilter, R extends Object> {
+public abstract class IntentResolver<F extends BPackage.IntentInfo, R extends Object> {
     final private static String TAG = "IntentResolver";
     final private static boolean DEBUG = false;
     final private static boolean localLOGV = DEBUG || false;
@@ -50,20 +50,20 @@ public abstract class IntentResolver<F extends IntentFilter, R extends Object> {
     public void addFilter(F f) {
         if (localLOGV) {
             Slog.v(TAG, "Adding filter: " + f);
-            f.dump(new LogPrinter(Log.VERBOSE, TAG), "      ");
+            f.intentFilter.dump(new LogPrinter(Log.VERBOSE, TAG), "      ");
             Slog.v(TAG, "    Building Lookup Maps:");
         }
 
         mFilters.add(f);
-        int numS = register_intent_filter(f, f.schemesIterator(),
+        int numS = register_intent_filter(f, f.intentFilter.schemesIterator(),
                 mSchemeToFilter, "      Scheme: ");
         int numT = register_mime_types(f, "      Type: ");
         if (numS == 0 && numT == 0) {
-            register_intent_filter(f, f.actionsIterator(),
+            register_intent_filter(f, f.intentFilter.actionsIterator(),
                     mActionToFilter, "      Action: ");
         }
         if (numT != 0) {
-            register_intent_filter(f, f.actionsIterator(),
+            register_intent_filter(f, f.intentFilter.actionsIterator(),
                     mTypedActionToFilter, "      TypedAction: ");
         }
     }
@@ -115,7 +115,7 @@ public abstract class IntentResolver<F extends IntentFilter, R extends Object> {
                 if (cur == null) {
                     break;
                 }
-                if (filterEquals(cur, matching)) {
+                if (filterEquals(cur.intentFilter, matching)) {
                     if (res == null) {
                         res = new ArrayList<>();
                     }
@@ -140,7 +140,7 @@ public abstract class IntentResolver<F extends IntentFilter, R extends Object> {
         } else {
             ArrayList<F> res = null;
             for (F cur : mFilters) {
-                if (filterEquals(cur, matching)) {
+                if (filterEquals(cur.intentFilter, matching)) {
                     if (res == null) {
                         res = new ArrayList<>();
                     }
@@ -159,19 +159,19 @@ public abstract class IntentResolver<F extends IntentFilter, R extends Object> {
     void removeFilterInternal(F f) {
         if (localLOGV) {
             Slog.v(TAG, "Removing filter: " + f);
-            f.dump(new LogPrinter(Log.VERBOSE, TAG), "      ");
+            f.intentFilter.dump(new LogPrinter(Log.VERBOSE, TAG), "      ");
             Slog.v(TAG, "    Cleaning Lookup Maps:");
         }
 
-        int numS = unregister_intent_filter(f, f.schemesIterator(),
+        int numS = unregister_intent_filter(f, f.intentFilter.schemesIterator(),
                 mSchemeToFilter, "      Scheme: ");
         int numT = unregister_mime_types(f, "      Type: ");
         if (numS == 0 && numT == 0) {
-            unregister_intent_filter(f, f.actionsIterator(),
+            unregister_intent_filter(f, f.intentFilter.actionsIterator(),
                     mActionToFilter, "      Action: ");
         }
         if (numT != 0) {
-            unregister_intent_filter(f, f.actionsIterator(),
+            unregister_intent_filter(f, f.intentFilter.actionsIterator(),
                     mTypedActionToFilter, "      TypedAction: ");
         }
     }
@@ -234,7 +234,7 @@ public abstract class IntentResolver<F extends IntentFilter, R extends Object> {
                         if (printer == null) {
                             printer = new PrintWriterPrinter(out);
                         }
-                        filter.dump(printer, fprefix + "  ");
+                        filter.intentFilter.dump(printer, fprefix + "  ");
                     }
                 }
             }
@@ -480,7 +480,7 @@ public abstract class IntentResolver<F extends IntentFilter, R extends Object> {
     }
 
     private final int register_mime_types(F filter, String prefix) {
-        final Iterator<String> i = filter.typesIterator();
+        final Iterator<String> i = filter.intentFilter.typesIterator();
         if (i == null) {
             return 0;
         }
@@ -511,7 +511,7 @@ public abstract class IntentResolver<F extends IntentFilter, R extends Object> {
     }
 
     private final int unregister_mime_types(F filter, String prefix) {
-        final Iterator<String> i = filter.typesIterator();
+        final Iterator<String> i = filter.intentFilter.typesIterator();
         if (i == null) {
             return 0;
         }
@@ -648,12 +648,12 @@ public abstract class IntentResolver<F extends IntentFilter, R extends Object> {
                 continue;
             }
 
-            match = filter.match(action, resolvedType, scheme, data, categories, TAG);
+            match = filter.intentFilter.match(action, resolvedType, scheme, data, categories, TAG);
             if (match >= 0) {
                 if (debug) Slog.v(TAG, "  Filter matched!  match=0x" +
                         Integer.toHexString(match) + " hasDefault="
-                        + filter.hasCategory(Intent.CATEGORY_DEFAULT));
-                if (!defaultOnly || filter.hasCategory(Intent.CATEGORY_DEFAULT)) {
+                        + filter.intentFilter.hasCategory(Intent.CATEGORY_DEFAULT));
+                if (!defaultOnly || filter.intentFilter.hasCategory(Intent.CATEGORY_DEFAULT)) {
                     final R oneResult = newResult(filter, match, userId);
                     if (debug) Slog.v(TAG, "    Created result: " + oneResult);
                     if (oneResult != null) {

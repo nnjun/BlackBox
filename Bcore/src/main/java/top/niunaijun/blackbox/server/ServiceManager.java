@@ -7,8 +7,9 @@ import java.util.Map;
 
 import top.niunaijun.blackbox.server.am.BActivityManagerService;
 import top.niunaijun.blackbox.server.am.BJobManagerService;
-import top.niunaijun.blackbox.server.os.VStorageManagerService;
+import top.niunaijun.blackbox.server.os.BStorageManagerService;
 import top.niunaijun.blackbox.server.pm.BPackageManagerService;
+import top.niunaijun.blackbox.server.user.BUserManagerService;
 
 /**
  * Created by Milk on 3/31/21.
@@ -24,6 +25,7 @@ public class ServiceManager {
     public static final String JOB_MANAGER = "job_manager";
     public static final String PACKAGE_MANAGER = "package_manager";
     public static final String STORAGE_MANAGER = "storage_manager";
+    public static final String USER_MANAGER = "user_manager";
     public static final String V_SERVICE = "v_service";
 
     private Map<String, IBinder> mCaches = new HashMap<>();
@@ -47,7 +49,8 @@ public class ServiceManager {
         mCaches.put(ACTIVITY_MANAGER, BActivityManagerService.get());
         mCaches.put(JOB_MANAGER, BJobManagerService.get());
         mCaches.put(PACKAGE_MANAGER, BPackageManagerService.get());
-        mCaches.put(STORAGE_MANAGER, VStorageManagerService.get());
+        mCaches.put(STORAGE_MANAGER, BStorageManagerService.get());
+        mCaches.put(USER_MANAGER, BUserManagerService.get());
     }
 
     public IBinder getServiceInternal(String name) {

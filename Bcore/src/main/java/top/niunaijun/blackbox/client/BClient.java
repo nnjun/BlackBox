@@ -29,10 +29,8 @@ import android.os.StrictMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import mirror.android.app.ActivityManagerNative;
 import mirror.android.app.ActivityThread;
@@ -51,12 +49,11 @@ import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.hook.delegate.ActivityLifecycleDelegate;
 import top.niunaijun.blackbox.client.hook.delegate.AppInstrumentation;
 import top.niunaijun.blackbox.client.hook.delegate.ContentProviderDelegate;
+import top.niunaijun.blackbox.entity.ClientConfig;
 import top.niunaijun.blackbox.server.ClientServiceManager;
-import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
-import top.niunaijun.blackbox.utils.compat.BuildCompat;
-import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
+import top.niunaijun.blackbox.utils.compat.StrictModeCompat;
 
 
 /**
@@ -129,12 +126,20 @@ public class BClient extends IBClient.Stub {
         return getClientConfig() == null ? -1 : getClientConfig().vpid;
     }
 
+    public static int getVUid() {
+        return getClientConfig() == null ? 10000 : getClientConfig().vuid;
+    }
+
+    public static int getBaseVUid() {
+        return getClientConfig() == null ? 10000 : getClientConfig().baseVUid;
+    }
+
     public static int getUid() {
         return getClientConfig() == null ? -1 : getClientConfig().uid;
     }
 
     public static int getUserId() {
-        return getClientConfig() == null ? 0 : getClientConfig().vuid;
+        return getClientConfig() == null ? 0 : getClientConfig().userId;
     }
 
     public void initProcess(ClientConfig clientConfig) {
@@ -245,13 +250,12 @@ public class BClient extends IBClient.Stub {
     }
 
     public void handleBindApplication(String packageName, String processName) {
-        PackageInfo packageInfo = BlackBoxCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, 0);
+        PackageInfo packageInfo = BlackBoxCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, BClient.getUserId());
         ApplicationInfo applicationInfo = packageInfo.applicationInfo;
         if (packageInfo.providers == null) {
             packageInfo.providers = new ProviderInfo[]{};
         }
         mProviders.addAll(Arrays.asList(packageInfo.providers));
-
 
         Object boundApplication = ActivityThread.mBoundApplication.get(BlackBoxCore.mainThread());
 
@@ -261,32 +265,16 @@ public class BClient extends IBClient.Stub {
         // fix applicationInfo
         LoadedApk.mApplicationInfo.set(loadedApk, applicationInfo);
 
-        // fix apache
-        String APACHE_LEGACY_JAR = "/system/framework/org.apache.http.legacy.boot.jar";
-        String APACHE_LEGACY_JAR_Q = "/system/framework/org.apache.http.legacy.jar";
-        Set<String> sharedLibraryFileList = new HashSet<>();
-        if (BuildCompat.isQ()) {
-            if (!FileUtils.isExist(APACHE_LEGACY_JAR_Q)) {
-                sharedLibraryFileList.add(APACHE_LEGACY_JAR);
-            } else {
-                sharedLibraryFileList.add(APACHE_LEGACY_JAR_Q);
-            }
-        } else {
-            sharedLibraryFileList.add(APACHE_LEGACY_JAR);
-        }
-        applicationInfo.sharedLibraryFiles = sharedLibraryFileList.toArray(new String[]{});
-
         int targetSdkVersion = applicationInfo.targetSdkVersion;
         if (targetSdkVersion < Build.VERSION_CODES.GINGERBREAD) {
             StrictMode.ThreadPolicy newPolicy = new StrictMode.ThreadPolicy.Builder(StrictMode.getThreadPolicy()).permitNetwork().build();
             StrictMode.setThreadPolicy(newPolicy);
         }
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            if (28 >= Build.VERSION_CODES.N
-//                    && targetSdkVersion < Build.VERSION_CODES.N) {
-//                StrictModeCompat.disableDeathOnFileUriExposure();
-//            }
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (targetSdkVersion < Build.VERSION_CODES.N) {
+                StrictModeCompat.disableDeathOnFileUriExposure();
+            }
+        }
 
         VMCore.init(Build.VERSION.SDK_INT);
         assert packageContext != null;
@@ -324,7 +312,6 @@ public class BClient extends IBClient.Stub {
             e.printStackTrace();
             throw new RuntimeException("Unable to makeApplication", e);
         }
-
         VirtualRuntime.setupRuntime(bindData.processName, applicationInfo);
     }
 

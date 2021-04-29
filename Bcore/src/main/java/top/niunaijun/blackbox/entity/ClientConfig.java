@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.client;
+package top.niunaijun.blackbox.entity;
 
 import android.os.IBinder;
 import android.os.Parcel;
@@ -19,6 +19,8 @@ public class ClientConfig implements Parcelable {
     public int vpid;
     public int vuid;
     public int uid;
+    public int userId;
+    public int baseVUid;
     public IBinder token;
 
     @Override
@@ -33,6 +35,8 @@ public class ClientConfig implements Parcelable {
         dest.writeInt(this.vpid);
         dest.writeInt(this.vuid);
         dest.writeInt(this.uid);
+        dest.writeInt(this.userId);
+        dest.writeInt(this.baseVUid);
         dest.writeStrongBinder(token);
     }
 
@@ -45,6 +49,8 @@ public class ClientConfig implements Parcelable {
         this.vpid = in.readInt();
         this.vuid = in.readInt();
         this.uid = in.readInt();
+        this.userId = in.readInt();
+        this.baseVUid = in.readInt();
         this.token = in.readStrongBinder();
     }
 

@@ -24,9 +24,9 @@ public class BStorageManager {
         return sStorageManager;
     }
 
-    public StorageVolume[] getVolumeList(int uid, String packageName, int flags) {
+    public StorageVolume[] getVolumeList(int uid, String packageName, int flags, int userId) {
         try {
-            return getService().getVolumeList(uid, packageName, flags);
+            return getService().getVolumeList(uid, packageName, flags, userId);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

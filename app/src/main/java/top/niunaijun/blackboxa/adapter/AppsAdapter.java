@@ -1,6 +1,8 @@
 package top.niunaijun.blackboxa.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +22,12 @@ import butterknife.BindView;
 import top.niunaijun.aop_api.annotations.AsyncThread;
 import top.niunaijun.aop_api.annotations.UIThread;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackboxa.R;
 import top.niunaijun.blackboxa.bean.AppInfo;
 import top.niunaijun.blackboxa.widget.BaseRecyclerAdapter;
 
+import static top.niunaijun.blackbox.BlackBoxCore.getBPackageManager;
 import static top.niunaijun.blackbox.BlackBoxCore.getContext;
 
 /**
@@ -49,6 +53,8 @@ public class AppsAdapter extends BaseRecyclerAdapter<AppInfo> {
     public void onBind(RecyclerView.ViewHolder viewHolder, int position, AppInfo data) {
 
     }
+
+    int userId = 0;
 
     public class ModuleItemView extends ButterKnifeHolder<AppInfo> {
         @BindView(R.id.iv_icon)
@@ -87,7 +93,10 @@ public class AppsAdapter extends BaseRecyclerAdapter<AppInfo> {
         @AsyncThread
         private void doRun(AppInfo data) {
             try {
-                BlackBoxCore.get().launchApk(new File(data.getApplicationInfo().sourceDir));
+                if (!BlackBoxCore.get().isInstalled(data.getPackageName(), userId)) {
+                    BlackBoxCore.get().installPackageAsUser(data.getPackageName(), userId);
+                }
+                BlackBoxCore.get().launchApk(data.getPackageName(), userId);
             } catch (RuntimeException e) {
                 e.printStackTrace();
                 // 当前架构不支持运行此APP

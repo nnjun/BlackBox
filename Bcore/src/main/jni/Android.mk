@@ -22,6 +22,7 @@ LOCAL_SRC_FILES := JniHook/JniHook.cpp \
                    IO.cpp \
                    Hook/BaseHook.cpp \
                    Hook/UnixFileSystemHook.cpp \
+                   Hook/BinderHook.cpp \
 
 LOCAL_LDLIBS := -llog -latomic
 

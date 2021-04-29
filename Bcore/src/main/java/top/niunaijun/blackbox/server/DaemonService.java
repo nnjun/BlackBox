@@ -97,6 +97,9 @@ public class DaemonService extends Service {
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
             Log.i(TAG, "DaemonInnerService -> onStartCommand");
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.cancel(NOTIFY_ID);
+            stopSelf();
             return super.onStartCommand(intent, flags, startId);
         }
 

@@ -3,6 +3,8 @@ package top.niunaijun.blackbox.entity.pm;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import top.niunaijun.blackbox.utils.Slog;
+
 /**
  * Created by Milk on 4/20/21.
  * * ∧＿∧
@@ -12,7 +14,9 @@ import android.os.Parcelable;
  * 此处无Bug
  */
 public class InstallResult implements Parcelable {
-    public boolean success;
+    public static final String TAG = "InstallResult";
+
+    public boolean success = true;
     public String packageName;
     public String msg;
 
@@ -35,6 +39,13 @@ public class InstallResult implements Parcelable {
         this.success = in.readByte() != 0;
         this.packageName = in.readString();
         this.msg = in.readString();
+    }
+
+    public InstallResult installError(String msg) {
+        this.msg = msg;
+        this.success = false;
+        Slog.d(TAG, msg);
+        return this;
     }
 
     public static final Parcelable.Creator<InstallResult> CREATOR = new Parcelable.Creator<InstallResult>() {

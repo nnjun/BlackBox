@@ -13,13 +13,14 @@ import top.niunaijun.blackbox.BlackBoxCore;
  * 此处无Bug
  */
 public class StubManifest {
+    public static final int FREE_COUNT = 100;
 
     public static boolean isStub(String msg) {
         return getBindProvider().equals(msg) || msg.contains("stub_content_provider_");
     }
 
     public static String getBindProvider() {
-        return BlackBoxCore.getHostPkg() + ".virtual.BindProvider";
+        return BlackBoxCore.getHostPkg() + ".blackbox.BindProvider";
     }
 
     public static String getStubAuthorities(int index) {
@@ -27,15 +28,15 @@ public class StubManifest {
     }
 
     public static String getStubActivity(int index) {
-        return String.format(Locale.CHINA, "top.niunaijun.blackbox.client.stub.StubActivity$StubActivityP%d", index);
+        return String.format(Locale.CHINA, "top.niunaijun.blackbox.client.stub.StubActivity$P%d", index);
     }
 
     public static String getStubService(int index) {
-        return String.format(Locale.CHINA, "top.niunaijun.blackbox.client.stub.StubService$StubServiceP%d", index);
+        return String.format(Locale.CHINA, "top.niunaijun.blackbox.client.stub.StubService$P%d", index);
     }
 
     public static String getStubJobService(int index) {
-        return String.format(Locale.CHINA, "top.niunaijun.blackbox.client.stub.StubJobService$StubJobServiceP%d", index);
+        return String.format(Locale.CHINA, "top.niunaijun.blackbox.client.stub.StubJobService$P%d", index);
     }
 
     public static String getStubFileProvider() {

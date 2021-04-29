@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Binder;
-import android.os.Process;
 import android.os.RemoteException;
 import android.text.TextUtils;
 
@@ -16,8 +15,9 @@ import java.util.Map;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.StubManifest;
+import top.niunaijun.blackbox.server.ISystemService;
 import top.niunaijun.blackbox.server.pm.BPackageManagerService;
-import top.niunaijun.blackbox.server.JobRecord;
+import top.niunaijun.blackbox.entity.JobRecord;
 import top.niunaijun.blackbox.server.ProcessRecord;
 import top.niunaijun.blackbox.server.BProcessManager;
 
@@ -29,7 +29,7 @@ import top.niunaijun.blackbox.server.BProcessManager;
  * しーＪ
  * 此处无Bug
  */
-public class BJobManagerService extends IBJobManagerService.Stub {
+public class BJobManagerService extends IBJobManagerService.Stub implements ISystemService {
     private static BJobManagerService sService = new BJobManagerService();
 
     // process_jobId
@@ -40,19 +40,19 @@ public class BJobManagerService extends IBJobManagerService.Stub {
     }
 
     @Override
-    public JobInfo schedule(JobInfo info) throws RemoteException {
+    public JobInfo schedule(JobInfo info, int userId) throws RemoteException {
         ComponentName componentName = info.getService();
         Intent intent = new Intent();
         intent.setComponent(componentName);
-        ResolveInfo resolveInfo = BPackageManagerService.get().resolveService(intent, PackageManager.GET_META_DATA, null,0);
+        ResolveInfo resolveInfo = BPackageManagerService.get().resolveService(intent, PackageManager.GET_META_DATA, null, userId);
         if (resolveInfo == null) {
             return info;
         }
         ServiceInfo serviceInfo = resolveInfo.serviceInfo;
-        ProcessRecord processRecord = BProcessManager.get().findProcessRecord(serviceInfo.processName);
+        ProcessRecord processRecord = BProcessManager.get().findProcessRecord(serviceInfo.packageName, serviceInfo.processName, userId);
         if (processRecord == null) {
             processRecord = BProcessManager.get().
-                    startProcessIfNeedLocked(serviceInfo.processName, 0, serviceInfo.packageName, -1, Binder.getCallingUid(), Binder.getCallingPid());
+                    startProcessIfNeedLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
             if (processRecord == null) {
                 throw new RuntimeException(
                         "Unable to create Process " + serviceInfo.processName);
@@ -62,7 +62,7 @@ public class BJobManagerService extends IBJobManagerService.Stub {
     }
 
     @Override
-    public JobRecord queryJobRecord(String processName, int jobId) throws RemoteException {
+    public JobRecord queryJobRecord(String processName, int jobId, int userId) throws RemoteException {
         return mJobRecords.get(formatKey(processName, jobId));
     }
 
@@ -77,7 +77,7 @@ public class BJobManagerService extends IBJobManagerService.Stub {
     }
 
     @Override
-    public void cancelAll(String processName) throws RemoteException {
+    public void cancelAll(String processName, int userId) throws RemoteException {
         if (TextUtils.isEmpty(processName)) return;
         for (String key : mJobRecords.keySet()) {
             if (key.startsWith(processName + "_")) {
@@ -88,11 +88,16 @@ public class BJobManagerService extends IBJobManagerService.Stub {
     }
 
     @Override
-    public int cancel(String processName, int jobId) throws RemoteException {
+    public int cancel(String processName, int jobId, int userId) throws RemoteException {
         return jobId;
     }
 
     private String formatKey(String processName, int jobId) {
         return processName + "_" + jobId;
+    }
+
+    @Override
+    public void systemReady() {
+
     }
 }

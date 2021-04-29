@@ -10,19 +10,25 @@ import android.content.pm.PackageParser;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
+import android.os.Binder;
 import android.os.RemoteException;
 import android.text.TextUtils;
-import android.util.ArrayMap;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
-import top.niunaijun.blackbox.utils.NativeUtils;
-import top.niunaijun.blackbox.utils.Reflector;
+import top.niunaijun.blackbox.entity.pm.InstalledPackage;
+import top.niunaijun.blackbox.server.BProcessManager;
+import top.niunaijun.blackbox.server.ISystemService;
+import top.niunaijun.blackbox.server.user.BUserManagerService;
+import top.niunaijun.blackbox.utils.AbiUtils;
 import top.niunaijun.blackbox.utils.compat.ObjectsCompat;
 import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
 
@@ -37,25 +43,26 @@ import static android.content.pm.PackageManager.MATCH_DIRECT_BOOT_UNAWARE;
  * しーＪ
  * 此处无Bug
  */
-public class BPackageManagerService extends IBPackageManagerService.Stub {
+public class BPackageManagerService extends IBPackageManagerService.Stub implements ISystemService {
     public static final String TAG = "VPackageManagerService";
     public static BPackageManagerService sService = new BPackageManagerService();
-    private Settings mSettings;
+    final Settings mSettings = new Settings();
     private ComponentResolver mComponentResolver;
-    final ArrayMap<String, PackageParser.Package> mPackages = new ArrayMap<>();
-    final ArrayMap<String, PackageParser.Package> mFilePackages = new ArrayMap<>();
+    final Map<String, BPackageSettings> mPackages = mSettings.mPackages;
+    final Object mInstallLock = new Object();
+    private static BUserManagerService sUserManager = BUserManagerService.get();
 
     public static BPackageManagerService get() {
         return sService;
     }
 
     public BPackageManagerService() {
-        mSettings = new Settings();
         mComponentResolver = new ComponentResolver();
     }
 
     @Override
     public ApplicationInfo getApplicationInfo(String packageName, int flags, int userId) {
+        if (!sUserManager.exists(userId)) return null;
         if (ObjectsCompat.equals(packageName, BlackBoxCore.getHostPkg())) {
             try {
                 return BlackBoxCore.getPackageManager().getApplicationInfo(packageName, flags);
@@ -64,14 +71,14 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
             }
             return null;
         }
-
         flags = updateFlags(flags, userId);
         // reader
         synchronized (mPackages) {
             // Normalize package name to handle renamed packages and static libs
-            PackageParser.Package p = mPackages.get(packageName);
-            if (p != null) {
-                return PackageManagerCompat.generateApplicationInfo(p, flags, userId);
+            BPackageSettings ps = mPackages.get(packageName);
+            if (ps != null) {
+                BPackage p = ps.pkg;
+                return PackageManagerCompat.generateApplicationInfo(p, flags, ps.readUserState(userId), userId);
             }
         }
         return null;
@@ -79,6 +86,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
 
     @Override
     public ResolveInfo resolveService(Intent intent, int flags, String resolvedType, int userId) {
+        if (!sUserManager.exists(userId)) return null;
         List<ResolveInfo> query = queryIntentServicesInternal(
                 intent, resolvedType, flags, userId);
         if (query != null) {
@@ -120,8 +128,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
             if (pkgName == null) {
                 return null;
             }
-            final PackageParser.Package pkg = mPackages.get(pkgName);
-            if (pkg != null) {
+            BPackageSettings bPackageSettings = mPackages.get(pkgName);
+            if (bPackageSettings != null) {
+                final BPackage pkg = bPackageSettings.pkg;
                 return mComponentResolver.queryServices(intent, resolvedType, flags, pkg.services,
                         userId);
             }
@@ -131,17 +140,20 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
 
     @Override
     public ResolveInfo resolveActivity(Intent intent, int flags, String resolvedType, int userId) {
+        if (!sUserManager.exists(userId)) return null;
         List<ResolveInfo> resolves = queryIntentActivities(intent, resolvedType, flags, userId);
         return chooseBestActivity(intent, resolvedType, flags, resolves);
     }
 
     @Override
     public ProviderInfo resolveContentProvider(String authority, int flags, int userId) {
+        if (!sUserManager.exists(userId)) return null;
         return mComponentResolver.queryProvider(authority, flags, userId);
     }
 
     @Override
-    public ResolveInfo resolveIntent(Intent intent, String resolvedType, int flags, int userId) throws RemoteException {
+    public ResolveInfo resolveIntent(Intent intent, String resolvedType, int flags, int userId) {
+        if (!sUserManager.exists(userId)) return null;
         List<ResolveInfo> resolves = queryIntentActivities(intent, resolvedType, flags, userId);
         return chooseBestActivity(intent, resolvedType, flags, resolves);
     }
@@ -209,12 +221,12 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
                                      int userId) {
         flags = updateFlags(flags, userId);
         synchronized (mPackages) {
-            PackageParser.Activity a = mComponentResolver.getActivity(component);
+            BPackage.Activity a = mComponentResolver.getActivity(component);
 
             if (a != null) {
-                PackageSetting ps = mSettings.mPackages.get(component.getPackageName());
+                BPackageSettings ps = mSettings.mPackages.get(component.getPackageName());
                 if (ps == null) return null;
-                return PackageManagerCompat.generateActivityInfo(a, flags, userId);
+                return PackageManagerCompat.generateActivityInfo(a, flags, ps.readUserState(userId), userId);
             }
         }
         return null;
@@ -222,6 +234,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
 
     @Override
     public PackageInfo getPackageInfo(String packageName, int flags, int userId) throws RemoteException {
+        if (!sUserManager.exists(userId)) return null;
         if (ObjectsCompat.equals(packageName, BlackBoxCore.getHostPkg())) {
             try {
                 return BlackBoxCore.getPackageManager().getPackageInfo(packageName, flags);
@@ -235,10 +248,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
         // reader
         synchronized (mPackages) {
             // Normalize package name to handle renamed packages and static libs
-            PackageParser.Package p = mPackages.get(packageName);
-            if (p != null) {
-                final PackageSetting ps = (PackageSetting) p.mExtras;
-                return PackageManagerCompat.generatePackageInfo(ps, flags, userId);
+            BPackageSettings ps = mPackages.get(packageName);
+            if (ps != null) {
+                return PackageManagerCompat.generatePackageInfo(ps, flags, ps.readUserState(userId), userId);
             }
         }
         return null;
@@ -246,60 +258,124 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
 
     @Override
     public ServiceInfo getServiceInfo(ComponentName component, int flags, int userId) {
+        if (!sUserManager.exists(userId)) return null;
         synchronized (mPackages) {
-            PackageParser.Service s = mComponentResolver.getService(component);
-            PackageSetting ps = mSettings.mPackages.get(component.getPackageName());
+            BPackage.Service s = mComponentResolver.getService(component);
+            BPackageSettings ps = mPackages.get(component.getPackageName());
             if (ps == null) return null;
             return PackageManagerCompat.generateServiceInfo(
-                    s, flags, userId);
+                    s, flags, ps.readUserState(userId), userId);
         }
     }
 
     @Override
     public ActivityInfo getReceiverInfo(ComponentName component, int flags, int userId) {
+        if (!sUserManager.exists(userId)) return null;
         synchronized (mPackages) {
-            PackageParser.Activity a = mComponentResolver.getReceiver(component);
+            BPackage.Activity a = mComponentResolver.getReceiver(component);
             if (a != null) {
-                PackageSetting ps = mSettings.mPackages.get(component.getPackageName());
+                BPackageSettings ps = mPackages.get(component.getPackageName());
                 if (ps == null) return null;
                 return PackageManagerCompat.generateActivityInfo(
-                        a, flags, userId);
+                        a, flags, ps.readUserState(userId), userId);
             }
         }
         return null;
     }
 
     @Override
-    public ActivityInfo getActivityInfo(ComponentName component, int flags, int userId) throws RemoteException {
+    public ActivityInfo getActivityInfo(ComponentName component, int flags, int userId) {
+        if (!sUserManager.exists(userId)) return null;
         synchronized (mPackages) {
-            PackageParser.Activity a = mComponentResolver.getActivity(component);
+            BPackage.Activity a = mComponentResolver.getActivity(component);
 
             if (a != null) {
-                PackageSetting ps = mSettings.mPackages.get(component.getPackageName());
+                BPackageSettings ps = mPackages.get(component.getPackageName());
                 if (ps == null) return null;
                 return PackageManagerCompat.generateActivityInfo(
-                        a, flags, userId);
+                        a, flags, ps.readUserState(userId), userId);
             }
         }
         return null;
     }
 
     @Override
-    public ProviderInfo getProviderInfo(ComponentName component, int flags, int userId) throws RemoteException {
+    public ProviderInfo getProviderInfo(ComponentName component, int flags, int userId) {
+        if (!sUserManager.exists(userId)) return null;
         synchronized (mPackages) {
-            PackageParser.Provider p = mComponentResolver.getProvider(component);
+            BPackage.Provider p = mComponentResolver.getProvider(component);
             if (p != null) {
-                PackageSetting ps = mSettings.mPackages.get(component.getPackageName());
+                BPackageSettings ps = mPackages.get(component.getPackageName());
                 if (ps == null) return null;
                 return PackageManagerCompat.generateProviderInfo(
-                        p, flags, userId);
+                        p, flags, ps.readUserState(userId), userId);
             }
         }
         return null;
+    }
+
+    @Override
+    public List<ApplicationInfo> getInstalledApplications(int flags, int userId) {
+        return getInstalledApplicationsListInternal(flags, userId, Binder.getCallingUid());
+    }
+
+    @Override
+    public List<PackageInfo> getInstalledPackages(int flags, int userId) throws RemoteException {
+        final int callingUid = Binder.getCallingUid();
+//        if (getInstantAppPackageName(callingUid) != null) {
+//            return ParceledListSlice.emptyList();
+//        }
+        if (!sUserManager.exists(userId)) return Collections.emptyList();
+
+        // writer
+        synchronized (mPackages) {
+            ArrayList<PackageInfo> list;
+            list = new ArrayList<>(mPackages.size());
+            for (BPackageSettings ps : mPackages.values()) {
+//                if (filterSharedLibPackageLPr(ps, callingUid, userId, flags)) {
+//                    continue;
+//                }
+//                if (filterAppAccessLPr(ps, callingUid, userId)) {
+//                    continue;
+//                }
+                final PackageInfo pi = getPackageInfo(ps.pkg.packageName, flags, userId);
+                if (pi != null) {
+                    list.add(pi);
+                }
+            }
+            return new ArrayList<>(list);
+        }
+    }
+
+    private List<ApplicationInfo> getInstalledApplicationsListInternal(int flags, int userId,
+                                                                       int callingUid) {
+        if (!sUserManager.exists(userId)) return Collections.emptyList();
+
+        // writer
+        synchronized (mPackages) {
+            ArrayList<ApplicationInfo> list;
+            list = new ArrayList<>(mPackages.size());
+            Collection<BPackageSettings> packageSettings = mPackages.values();
+            for (BPackageSettings ps : packageSettings) {
+//                if (filterSharedLibPackageLPr(ps, Binder.getCallingUid(), userId, flags)) {
+//                    continue;
+//                }
+//                if (filterAppAccessLPr(ps, callingUid, userId)) {
+//                    continue;
+//                }
+                ApplicationInfo ai = PackageManagerCompat.generateApplicationInfo(ps.pkg, flags,
+                        ps.readUserState(userId), userId);
+                if (ai != null) {
+                    list.add(ai);
+                }
+            }
+            return list;
+        }
     }
 
     @Override
     public List<ResolveInfo> queryIntentActivities(Intent intent, int flags, String resolvedType, int userId) throws RemoteException {
+        if (!sUserManager.exists(userId)) return Collections.emptyList();
         final String pkgName = intent.getPackage();
         ComponentName comp = intent.getComponent();
         if (comp == null) {
@@ -328,9 +404,11 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
         List<ResolveInfo> result;
         synchronized (mPackages) {
             if (pkgName != null) {
-                final PackageParser.Package pkg = mPackages.get(pkgName);
+                BPackageSettings bPackageSettings = mPackages.get(pkgName);
                 result = null;
-                if (pkg != null) {
+                if (bPackageSettings != null) {
+                    final BPackage pkg = bPackageSettings.pkg;
+
                     result = mComponentResolver.queryActivities(
                             intent, resolvedType, flags, pkg.activities, userId);
                 }
@@ -349,6 +427,8 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
 
     @Override
     public List<ResolveInfo> queryBroadcastReceivers(Intent intent, int flags, String resolvedType, int userId) throws RemoteException {
+        if (!sUserManager.exists(userId)) return Collections.emptyList();
+
         ComponentName comp = intent.getComponent();
         if (comp == null) {
             if (intent.getSelector() != null) {
@@ -374,8 +454,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
         // reader
         synchronized (mPackages) {
             String pkgName = intent.getPackage();
-            final PackageParser.Package pkg = mPackages.get(pkgName);
-            if (pkg != null) {
+            BPackageSettings bPackageSettings = mPackages.get(pkgName);
+            if (bPackageSettings != null) {
+                final BPackage pkg = bPackageSettings.pkg;
                 return mComponentResolver.queryReceivers(
                         intent, resolvedType, flags, pkg.receivers, userId);
             }
@@ -385,6 +466,8 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
 
     @Override
     public List<ProviderInfo> queryContentProviders(String processName, int uid, int flags, int userId) throws RemoteException {
+        if (!sUserManager.exists(userId)) return Collections.emptyList();
+
         List<ProviderInfo> providers = new ArrayList<>();
         if (TextUtils.isEmpty(processName))
             return providers;
@@ -393,48 +476,132 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
     }
 
     @Override
-    public PackageInfo loadPackage(String file, int userId) throws RemoteException {
-        try {
-            PackageParser.Package filePkg = mFilePackages.get(file);
-            if (filePkg != null && mSettings.mPackages.get(filePkg.packageName) != null) {
-                return getPackageInfo(filePkg.packageName, 0, userId);
-            }
-
-            PackageParser parser = PackageParserCompat.createParser(new File(file));
-            PackageParser.Package aPackage = PackageParserCompat.parsePackage(parser, new File(file), 0);
-            PackageParserCompat.collectCertificates(parser, aPackage, 0);
-            ApplicationInfo applicationInfo = PackageManagerCompat.generateApplicationInfo(aPackage, 0, userId);
-
-            Reflector.with(aPackage)
-                    .field("applicationInfo")
-                    .set(applicationInfo);
-
-
-            PackageSetting packageSetting = new PackageSetting();
-            packageSetting.pkg = aPackage;
-            aPackage.mExtras = packageSetting;
-            mPackages.put(aPackage.packageName, aPackage);
-            mComponentResolver.addAllComponents(aPackage, applicationInfo);
-            mSettings.mPackages.put(aPackage.packageName, packageSetting);
-
-            try {
-                // copy virtual
-                NativeUtils.copyNativeLib(new File(BlackBoxCore.getContext().getApplicationInfo().sourceDir), new File(applicationInfo.nativeLibraryDir));
-                // copy dest apk
-                NativeUtils.copyNativeLib(new File(applicationInfo.sourceDir), new File(applicationInfo.nativeLibraryDir));
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-            return getPackageInfo(aPackage.packageName, 0, userId);
-        } catch (Throwable t) {
-            t.printStackTrace();
-            return null;
+    public InstallResult installPackageAsUser(String file, InstallOption option, int userId) {
+        synchronized (mInstallLock) {
+            return installPackageAsUserLocked(file, option, userId);
         }
     }
 
     @Override
-    public InstallResult installPackageAsUser(String file, int userId) {
+    public void uninstalledPackageAsUser(String packageName, int userId) throws RemoteException {
+        synchronized (mInstallLock) {
+            synchronized (mPackages) {
+                BPackageSettings ps = mPackages.get(packageName);
+                if (ps == null)
+                    return;
+                boolean removeApp = ps.getUserState().size() <= 1;
+                BProcessManager.get().killPackageAsUser(packageName, userId);
+                int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, removeApp, userId);
+                if (i < 0) {
+                    // todo
+                }
 
+                if (removeApp) {
+                    mPackages.remove(packageName);
+                    mComponentResolver.removeAllComponents(ps.pkg);
+                    mSettings.scanPackage();
+                } else {
+                    ps.removeUser(userId);
+                    ps.save();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void uninstalledPackage(String packageName) throws RemoteException {
+        synchronized (mInstallLock) {
+            synchronized (mPackages) {
+                BPackageSettings ps = mPackages.get(packageName);
+                if (ps == null)
+                    return;
+                BProcessManager.get().killAllByPackageName(packageName);
+                for (Integer userId : ps.getUserIds()) {
+                    int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, true, userId);
+                }
+                mPackages.remove(packageName);
+                mComponentResolver.removeAllComponents(ps.pkg);
+                mSettings.scanPackage();
+            }
+        }
+    }
+
+    @Override
+    public boolean isInstalled(String packageName, int userId) throws RemoteException {
+        if (!sUserManager.exists(userId)) return false;
+        synchronized (mPackages) {
+            BPackageSettings ps = mPackages.get(packageName);
+            if (ps == null)
+                return false;
+            return ps.getInstalled(userId);
+        }
+    }
+
+    @Override
+    public List<InstalledPackage> getInstalledPackagesAsUser(int userId) throws RemoteException {
+        if (!sUserManager.exists(userId)) return Collections.emptyList();
+        synchronized (mPackages) {
+            List<InstalledPackage> installedPackages = new ArrayList<>();
+            for (BPackageSettings ps : mPackages.values()) {
+                if (ps.getInstalled(userId)) {
+                    InstalledPackage installedPackage = new InstalledPackage();
+                    installedPackage.userId = userId;
+                    installedPackage.packageName = ps.pkg.packageName;
+                    installedPackages.add(installedPackage);
+                }
+            }
+            return installedPackages;
+        }
+    }
+
+    private InstallResult installPackageAsUserLocked(String file, InstallOption option, int userId) {
+        InstallResult result = new InstallResult();
+        try {
+            if (!sUserManager.exists(userId)) {
+                sUserManager.createUser(userId);
+            }
+            boolean support = AbiUtils.isSupport(new File(file));
+            if (!support) {
+                return result.installError(BlackBoxCore.is64Bit() ? "not support armeabi-v7a abi" : "not support arm64-v8a abi");
+            }
+
+            PackageParser.Package aPackage = parserApk(file);
+            if (aPackage == null) {
+                return result.installError("parser apk error.");
+            }
+
+            BPackageSettings bPackageSettings = mSettings.getPackageLPw(aPackage.packageName, aPackage);
+            bPackageSettings.installOption = option;
+
+            // stop pkg
+            BProcessManager.get().killPackageAsUser(aPackage.packageName, userId);
+
+            int i = BPackageInstallerService.get().installPackageAsUser(bPackageSettings, userId);
+            if (i < 0) {
+                return result.installError("install apk error.");
+            }
+            synchronized (mPackages) {
+                bPackageSettings.setInstalled(true, userId);
+                bPackageSettings.save();
+            }
+            mComponentResolver.addAllComponents(bPackageSettings.pkg);
+            mSettings.scanPackage();
+            return result;
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return result;
+    }
+
+    private PackageParser.Package parserApk(String file) {
+        try {
+            PackageParser parser = PackageParserCompat.createParser(new File(file));
+            PackageParser.Package aPackage = PackageParserCompat.parsePackage(parser, new File(file), 0);
+            PackageParserCompat.collectCertificates(parser, aPackage, 0);
+            return aPackage;
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
         return null;
     }
 
@@ -459,5 +626,20 @@ public class BPackageManagerService extends IBPackageManagerService.Stub {
             flags |= PackageManager.MATCH_DIRECT_BOOT_AWARE | MATCH_DIRECT_BOOT_UNAWARE;
         }
         return flags;
+    }
+
+    public int getAppId(String packageName) {
+        BPackageSettings bPackageSettings = mPackages.get(packageName);
+        if (bPackageSettings != null)
+            return bPackageSettings.appId;
+        return -1;
+    }
+
+    @Override
+    public void systemReady() {
+        mSettings.scanPackage();
+        for (BPackageSettings value : mPackages.values()) {
+            mComponentResolver.addAllComponents(value.pkg);
+        }
     }
 }

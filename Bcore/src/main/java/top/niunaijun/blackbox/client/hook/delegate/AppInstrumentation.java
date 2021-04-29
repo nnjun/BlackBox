@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Fragment;
 import android.app.Instrumentation;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -223,21 +224,20 @@ public final class AppInstrumentation extends InstrumentationDelegate implements
         packageParam.processName = processName;
 
         try {
-            if (!context.getPackageName().equals("com.rocket.speedup"))
-                return;
-
-            XposedHelpers.findAndHookMethod(ActivityThread.TYPE, "installContentProviders", Context.class, List.class,
-                    new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            super.beforeHookedMethod(param);
-                        }
-
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            super.afterHookedMethod(param);
-                        }
-                    });
+//            XposedHelpers.findAndHookMethod(classLoader.loadClass("android.provider.Settings$NameValueCache"), "getStringForUser" , ContentResolver.class,
+//                    String.class,
+//                    int.class,
+//                    new XC_MethodHook() {
+//                        @Override
+//                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                            super.beforeHookedMethod(param);
+//                        }
+//
+//                        @Override
+//                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                            super.afterHookedMethod(param);
+//                        }
+//                    });
 //            XposedHelpers.findAndHookMethod(context.getClassLoader().loadClass("com.netease.framework.log.NTLog"), "d", String.class, String.class,
 //                    new XC_MethodHook() {
 //                        @Override

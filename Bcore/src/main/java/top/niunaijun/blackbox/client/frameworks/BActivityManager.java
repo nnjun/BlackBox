@@ -8,8 +8,8 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.client.ClientConfig;
-import top.niunaijun.blackbox.client.record.service.UnbindRecord;
+import top.niunaijun.blackbox.entity.ClientConfig;
+import top.niunaijun.blackbox.entity.UnbindRecord;
 import top.niunaijun.blackbox.server.ServiceManager;
 import top.niunaijun.blackbox.server.am.IBActivityManagerService;
 

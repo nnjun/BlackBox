@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.server;
+package top.niunaijun.blackbox.entity;
 
 import android.app.job.JobInfo;
 import android.app.job.JobService;

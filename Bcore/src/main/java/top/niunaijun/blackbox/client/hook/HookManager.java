@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
+import top.niunaijun.blackbox.client.hook.proxies.accessibility.AccessibilityManagerStub;
 import top.niunaijun.blackbox.client.hook.proxies.am.ActivityManagerStub;
 import top.niunaijun.blackbox.client.hook.proxies.am.ActivityTaskManagerStub;
 import top.niunaijun.blackbox.client.hook.proxies.app.AlarmManagerStub;
@@ -73,6 +74,7 @@ public class HookManager {
             addInjector(new StorageManagerStub());
             addInjector(new LauncherAppsStub());
             addInjector(new JobServiceStub());
+            addInjector(new AccessibilityManagerStub());
 
             addInjector(AppInstrumentation.get());
 

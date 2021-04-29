@@ -11,10 +11,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Process;
+import android.os.RemoteException;
 
 import top.niunaijun.blackbox.client.StubManifest;
+import top.niunaijun.blackbox.client.frameworks.BUserManager;
 import top.niunaijun.blackbox.client.hook.HookManager;
+import top.niunaijun.blackbox.entity.pm.InstallOption;
+import top.niunaijun.blackbox.entity.pm.InstallResult;
 import top.niunaijun.blackbox.server.DaemonService;
+import top.niunaijun.blackbox.server.user.BUserInfo;
 import top.niunaijun.blackbox.utils.AbiUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
@@ -24,7 +29,9 @@ import top.niunaijun.blackbox.client.frameworks.BJobManager;
 import top.niunaijun.blackbox.client.frameworks.BPackageManager;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -133,40 +140,6 @@ public class BlackBoxCore {
         return ActivityThread.currentActivityThread.call();
     }
 
-    public void launchApk(File apk) throws RuntimeException {
-        if (!AbiUtils.isSupport(apk)) {
-            throw new RuntimeException("The current environment does not support running this app");
-        }
-        int userId = 0;
-        PackageInfo packageInfo = getBPackageManager().loadPackage(apk.getAbsolutePath(), userId);
-        if (packageInfo != null) {
-            Intent launchIntentForPackage = getBPackageManager().getLaunchIntentForPackage(packageInfo.packageName, userId);
-            if (launchIntentForPackage == null) {
-                return;
-            }
-            startActivity(launchIntentForPackage, userId);
-        }
-    }
-
-    public void launchApk(String packageName) throws RuntimeException {
-        try {
-            int userId = 0;
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
-            if (!AbiUtils.isSupport(new File(packageInfo.applicationInfo.sourceDir))) {
-                throw new RuntimeException("The current environment does not support running this app");
-            }
-            ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-            getBPackageManager().loadPackage(applicationInfo.sourceDir, userId);
-            Intent launchIntentForPackage = getBPackageManager().getLaunchIntentForPackage(packageInfo.packageName, userId);
-            if (launchIntentForPackage == null) {
-                return;
-            }
-            startActivity(launchIntentForPackage, userId);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void startActivity(Intent intent, int userId) {
         getBActivityManager().startActivity(intent, userId);
     }
@@ -185,6 +158,53 @@ public class BlackBoxCore {
 
     public static BStorageManager getBStorageManager() {
         return BStorageManager.get();
+    }
+
+    public boolean launchApk(String packageName, int userId) {
+        Intent launchIntentForPackage = getBPackageManager().getLaunchIntentForPackage(packageName, userId);
+        if (launchIntentForPackage == null) {
+            return false;
+        }
+        startActivity(launchIntentForPackage, userId);
+        return true;
+    }
+
+    public boolean isInstalled(String packageName, int userId) {
+        return getBPackageManager().isInstalled(packageName, userId);
+    }
+
+    public void uninstalledPackagesAsUser(String packageName, int userId) {
+        getBPackageManager().uninstalledPackageAsUser(packageName, userId);
+    }
+
+    public void uninstalledPackage(String packageName) {
+        getBPackageManager().uninstalledPackage(packageName);
+    }
+
+    public InstallResult installPackageAsUser(String packageName, int userId) {
+        try {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, 0);
+            return getBPackageManager().installPackageAsUser(packageInfo.applicationInfo.sourceDir, InstallOption.installBySystem(), userId);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return new InstallResult().installError(e.getMessage());
+        }
+    }
+
+    public InstallResult installPackageAsUser(File apk, int userId) {
+        return getBPackageManager().installPackageAsUser(apk.getAbsolutePath(), InstallOption.installByStorage(), userId);
+    }
+
+    public List<ApplicationInfo> getInstalledApplications(int flags, int userId) {
+        return getBPackageManager().getInstalledApplications(flags, userId);
+    }
+
+    public List<PackageInfo> getInstalledPackages(int flags, int userId) {
+        return getBPackageManager().getInstalledPackages(flags, userId);
+    }
+
+    public List<BUserInfo> getUsers() {
+        return BUserManager.get().getUsers();
     }
 
     public IBinder getService(String name) {

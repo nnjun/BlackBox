@@ -131,6 +131,19 @@ public class FileUtils {
         fos.close();
     }
 
+    public static void writeParcelToOutput(Parcel p, FileOutputStream fos) throws IOException {
+        fos.write(p.marshall());
+    }
+
+    public static byte[] toByteArray(File file) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        try {
+            return toByteArray(fileInputStream);
+        } finally {
+            closeQuietly(fileInputStream);
+        }
+    }
+
     public static byte[] toByteArray(InputStream inStream) throws IOException {
         ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
         byte[] buff = new byte[100];
@@ -219,7 +232,6 @@ public class FileUtils {
     }
 
     public static void copyFile(File source, File target) throws IOException {
-
         FileInputStream inputStream = null;
         FileOutputStream outputStream = null;
         try {
@@ -306,8 +318,13 @@ public class FileUtils {
         return res.toString();
     }
 
+    public static void mkdirs(File path) {
+        if (!path.exists())
+            path.mkdirs();
+    }
+
     public static void mkdirs(String path) {
-        new File(path).mkdirs();
+        mkdirs(new File(path));
     }
 
     public static boolean isExist(String path) {

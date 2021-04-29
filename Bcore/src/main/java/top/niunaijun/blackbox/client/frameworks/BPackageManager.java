@@ -10,10 +10,15 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.RemoteException;
 
+import java.util.Collections;
 import java.util.List;
 
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.entity.pm.InstallOption;
+import top.niunaijun.blackbox.entity.pm.InstallResult;
+import top.niunaijun.blackbox.entity.pm.InstalledPackage;
 import top.niunaijun.blackbox.server.ServiceManager;
+import top.niunaijun.blackbox.server.pm.BPackageSettings;
 import top.niunaijun.blackbox.server.pm.IBPackageManagerService;
 
 /**
@@ -47,7 +52,7 @@ public class BPackageManager {
             intentToResolve.removeCategory(Intent.CATEGORY_INFO);
             intentToResolve.addCategory(Intent.CATEGORY_LAUNCHER);
             intentToResolve.setPackage(packageName);
-            ris =queryIntentActivities(intentToResolve,
+            ris = queryIntentActivities(intentToResolve,
                     0,
                     intentToResolve.resolveTypeIfNeeded(BlackBoxCore.getContext().getContentResolver()),
                     userId);
@@ -179,13 +184,65 @@ public class BPackageManager {
         return null;
     }
 
-    public PackageInfo loadPackage(String file, int userId) {
+    public InstallResult installPackageAsUser(String file, InstallOption option, int userId) {
         try {
-            return getService().loadPackage(file, userId);
+            return getService().installPackageAsUser(file, option, userId);
         } catch (RemoteException e) {
             crash(e);
         }
         return null;
+    }
+
+    public List<ApplicationInfo> getInstalledApplications(int flags, int userId) {
+        try {
+            return getService().getInstalledApplications(flags, userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    public List<PackageInfo> getInstalledPackages(int flags, int userId) {
+        try {
+            return getService().getInstalledPackages(flags, userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    public void uninstalledPackageAsUser(String packageName, int userId) {
+        try {
+            getService().uninstalledPackageAsUser(packageName, userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void uninstalledPackage(String packageName) {
+        try {
+            getService().uninstalledPackage(packageName);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isInstalled(String packageName, int userId) {
+        try {
+            return getService().isInstalled(packageName, userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<InstalledPackage> getInstalledPackagesAsUser(int userId) {
+        try {
+            return getService().getInstalledPackagesAsUser(userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 
     private void crash(Throwable e) {

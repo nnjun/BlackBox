@@ -6,7 +6,10 @@ import android.content.pm.PackageManager;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.server.pm.BPackageSettings;
 
 /**
  * Created by Milk on 4/20/21.
@@ -17,8 +20,8 @@ import top.niunaijun.blackbox.BlackBoxCore;
  * 此处无Bug
  */
 public class InstalledPackage implements Parcelable {
-    private int userId;
-    private String packageName;
+    public int userId;
+    public String packageName;
 
     public ApplicationInfo getApplication() {
         return BlackBoxCore.getBPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA, userId);
@@ -42,9 +45,26 @@ public class InstalledPackage implements Parcelable {
     public InstalledPackage() {
     }
 
+    public InstalledPackage(String packageName) {
+        this.packageName = packageName;
+    }
+
     protected InstalledPackage(Parcel in) {
         this.userId = in.readInt();
         this.packageName = in.readString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InstalledPackage that = (InstalledPackage) o;
+        return Objects.equals(packageName, that.packageName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(packageName);
     }
 
     public static final Parcelable.Creator<InstalledPackage> CREATOR = new Parcelable.Creator<InstalledPackage>() {

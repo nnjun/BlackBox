@@ -12,7 +12,7 @@ import android.text.TextUtils;
 
 import java.util.Arrays;
 
-import top.niunaijun.blackbox.client.ClientConfig;
+import top.niunaijun.blackbox.entity.ClientConfig;
 import top.niunaijun.blackbox.client.IBClient;
 import top.niunaijun.blackbox.client.StubManifest;
 
@@ -27,7 +27,8 @@ public class ProcessRecord extends Binder implements Parcelable {
     public int vpid;
     public int callingVUid;
     public int userId;
-    
+    public int baseVUid;
+
     public ConditionVariable initLock = new ConditionVariable();
 
     public ProcessRecord(ApplicationInfo info, String processName, int vuid, int vpid, int callingVUid) {
@@ -53,6 +54,7 @@ public class ProcessRecord extends Binder implements Parcelable {
                 vpid == that.vpid &&
                 uid == that.uid &&
                 userId == that.userId &&
+                baseVUid == that.baseVUid &&
                 TextUtils.equals(processName, that.processName);
     }
 
@@ -70,13 +72,16 @@ public class ProcessRecord extends Binder implements Parcelable {
         config.packageName = info.packageName;
         config.processName = processName;
         config.vpid = vpid;
+        config.vuid = vuid;
         config.uid = uid;
+        config.userId = userId;
         config.token = this;
+        config.baseVUid = baseVUid;
         return config;
     }
 
     public void kill() {
-        if(pid > 0) {
+        if (pid > 0) {
 //            VActivityManagerService.get().beforeProcessKilled(this);
             try {
                 Process.killProcess(pid);
@@ -86,7 +91,7 @@ public class ProcessRecord extends Binder implements Parcelable {
         }
     }
 
-    public String getPackageName(){
+    public String getPackageName() {
         return info.packageName;
     }
 
@@ -105,6 +110,7 @@ public class ProcessRecord extends Binder implements Parcelable {
         dest.writeInt(this.uid);
         dest.writeInt(this.callingVUid);
         dest.writeInt(this.userId);
+        dest.writeInt(this.baseVUid);
     }
 
     protected ProcessRecord(Parcel in) {
@@ -116,6 +122,7 @@ public class ProcessRecord extends Binder implements Parcelable {
         this.uid = in.readInt();
         this.callingVUid = in.readInt();
         this.userId = in.readInt();
+        this.baseVUid = in.readInt();
     }
 
     public static final Creator<ProcessRecord> CREATOR = new Creator<ProcessRecord>() {

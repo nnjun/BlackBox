@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Process;
-import android.os.RemoteException;
 
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.client.frameworks.BUserManager;
@@ -20,7 +19,6 @@ import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
 import top.niunaijun.blackbox.server.DaemonService;
 import top.niunaijun.blackbox.server.user.BUserInfo;
-import top.niunaijun.blackbox.utils.AbiUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 import top.niunaijun.blackbox.utils.provider.ProviderCall;
@@ -29,7 +27,6 @@ import top.niunaijun.blackbox.client.frameworks.BJobManager;
 import top.niunaijun.blackbox.client.frameworks.BPackageManager;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,22 +61,6 @@ public class BlackBoxCore {
 
     public static PackageManager getPackageManager() {
         return sContext.getPackageManager();
-    }
-
-    private static Map<String, Boolean> sInstalled = new HashMap<>();
-
-    public static boolean isAppInstalled(String packageName) {
-        if (sInstalled.get(packageName) != null) {
-            return sInstalled.get(packageName);
-        }
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
-            sInstalled.put(packageName, packageInfo != null);
-            return sInstalled.get(packageName);
-        } catch (Exception e) {
-            sInstalled.put(packageName, false);
-            return false;
-        }
     }
 
     public static String getHostPkg() {

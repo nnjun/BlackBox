@@ -32,7 +32,7 @@ public class MethodParameterUtils {
 		for (int i = 0; i < args.length; i++) {
 			if (args[i] instanceof String) {
 				String value = (String) args[i];
-				if (BlackBoxCore.isAppInstalled(value)) {
+				if (BlackBoxCore.get().isInstalled(value, BClient.getUserId())) {
 				    args[i] = BlackBoxCore.getHostPkg();
 					return value;
 				}
@@ -50,7 +50,7 @@ public class MethodParameterUtils {
 				continue;
 			if (args[i] instanceof String) {
 				String value = (String) args[i];
-				if (BlackBoxCore.isAppInstalled(value)) {
+				if (BlackBoxCore.get().isInstalled(value, BClient.getUserId())) {
 					args[i] = BlackBoxCore.getHostPkg();
 				}
 			}

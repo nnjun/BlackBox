@@ -54,6 +54,7 @@ public class BlackBoxCore {
     private static Context sContext;
     private ProcessType mProcessType;
     private Map<String, IBinder> mServices = new HashMap<>();
+    private Thread.UncaughtExceptionHandler mExceptionHandler;
 
     public static BlackBoxCore get() {
         return sVirtualCore;
@@ -69,6 +70,14 @@ public class BlackBoxCore {
 
     public static Context getContext() {
         return sContext;
+    }
+
+    public Thread.UncaughtExceptionHandler getExceptionHandler() {
+        return mExceptionHandler;
+    }
+
+    public void setExceptionHandler(Thread.UncaughtExceptionHandler exceptionHandler) {
+        mExceptionHandler = exceptionHandler;
     }
 
     public void doAttachBaseContext(Context context) {

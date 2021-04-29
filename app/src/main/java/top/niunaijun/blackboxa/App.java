@@ -2,6 +2,9 @@ package top.niunaijun.blackboxa;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 
@@ -15,6 +18,7 @@ import top.niunaijun.blackbox.BlackBoxCore;
  * 此处无Bug
  */
 public class App extends Application {
+    public static final String TAG = "Application";
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -29,5 +33,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         BlackBoxCore.get().doCreate();
+        BlackBoxCore.get().setExceptionHandler((t, e) -> Log.d(TAG, "uncaughtException :" + Log.getStackTraceString(e)));
     }
 }

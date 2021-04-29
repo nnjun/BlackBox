@@ -250,6 +250,11 @@ public class BClient extends IBClient.Stub {
     }
 
     public void handleBindApplication(String packageName, String processName) {
+        try {
+            CrashHandler.create();
+        } catch (Throwable ignored) {
+        }
+
         PackageInfo packageInfo = BlackBoxCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, BClient.getUserId());
         ApplicationInfo applicationInfo = packageInfo.applicationInfo;
         if (packageInfo.providers == null) {

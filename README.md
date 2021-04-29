@@ -91,3 +91,21 @@ QQ | 无网 | 仍在努力中，可能姿势不对
 
 ## 一些额外的话
 想要做成一个非常理想的状态需要花费大量时间，由于自己时间精力有限，独乐乐不如众乐乐。**欢迎大家来PR，一起造轮**。到目前为止还有许多功能暂未支持，ShortcutManager、NotificationManager等等诸如此类还有非常多无法一一列举。目前是以跑起来就行的目标去前进，更多完善功能在后续会慢慢填补。
+
+### License
+
+> ```
+> Copyright 2021 Milk
+>
+> Licensed under the Apache License, Version 2.0 (the "License");
+> you may not use this file except in compliance with the License.
+> You may obtain a copy of the License at
+>
+>    http://www.apache.org/licenses/LICENSE-2.0
+>
+> Unless required by applicable law or agreed to in writing, software
+> distributed under the License is distributed on an "AS IS" BASIS,
+> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+> See the License for the specific language governing permissions and
+> limitations under the License.
+> ```

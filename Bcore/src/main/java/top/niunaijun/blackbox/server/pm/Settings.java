@@ -168,6 +168,7 @@ import top.niunaijun.blackbox.utils.Slog;
             }
             bPackageSettings.pkg.mExtras = bPackageSettings;
             bPackageSettings.pkg.applicationInfo = PackageManagerCompat.generateApplicationInfo(bPackageSettings.pkg, 0, BPackageUserState.create(), 0);
+            bPackageSettings.save();
             mPackages.put(bPackageSettings.pkg.packageName, bPackageSettings);
             Slog.d(TAG, "loaded Package: " + packageName);
         } catch (Throwable e) {

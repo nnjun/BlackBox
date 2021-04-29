@@ -1,7 +1,10 @@
 package top.niunaijun.blackbox.server.pm;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -11,6 +14,8 @@ import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Binder;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.RemoteException;
 import android.text.TextUtils;
 
@@ -51,6 +56,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     final Map<String, BPackageSettings> mPackages = mSettings.mPackages;
     final Object mInstallLock = new Object();
     private static BUserManagerService sUserManager = BUserManagerService.get();
+    private Handler mH = new Handler(Looper.getMainLooper());
 
     public static BPackageManagerService get() {
         return sService;
@@ -58,7 +64,25 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 
     public BPackageManagerService() {
         mComponentResolver = new ComponentResolver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.PACKAGE_ADDED");
+        filter.addAction("android.intent.action.PACKAGE_REMOVED");
+        filter.addDataScheme("package");
+        BlackBoxCore.getContext()
+                .registerReceiver(mPackageChangedHandler, filter);
     }
+
+    private BroadcastReceiver mPackageChangedHandler = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (!TextUtils.isEmpty(action)) {
+                if ("android.intent.action.PACKAGE_ADDED".equals(action) || "android.intent.action.PACKAGE_REMOVED".equals(action)) {
+                    mSettings.scanPackage();
+                }
+            }
+        }
+    };
 
     @Override
     public ApplicationInfo getApplicationInfo(String packageName, int flags, int userId) {

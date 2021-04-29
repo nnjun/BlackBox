@@ -63,12 +63,7 @@ public class DaemonService extends Service {
 //                0, activity, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), getPackageName() + ".blackbox")
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("黑盒正在运行中")
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setOngoing(true)
-                .setShowWhen(false)
-                .setOnlyAlertOnce(true);
+                .setPriority(NotificationCompat.PRIORITY_MAX);
         startForeground(NOTIFY_ID, builder.build());
     }
 

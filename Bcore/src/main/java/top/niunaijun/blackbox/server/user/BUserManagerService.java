@@ -16,6 +16,7 @@ import java.util.List;
 
 import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.server.ISystemService;
+import top.niunaijun.blackbox.server.pm.BPackageManagerService;
 import top.niunaijun.blackbox.utils.CloseUtils;
 import top.niunaijun.blackbox.utils.FileUtils;
 
@@ -58,6 +59,9 @@ public class BUserManagerService extends IBUserManagerService.Stub implements IS
     @Override
     public BUserInfo createUser(int userId) throws RemoteException {
         synchronized (mUserLock) {
+            if (exists(userId)) {
+                return getUserInfo(userId);
+            }
             return createUserLocked(userId);
         }
     }
@@ -66,6 +70,19 @@ public class BUserManagerService extends IBUserManagerService.Stub implements IS
     public List<BUserInfo> getUsers() throws RemoteException {
         synchronized (mUsers) {
             return new ArrayList<>(mUsers.values());
+        }
+    }
+
+    @Override
+    public void deleteUser(int userId) throws RemoteException {
+        synchronized (mUserLock) {
+            synchronized (mUsers) {
+                BPackageManagerService.get().deleteUser(userId);
+
+                mUsers.remove(userId);
+                saveUserInfoLocked();
+                FileUtils.deleteDir(BEnvironment.getUserDir(userId));
+            }
         }
     }
 

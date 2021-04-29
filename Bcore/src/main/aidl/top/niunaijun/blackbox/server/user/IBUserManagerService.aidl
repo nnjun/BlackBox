@@ -11,4 +11,5 @@ interface IBUserManagerService {
     boolean exists(int userId);
     BUserInfo createUser(int userId);
     List<BUserInfo> getUsers();
+    void deleteUser(int userId);
 }

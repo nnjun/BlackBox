@@ -207,6 +207,14 @@ public class BlackBoxCore {
         return BUserManager.get().getUsers();
     }
 
+    public BUserInfo createUser(int userId) {
+        return BUserManager.get().createUser(userId);
+    }
+
+    public void deleteUser(int userId) {
+        BUserManager.get().deleteUser(userId);
+    }
+
     public IBinder getService(String name) {
         IBinder binder = mServices.get(name);
         if (binder != null && binder.isBinderAlive()) {

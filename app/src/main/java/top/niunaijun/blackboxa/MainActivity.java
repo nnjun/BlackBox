@@ -3,6 +3,7 @@ package top.niunaijun.blackboxa;
 import android.Manifest;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;

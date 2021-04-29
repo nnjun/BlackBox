@@ -489,6 +489,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 BPackageSettings ps = mPackages.get(packageName);
                 if (ps == null)
                     return;
+                if (!isInstalled(packageName, userId)) {
+                    return;
+                }
                 boolean removeApp = ps.getUserState().size() <= 1;
                 BProcessManager.get().killPackageAsUser(packageName, userId);
                 int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, removeApp, userId);
@@ -522,6 +525,15 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 mPackages.remove(packageName);
                 mComponentResolver.removeAllComponents(ps.pkg);
                 mSettings.scanPackage();
+            }
+        }
+    }
+
+    @Override
+    public void deleteUser(int userId) throws RemoteException {
+        synchronized (mPackages) {
+            for (BPackageSettings ps : mPackages.values()) {
+                uninstalledPackageAsUser(ps.pkg.packageName, userId);
             }
         }
     }

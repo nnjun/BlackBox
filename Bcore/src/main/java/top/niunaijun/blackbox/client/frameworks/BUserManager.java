@@ -26,6 +26,23 @@ public class BUserManager {
         return sUserManager;
     }
 
+    public BUserInfo createUser(int userId) {
+        try {
+            return getService().createUser(userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void deleteUser(int userId) {
+        try {
+            getService().deleteUser(userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<BUserInfo> getUsers() {
         try {
             return getService().getUsers();

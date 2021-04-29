@@ -605,6 +605,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             if (aPackage == null) {
                 return result.installError("parser apk error.");
             }
+            result.packageName = aPackage.packageName;
 
             BPackageSettings bPackageSettings = mSettings.getPackageLPw(aPackage.packageName, aPackage);
             bPackageSettings.installOption = option;

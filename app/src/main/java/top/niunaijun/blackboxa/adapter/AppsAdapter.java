@@ -92,16 +92,10 @@ public class AppsAdapter extends BaseRecyclerAdapter<AppInfo> {
 
         @AsyncThread
         private void doRun(AppInfo data) {
-            try {
-                if (!BlackBoxCore.get().isInstalled(data.getPackageName(), userId)) {
-                    BlackBoxCore.get().installPackageAsUser(data.getPackageName(), userId);
-                }
-                BlackBoxCore.get().launchApk(data.getPackageName(), userId);
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-                // 当前架构不支持运行此APP
-                toast("当前架构不支持运行此APP");
+            if (!BlackBoxCore.get().isInstalled(data.getPackageName(), userId)) {
+                BlackBoxCore.get().installPackageAsUser(data.getPackageName(), userId);
             }
+            BlackBoxCore.get().launchApk(data.getPackageName(), userId);
         }
 
         @UIThread

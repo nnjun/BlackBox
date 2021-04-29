@@ -49,7 +49,7 @@ QQ | 无网 | 仍在努力中，可能姿势不对
     BlackBoxCore.get().installPackageAsUser("com.tencent.mm", userId);
     
     // 未安装的应用可以提供路径
-    BlackBoxCore.get().installPackageAsUser("/sdcard/com.tencent.mm", userId);
+    BlackBoxCore.get().installPackageAsUser("/sdcard/com.tencent.mm.apk", userId);
 ```
 
 #### Step 2.运行黑盒内的应用

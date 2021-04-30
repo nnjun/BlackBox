@@ -24,6 +24,7 @@ import top.niunaijun.blackbox.client.BClient;
 import top.niunaijun.blackbox.client.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.client.hook.MethodHook;
 import top.niunaijun.blackbox.client.hook.env.ClientSystemEnv;
+import top.niunaijun.blackbox.utils.ComponentUtils;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
@@ -97,11 +98,18 @@ public class PackageManagerStub extends BinderInvocationStub {
         }
 
         @Override
-        protected ResolveInfo hook(Object who, Method method, Object[] args) throws Throwable {
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Intent intent = (Intent) args[0];
             String resolvedType = (String) args[1];
             int flags = (int) args[2];
-            return BlackBoxCore.getBPackageManager().resolveIntent(intent, resolvedType, flags, BClient.getUserId());
+            ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveIntent(intent, resolvedType, flags, BClient.getUserId());
+            if (resolveInfo != null) {
+                return resolveInfo;
+            }
+            if (ClientSystemEnv.isOpenPackage(intent.getComponent())) {
+                return method.invoke(who, args);
+            }
+            return null;
         }
     }
 

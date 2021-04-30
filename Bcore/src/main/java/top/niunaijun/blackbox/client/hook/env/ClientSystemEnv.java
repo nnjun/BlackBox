@@ -27,6 +27,6 @@ public class ClientSystemEnv {
     }
 
     public static boolean isOpenPackage(ComponentName componentName) {
-        return componentName != null && sSystemPackages.contains(componentName.getPackageName());
+        return componentName != null && isOpenPackage(componentName.getPackageName());
     }
 }

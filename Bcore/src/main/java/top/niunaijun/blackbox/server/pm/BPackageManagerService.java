@@ -285,11 +285,14 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         if (!sUserManager.exists(userId)) return null;
         synchronized (mPackages) {
             BPackage.Service s = mComponentResolver.getService(component);
-            BPackageSettings ps = mPackages.get(component.getPackageName());
-            if (ps == null) return null;
-            return PackageManagerCompat.generateServiceInfo(
-                    s, flags, ps.readUserState(userId), userId);
+            if (s != null) {
+                BPackageSettings ps = mPackages.get(component.getPackageName());
+                if (ps == null) return null;
+                return PackageManagerCompat.generateServiceInfo(
+                        s, flags, ps.readUserState(userId), userId);
+            }
         }
+        return null;
     }
 
     @Override

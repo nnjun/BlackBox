@@ -25,9 +25,9 @@ class ListViewModel(private val repo: AppsRepository) : BaseViewModel() {
         }
     }
 
-    fun copyFile(uri: Uri){
+    fun copyFile(uri: Uri) {
         launchOnUI {
-            repo.copyFile(uri,copyFileLiveData)
+            repo.copyFile(uri, copyFileLiveData)
         }
     }
 }

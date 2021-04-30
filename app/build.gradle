@@ -1,33 +1,22 @@
-apply plugin: 'com.android.application'
-apply plugin: 'top.niunaijun.aop'
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def signingFile = properties.getProperty('signingFile')
-def signingPassword = properties.getProperty('signingPassword')
-def signingAlias = properties.getProperty('signingAlias')
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "top.niunaijun.blackboxa"
+        applicationId "top.niunaijun.blackbox"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionName "1.0.0"
 
         flavorDimensions "BlackBox32"
-    }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     productFlavors {
@@ -48,60 +37,60 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-
-    signingConfigs {
-        release {
-            storeFile file(signingFile)
-            storePassword signingPassword
-            keyAlias signingAlias
-            keyPassword signingPassword
-        }
-        debug {
-            storeFile file(signingFile)
-            storePassword signingPassword
-            keyAlias signingAlias
-            keyPassword signingPassword
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
+    }
+
+    buildFeatures{
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.3.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "androidx.recyclerview:recyclerview:1.2.0"
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
+    implementation "androidx.activity:activity-ktx:1.2.2"
+    implementation "androidx.fragment:fragment-ktx:1.3.3"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+
+
+    //LiveData
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.3.1"
 
     implementation project(':Bcore')
-//    implementation project(':common')
-    implementation 'com.github.nnjun.Android-MAOP:MAOP_api:1.0.36'
-    implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
-    implementation 'jp.wasabeef:glide-transformations:4.0.1'
 
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'androidx.cardview:cardview:1.0.0'
 
-    implementation "com.jakewharton:butterknife:10.2.1"
-    implementation "com.jakewharton:butterknife:10.2.1"
-    annotationProcessor "com.jakewharton:butterknife-compiler:10.2.1"
+    implementation 'com.tbuonomo:dotsindicator:4.2'
+    //viewPager2 指示点
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+    //dialog
+    implementation 'com.github.nukc.stateview:kotlin:2.2.0'
+    //状态控制控件
+    implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.9'
+    //加载dialog
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

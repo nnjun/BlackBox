@@ -121,6 +121,15 @@ public class ActivityStack {
         // 移至前台
         mAms.moveTaskToFront(taskRecord.id, 0);
 
+        boolean notStartToFront = false;
+        if (clearTop || singleTop || clearTask) {
+            notStartToFront = true;
+        }
+
+        boolean startTaskToFront = !notStartToFront
+                && ComponentUtils.intentFilterEquals(taskRecord.rootIntent, intent)
+                && taskRecord.rootIntent.getFlags() == intent.getFlags();
+
         ActivityRecord topActivityRecord = taskRecord.getTopActivityRecord();
         ActivityRecord targetActivityRecord = findActivityRecordByComponentName(userId, ComponentUtils.toComponentName(activityInfo));
         ActivityRecord newIntentRecord = null;
@@ -207,6 +216,9 @@ public class ActivityStack {
         } else if (ignore) {
             return 0;
         }
+
+        if (startTaskToFront)
+            return 0;
 
         if (resultTo == null) {
             ActivityRecord top = taskRecord.getTopActivityRecord();
@@ -400,6 +412,7 @@ public class ActivityStack {
             TaskRecord taskRecord = mTasks.get(taskId);
             if (taskRecord == null) {
                 taskRecord = new TaskRecord(taskId, record.userId, ComponentUtils.getTaskAffinity(record.info));
+                taskRecord.rootIntent = record.intent;
                 mTasks.put(taskId, taskRecord);
             }
             record.token = token;

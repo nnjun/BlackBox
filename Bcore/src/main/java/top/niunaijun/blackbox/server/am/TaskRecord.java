@@ -1,5 +1,7 @@
 package top.niunaijun.blackbox.server.am;
 
+import android.content.Intent;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class TaskRecord {
     public int id;
     public int userId;
     public String taskAffinity;
+    public Intent rootIntent;
     public final List<ActivityRecord> activities = new LinkedList<>();
 
     public TaskRecord(int id, int userId, String taskAffinity) {

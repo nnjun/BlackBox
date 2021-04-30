@@ -106,10 +106,7 @@ public class PackageManagerStub extends BinderInvocationStub {
             if (resolveInfo != null) {
                 return resolveInfo;
             }
-            if (ClientSystemEnv.isOpenPackage(intent.getComponent())) {
-                return method.invoke(who, args);
-            }
-            return null;
+            return method.invoke(who, args);
         }
     }
 

@@ -211,17 +211,17 @@ public class BPackageManager {
         return Collections.emptyList();
     }
 
-    public void uninstalledPackageAsUser(String packageName, int userId) {
+    public void uninstallPackageAsUser(String packageName, int userId) {
         try {
-            getService().uninstalledPackageAsUser(packageName, userId);
+            getService().uninstallPackageAsUser(packageName, userId);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
-    public void uninstalledPackage(String packageName) {
+    public void uninstallPackage(String packageName) {
         try {
-            getService().uninstalledPackage(packageName);
+            getService().uninstallPackage(packageName);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

@@ -163,12 +163,12 @@ public class BlackBoxCore {
         return getBPackageManager().isInstalled(packageName, userId);
     }
 
-    public void uninstalledPackagesAsUser(String packageName, int userId) {
-        getBPackageManager().uninstalledPackageAsUser(packageName, userId);
+    public void uninstallPackagesAsUser(String packageName, int userId) {
+        getBPackageManager().uninstallPackageAsUser(packageName, userId);
     }
 
-    public void uninstalledPackage(String packageName) {
-        getBPackageManager().uninstalledPackage(packageName);
+    public void uninstallPackage(String packageName) {
+        getBPackageManager().uninstallPackage(packageName);
     }
 
     public InstallResult installPackageAsUser(String packageName, int userId) {

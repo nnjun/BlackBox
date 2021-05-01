@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.view.base
+  package top.niunaijun.blackbox.view.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import androidx.viewbinding.ViewBinding
  */
 abstract class BaseAdapter<T : ViewBinding, D> : RecyclerView.Adapter<BaseAdapter.ViewHolder<T>>() {
 
-    protected var dataList: MutableList<D> = ArrayList()
+    var dataList: MutableList<D> = ArrayList()
 
     private var onItemClick: ((position: Int, binding: T, data: D) -> Unit)? = null
 

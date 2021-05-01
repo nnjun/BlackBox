@@ -10,6 +10,7 @@ import top.niunaijun.blackbox.bean.AppInfo
 import top.niunaijun.blackbox.utils.AbiUtils
 import top.niunaijun.blackbox.utils.FileUtils
 import java.io.File
+import java.io.IOException
 
 
 /**
@@ -60,13 +61,17 @@ class AppsRepository {
     }
 
     fun copyFile(uri: Uri, copyFileLiveData: MutableLiveData<String>) {
-        val inputStream = App.getInstance().contentResolver.openInputStream(uri)
-        if (inputStream != null) {
-            val fileName = File(App.getInstance().externalCacheDir, "/tmp_" + System.nanoTime() + ".apk")
-            FileUtils.writeToFile(inputStream, fileName)
-            inputStream.close()
-            copyFileLiveData.postValue(fileName.toString())
-        } else {
+        try {
+            val inputStream = App.getInstance().contentResolver.openInputStream(uri)
+            if (inputStream != null) {
+                val fileName = File(App.getInstance().externalCacheDir, "/tmp_" + System.nanoTime() + ".apk")
+                FileUtils.writeToFile(inputStream, fileName)
+                inputStream.close()
+                copyFileLiveData.postValue(fileName.toString())
+            } else {
+                copyFileLiveData.postValue(null)
+            }
+        } catch (e: IOException) {
             copyFileLiveData.postValue(null)
         }
     }
@@ -75,6 +80,12 @@ class AppsRepository {
     fun installApk(apk: File, userId: Int, resultLiveData: MutableLiveData<Boolean>) {
         val result = BlackBoxCore.get().installPackageAsUser(apk, userId)
         apk.delete()
+        scanUser()
+        resultLiveData.postValue(result.success)
+    }
+
+    fun installApk(packageName: String, userId: Int, resultLiveData: MutableLiveData<Boolean>) {
+        val result = BlackBoxCore.get().installPackageAsUser(packageName, userId)
         scanUser()
         resultLiveData.postValue(result.success)
     }
@@ -92,7 +103,16 @@ class AppsRepository {
 
     private fun scanUser() {
         val blackBoxCore = BlackBoxCore.get()
-        val id = blackBoxCore.users.last().id
+        val userList = blackBoxCore.users
+
+        if (userList.isEmpty()) {
+            return
+        }
+
+        val id = userList.last().id
+        println("scanUser")
+        println(id)
+
         if (blackBoxCore.getInstalledApplications(0, id).isEmpty()) {
             blackBoxCore.deleteUser(id)
             scanUser()

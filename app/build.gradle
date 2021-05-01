@@ -5,7 +5,7 @@ plugins {
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "28.0.2"
 
     defaultConfig {
         applicationId "top.niunaijun.blackbox"
@@ -89,6 +89,8 @@ dependencies {
     //状态控制控件
     implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.9'
     //加载dialog
+    implementation 'com.github.Ferfalk:SimpleSearchView:0.2.0'
+    //searchView
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

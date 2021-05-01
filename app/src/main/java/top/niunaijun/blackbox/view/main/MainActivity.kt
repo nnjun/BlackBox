@@ -67,9 +67,15 @@ class MainActivity : AppCompatActivity() {
     private val apkPathResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
             it.data?.let { data ->
+                val userId = data.getIntExtra("userId", 0)
+                val packageName = data.getStringExtra("packageName")
                 val apkPath = data.getStringExtra("apkPath")
-                val userId = data.getIntExtra("userId",0)
-                fragmentList[userId].installApk(apkPath!!)
+
+                if (packageName != null) {
+                    fragmentList[userId].installExistApk(packageName)
+                } else if (apkPath != null) {
+                    fragmentList[userId].installApk(apkPath)
+                }
             }
         }
 

@@ -33,6 +33,12 @@ class AppsViewModel(private val repo: AppsRepository) : BaseViewModel() {
         }
     }
 
+    fun install(packageName: String, userID: Int) {
+        launchOnUI {
+            repo.installApk(packageName,userID,resultLiveData)
+        }
+    }
+
     fun unInstall(packageName: String,userID: Int){
         launchOnUI {
             repo.unInstall(packageName,userID,resultLiveData)
@@ -41,6 +47,7 @@ class AppsViewModel(private val repo: AppsRepository) : BaseViewModel() {
 
     fun  launchApk(packageName:String,userID: Int){
         launchOnUI {
+            println("launch")
             repo.launchApk(packageName,userID,launchLiveData)
         }
     }

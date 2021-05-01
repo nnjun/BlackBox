@@ -2,4 +2,5 @@
     <string name="choose">手动选择</string>
     <string name="choose_app">选择应用</string>
     <string name="empty_empty">空空如也</string>
+    <string name="filter">过滤</string>
 </resources>

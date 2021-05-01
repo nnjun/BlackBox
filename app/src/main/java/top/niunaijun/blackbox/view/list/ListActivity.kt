@@ -9,12 +9,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ferfalk.simplesearchview.SimpleSearchView
 import com.roger.catloadinglibrary.CatLoadingView
 import top.niunaijun.blackbox.R
+import top.niunaijun.blackbox.bean.AppInfo
 import top.niunaijun.blackbox.databinding.ActivityListBinding
 import top.niunaijun.blackbox.util.InjectionUtil
 import top.niunaijun.blackbox.util.LoadingUtil
 import top.niunaijun.blackbox.util.inflate
+import top.niunaijun.blackbox.util.toast
 
 
 class ListActivity : AppCompatActivity() {
@@ -25,7 +28,9 @@ class ListActivity : AppCompatActivity() {
 
     private lateinit var viewModel: ListViewModel
 
-    private lateinit var loadingView: CatLoadingView;
+    private lateinit var loadingView: CatLoadingView
+
+    private lateinit var appList :List<AppInfo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +45,26 @@ class ListActivity : AppCompatActivity() {
             finishWithPath(data.sourceDir)
         }
 
+        initSearchView()
         initViewModel()
+    }
+
+    private fun initSearchView() {
+        viewBinding.searchView.setOnQueryTextListener(object :SimpleSearchView.OnQueryTextListener{
+            override fun onQueryTextChange(newText: String): Boolean {
+                filterApp(newText)
+                return true
+            }
+
+            override fun onQueryTextCleared(): Boolean {
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return true
+            }
+
+        })
     }
 
     private fun initViewModel() {
@@ -49,7 +73,8 @@ class ListActivity : AppCompatActivity() {
         viewModel.getInstalledApps()
         viewModel.appsLiveData.observe(this) {
             if (it != null) {
-                mAdapter.replaceData(it)
+                this.appList = it
+                filterApp("")
                 if (it.isNotEmpty()) {
                     viewBinding.stateView.showContent()
                 } else {
@@ -62,8 +87,17 @@ class ListActivity : AppCompatActivity() {
             hideLoading()
             if (it != null) {
                 finishWithPath(it)
+            }else{
+                toast("文件读取失败")
             }
         }
+    }
+
+    private fun filterApp(newText: String) {
+        val newList = this.appList.filter {
+            it.name.contains(newText,true) or it.packageName.contains(newText,true)
+        }
+        mAdapter.replaceData(newList)
     }
 
     private val openDocumentedResult = registerForActivityResult(ActivityResultContracts.GetContent()) {
@@ -84,6 +118,14 @@ class ListActivity : AppCompatActivity() {
         viewModel.copyFile(uri)
     }
 
+    override fun onBackPressed() {
+        if(viewBinding.searchView.isSearchOpen){
+            viewBinding.searchView.closeSearch()
+        }else{
+            super.onBackPressed()
+        }
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.list_choose) {
@@ -94,6 +136,9 @@ class ListActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_list, menu)
+        val item = menu!!.findItem(R.id.list_search)
+        viewBinding.searchView.setMenuItem(item)
+
         return true
     }
 
@@ -101,7 +146,7 @@ class ListActivity : AppCompatActivity() {
         if (!this::loadingView.isInitialized) {
             loadingView = CatLoadingView()
         }
-        LoadingUtil.showLoading(loadingView,supportFragmentManager)
+        LoadingUtil.showLoading(loadingView, supportFragmentManager)
     }
 
 

@@ -3,6 +3,7 @@ package top.niunaijun.blackbox.util
 import android.view.KeyEvent
 import androidx.fragment.app.FragmentManager
 import com.roger.catloadinglibrary.CatLoadingView
+import top.niunaijun.blackbox.R
 
 /**
  *
@@ -14,6 +15,7 @@ object LoadingUtil {
 
     fun showLoading(loadingView: CatLoadingView, fragmentManager: FragmentManager) {
         if (!loadingView.isAdded) {
+            loadingView.setBackgroundColor(R.color.primary)
             loadingView.show(fragmentManager, "")
             fragmentManager.executePendingTransactions()
             loadingView.setClickCancelAble(false)

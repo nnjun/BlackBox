@@ -7,12 +7,26 @@
         android:orientation="vertical"
         tools:context=".view.list.ListActivity">
 
-    <include
-            android:id="@+id/toolbar_layout"
-            layout="@layout/view_toolbar"
+    <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
+
+        <include
+                android:id="@+id/toolbar_layout"
+                layout="@layout/view_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <com.ferfalk.simplesearchview.SimpleSearchView
+                android:id="@+id/searchView"
+                app:type="card"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/primary" />
+
+    </FrameLayout>
 
 
     <com.github.nukc.stateview.StateView

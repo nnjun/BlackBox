@@ -30,7 +30,7 @@ class ListActivity : AppCompatActivity() {
 
     private lateinit var loadingView: CatLoadingView
 
-    private lateinit var appList :List<AppInfo>
+    private var appList :List<AppInfo> = ArrayList<AppInfo>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -130,6 +130,9 @@ public class ActivityStack {
                 && ComponentUtils.intentFilterEquals(taskRecord.rootIntent, intent)
                 && taskRecord.rootIntent.getFlags() == intent.getFlags();
 
+        if (startTaskToFront)
+            return 0;
+
         ActivityRecord topActivityRecord = taskRecord.getTopActivityRecord();
         ActivityRecord targetActivityRecord = findActivityRecordByComponentName(userId, ComponentUtils.toComponentName(activityInfo));
         ActivityRecord newIntentRecord = null;
@@ -216,9 +219,6 @@ public class ActivityStack {
         } else if (ignore) {
             return 0;
         }
-
-        if (startTaskToFront)
-            return 0;
 
         if (resultTo == null) {
             ActivityRecord top = taskRecord.getTopActivityRecord();

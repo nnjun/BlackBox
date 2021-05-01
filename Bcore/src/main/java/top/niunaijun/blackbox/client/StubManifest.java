@@ -40,7 +40,7 @@ public class StubManifest {
     }
 
     public static String getStubFileProvider() {
-        return BlackBoxCore.getHostPkg() + ".FileProvider";
+        return BlackBoxCore.getHostPkg() + ".blackbox.FileProvider";
     }
 
     public static String getStubReceiver() {

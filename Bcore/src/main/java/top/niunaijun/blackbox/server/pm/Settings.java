@@ -16,6 +16,7 @@ import java.util.Map;
 import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
+import top.niunaijun.blackbox.server.BProcessManager;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
 
@@ -162,6 +163,7 @@ import top.niunaijun.blackbox.utils.Slog;
                 String currPackageSourcePath = packageInfo.applicationInfo.sourceDir;
                 if (!currPackageSourcePath.equals(bPackageSettings.pkg.baseCodePath)) {
                     // update baseCodePath And Re install
+                    BProcessManager.get().killAllByPackageName(bPackageSettings.pkg.packageName);
                     bPackageSettings.pkg.baseCodePath = currPackageSourcePath;
                     BPackageInstallerService.get().updatePackage(bPackageSettings);
                 }
@@ -176,6 +178,7 @@ import top.niunaijun.blackbox.utils.Slog;
             // bad package
             FileUtils.deleteDir(app);
             mPackages.remove(packageName);
+            BProcessManager.get().killAllByPackageName(packageName);
             Slog.d(TAG, "bad Package: " + packageName);
         } finally {
             packageSettingsIn.recycle();

@@ -258,6 +258,13 @@ public class ActivityManagerStub extends ClassInvocationStub {
         protected String getMethodName() {
             return "bindIsolatedService";
         }
+
+        @Override
+        protected Object beforeHook(Object who, Method method, Object[] args) throws Throwable {
+            // instanceName
+            args[6] = null;
+            return super.beforeHook(who, method, args);
+        }
     }
 
     static class UnbindService extends MethodHook {

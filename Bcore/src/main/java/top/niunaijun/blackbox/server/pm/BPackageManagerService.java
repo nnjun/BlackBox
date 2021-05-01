@@ -285,11 +285,14 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         if (!sUserManager.exists(userId)) return null;
         synchronized (mPackages) {
             BPackage.Service s = mComponentResolver.getService(component);
-            BPackageSettings ps = mPackages.get(component.getPackageName());
-            if (ps == null) return null;
-            return PackageManagerCompat.generateServiceInfo(
-                    s, flags, ps.readUserState(userId), userId);
+            if (s != null) {
+                BPackageSettings ps = mPackages.get(component.getPackageName());
+                if (ps == null) return null;
+                return PackageManagerCompat.generateServiceInfo(
+                        s, flags, ps.readUserState(userId), userId);
+            }
         }
+        return null;
     }
 
     @Override
@@ -507,7 +510,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     }
 
     @Override
-    public void uninstalledPackageAsUser(String packageName, int userId) throws RemoteException {
+    public void uninstallPackageAsUser(String packageName, int userId) throws RemoteException {
         synchronized (mInstallLock) {
             synchronized (mPackages) {
                 BPackageSettings ps = mPackages.get(packageName);
@@ -536,7 +539,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     }
 
     @Override
-    public void uninstalledPackage(String packageName) throws RemoteException {
+    public void uninstallPackage(String packageName) throws RemoteException {
         synchronized (mInstallLock) {
             synchronized (mPackages) {
                 BPackageSettings ps = mPackages.get(packageName);
@@ -557,7 +560,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     public void deleteUser(int userId) throws RemoteException {
         synchronized (mPackages) {
             for (BPackageSettings ps : mPackages.values()) {
-                uninstalledPackageAsUser(ps.pkg.packageName, userId);
+                uninstallPackageAsUser(ps.pkg.packageName, userId);
             }
         }
     }

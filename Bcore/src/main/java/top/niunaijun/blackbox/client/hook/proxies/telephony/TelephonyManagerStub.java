@@ -51,6 +51,20 @@ public class TelephonyManagerStub extends BinderInvocationStub {
                 return "";
             }
         });
+
+        addMethodHook(new MethodHook() {
+            @Override
+            protected String getMethodName() {
+                return "getImeiForSlot";
+            }
+
+            @Override
+            protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+//                MethodParameterUtils.replaceFirstAppPkg(args);
+//                return method.invoke(who, args);
+                return "";
+            }
+        });
         addMethodHook(new IsUserDataEnabled());
         addMethodHook(new IsUserDataEnabled());
     }

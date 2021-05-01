@@ -2,7 +2,6 @@ package top.niunaijun.blackbox.data
 
 import android.content.pm.ApplicationInfo
 import android.net.Uri
-import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import top.niunaijun.blackbox.App
 import top.niunaijun.blackbox.BlackBoxCore
@@ -11,8 +10,6 @@ import top.niunaijun.blackbox.bean.AppInfo
 import top.niunaijun.blackbox.utils.AbiUtils
 import top.niunaijun.blackbox.utils.FileUtils
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
 
 
 /**
@@ -88,7 +85,7 @@ class AppsRepository {
     }
 
     fun unInstall(packageName: String, userID: Int, resultLiveData: MutableLiveData<Boolean>) {
-        BlackBoxCore.get().uninstalledPackagesAsUser(packageName, userID)
+        BlackBoxCore.get().uninstallPackagesAsUser(packageName, userID)
         scanUser()
         resultLiveData.postValue(true)
     }

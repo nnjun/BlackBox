@@ -343,7 +343,7 @@
         <!--file provider-->
         <provider
             android:name="top.niunaijun.blackbox.client.hook.provider.FileProvider"
-            android:authorities="${applicationId}.FileProvider"
+            android:authorities="${applicationId}.blackbox.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

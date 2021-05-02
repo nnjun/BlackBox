@@ -25,6 +25,7 @@ import top.niunaijun.blackbox.server.user.BUserHandle;
 import top.niunaijun.blackbox.server.user.BUserInfo;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
+import top.niunaijun.blackbox.utils.compat.XPoesdParserCompat;
 import top.niunaijun.blackbox.utils.provider.ProviderCall;
 import top.niunaijun.blackbox.client.frameworks.BActivityManager;
 import top.niunaijun.blackbox.client.frameworks.BJobManager;
@@ -228,6 +229,14 @@ public class BlackBoxCore {
 
     public void setXPEnable(boolean enable) {
         BXpoesdManager.get().setXPEnable(enable);
+    }
+
+    public boolean isXPoesdModule(File file) {
+        return XPoesdParserCompat.isXPModule(file.getAbsolutePath());
+    }
+
+    public boolean isInstalledXPoesdModule(String packageName) {
+        return isInstalled(packageName, BUserHandle.USER_XPOESD);
     }
 
     public boolean isModuleEnable(String packageName) {

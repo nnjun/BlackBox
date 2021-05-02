@@ -1,6 +1,7 @@
 package top.niunaijun.blackboxa.view.apps
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,15 +77,11 @@ class AppsFragment(private val userID: Int) : Fragment() {
         }
 
         viewModel.resultLiveData.observe(this) {
-            it?.run {
+            if (!TextUtils.isEmpty(it)) {
                 hideLoading()
-                if (it) {
-                    requireContext().toast("操作成功")
-                    viewModel.getInstalledApps(userID)
-                    scanUser()
-                } else {
-                    requireContext().toast("操作失败")
-                }
+                requireContext().toast(it)
+                viewModel.getInstalledApps(userID)
+                scanUser()
             }
 
         }
@@ -123,29 +120,8 @@ class AppsFragment(private val userID: Int) : Fragment() {
     }
 
     fun installApk(source: String) {
-        val packageName = if (URLUtil.isValidUrl(source)) {
-            val info = requireContext().packageManager.getPackageArchiveInfo(source, 0)
-            info.packageName
-
-        } else {
-            source
-        }
-
-        if (BlackBoxCore.get().isInstalled(packageName, userID)) {
-            MaterialDialog(requireContext()).show {
-                title(text = "覆盖安装")
-                message(text = "该软件已经安装到此用户，是否覆盖安装？")
-                positiveButton(text = "覆盖安装") {
-                    showLoading()
-                    viewModel.install(source, userID)
-                }
-                negativeButton(text = "取消安装")
-            }
-        } else {
-            showLoading()
-            viewModel.install(source, userID)
-        }
-
+        showLoading()
+        viewModel.install(source, userID)
     }
 
 

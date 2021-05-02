@@ -66,7 +66,7 @@ class AppsRepository {
         appsLiveData.postValue(apps)
     }
 
-    fun installApk(source: String, userId: Int, resultLiveData: MutableLiveData<Boolean>) {
+    fun installApk(source: String, userId: Int, resultLiveData: MutableLiveData<String>) {
         val blackBoxCore = BlackBoxCore.get()
         val installResult = if (URLUtil.isValidUrl(source)) {
             val uri = Uri.parse(source)
@@ -76,7 +76,13 @@ class AppsRepository {
             blackBoxCore.installPackageAsUser(source, userId)
         }
 
-        resultLiveData.postValue(installResult.success)
+        if(installResult.success){
+
+            resultLiveData.postValue("安装成功")
+        }else{
+            resultLiveData.postValue("安装失败："+installResult.msg)
+        }
+        println()
         scanUser()
     }
 
@@ -85,10 +91,10 @@ class AppsRepository {
         launchLiveData.postValue(result)
     }
 
-    fun unInstall(packageName: String, userID: Int, resultLiveData: MutableLiveData<Boolean>) {
+    fun unInstall(packageName: String, userID: Int, resultLiveData: MutableLiveData<String>) {
         BlackBoxCore.get().uninstallPackageAsUser(packageName, userID)
         scanUser()
-        resultLiveData.postValue(true)
+        resultLiveData.postValue("卸载成功")
     }
 
     private fun scanUser() {

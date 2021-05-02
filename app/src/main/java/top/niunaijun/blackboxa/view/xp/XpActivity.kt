@@ -163,29 +163,8 @@ class XpActivity : AppCompatActivity() {
 
 
     private fun installModule(source: String) {
-        val packageName = if (URLUtil.isValidUrl(source)) {
-            val info = packageManager.getPackageArchiveInfo(source, 0)
-            info.packageName
-
-        } else {
-            source
-        }
-
-        if (BlackBoxCore.get().isInstalledXPoesdModule(packageName)) {
-            MaterialDialog(this).show {
-                title(text = "覆盖安装")
-                message(text = "该模块已经安装，是否覆盖安装？")
-                positiveButton(text = "覆盖安装") {
-                    showLoading()
-                    viewModel.installModule(source)
-                }
-                negativeButton(text = "取消安装")
-            }
-        } else {
-            showLoading()
-            viewModel.installModule(source)
-        }
-
+        showLoading()
+        viewModel.installModule(source)
     }
 
 

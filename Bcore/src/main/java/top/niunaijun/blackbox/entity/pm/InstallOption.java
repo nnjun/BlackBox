@@ -14,6 +14,8 @@ import android.os.Parcelable;
 public class InstallOption implements Parcelable {
     public static final int FLAG_SYSTEM = 1;
     public static final int FLAG_STORAGE = 1 << 1;
+    public static final int FLAG_XPOESD = 1 << 2;
+    public static final int FLAG_URI_FILE = 1 << 3;
 
     public int flags = 0;
 
@@ -27,6 +29,20 @@ public class InstallOption implements Parcelable {
         InstallOption installOption = new InstallOption();
         installOption.flags = installOption.flags | FLAG_STORAGE;
         return installOption;
+    }
+
+    public InstallOption makeXPoesd() {
+        this.flags |= FLAG_XPOESD;
+        return this;
+    }
+
+    public InstallOption makeUriFile() {
+        this.flags |= FLAG_URI_FILE;
+        return this;
+    }
+
+    public boolean isFlag(int flag) {
+        return (flags & flag) != 0;
     }
 
     @Override

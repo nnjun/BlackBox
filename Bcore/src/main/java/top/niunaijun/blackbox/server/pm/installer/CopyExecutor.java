@@ -29,17 +29,26 @@ public class CopyExecutor implements Executor {
             e.printStackTrace();
             return -1;
         }
-        if ((option.flags & InstallOption.FLAG_STORAGE) != 0) {
+        if (option.isFlag(InstallOption.FLAG_STORAGE)) {
             // 外部安装
+            File origFile = new File(ps.pkg.baseCodePath);
+            File newFile = BEnvironment.getBaseApkDir(ps.pkg.packageName);
             try {
-                FileUtils.copyFile(new File(ps.pkg.baseCodePath), BEnvironment.getBaseApkDir(ps.pkg.packageName));
+                if (option.isFlag(InstallOption.FLAG_URI_FILE)) {
+                    boolean b = FileUtils.renameTo(origFile, newFile);
+                    if (!b) {
+                        FileUtils.copyFile(origFile, newFile);
+                    }
+                } else {
+                    FileUtils.copyFile(origFile, newFile);
+                }
                 // update baseCodePath
-                ps.pkg.baseCodePath = BEnvironment.getBaseApkDir(ps.pkg.packageName).getAbsolutePath();
+                ps.pkg.baseCodePath = newFile.getAbsolutePath();
             } catch (IOException e) {
                 e.printStackTrace();
                 return -1;
             }
-        } else if ((option.flags & InstallOption.FLAG_SYSTEM) != 0) {
+        } else if (option.isFlag(InstallOption.FLAG_SYSTEM)) {
             // 系统安装
         }
         return 0;

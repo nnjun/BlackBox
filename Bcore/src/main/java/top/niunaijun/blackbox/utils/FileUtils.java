@@ -67,6 +67,10 @@ public class FileUtils {
         return f;
     }
 
+    public static boolean renameTo(File origFile, File newFile) {
+        return origFile.renameTo(newFile);
+    }
+
     public static String readToString(String fileName) throws IOException {
         InputStream is = new FileInputStream(fileName);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -75,6 +79,14 @@ public class FileUtils {
             baos.write(i);
         }
         return baos.toString();
+    }
+
+    public static Parcel readToParcel(File file) throws IOException {
+        Parcel in = Parcel.obtain();
+        byte[] bytes = toByteArray(file);
+        in.unmarshall(bytes, 0, bytes.length);
+        in.setDataPosition(0);
+        return in;
     }
 
     /**

@@ -69,7 +69,13 @@ public class BUserManagerService extends IBUserManagerService.Stub implements IS
     @Override
     public List<BUserInfo> getUsers() throws RemoteException {
         synchronized (mUsers) {
-            return new ArrayList<>(mUsers.values());
+            ArrayList<BUserInfo> bUsers = new ArrayList<>();
+            for (BUserInfo value : mUsers.values()) {
+                if (value.id >= 0) {
+                    bUsers.add(value);
+                }
+            }
+            return bUsers;
         }
     }
 

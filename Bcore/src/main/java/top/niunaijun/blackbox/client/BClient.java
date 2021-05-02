@@ -25,13 +25,21 @@ import android.os.IInterface;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.os.StrictMode;
+import android.text.TextUtils;
 
+import com.swift.sandhook.xposedcompat.XposedCompat;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import dalvik.system.DexClassLoader;
+import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import mirror.android.app.ActivityManagerNative;
 import mirror.android.app.ActivityThread;
 import mirror.android.app.ActivityThreadNMR1;
@@ -39,6 +47,7 @@ import mirror.android.app.ActivityThreadQ;
 import mirror.android.app.ContextImpl;
 import mirror.android.app.LoadedApk;
 import mirror.com.android.internal.content.ReferrerIntent;
+import top.niunaijun.blackbox.client.frameworks.BXpoesdManager;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.client.hook.IOManager;
 import top.niunaijun.blackbox.client.hook.env.VirtualRuntime;
@@ -50,7 +59,9 @@ import top.niunaijun.blackbox.client.hook.delegate.ActivityLifecycleDelegate;
 import top.niunaijun.blackbox.client.hook.delegate.AppInstrumentation;
 import top.niunaijun.blackbox.client.hook.delegate.ContentProviderDelegate;
 import top.niunaijun.blackbox.entity.ClientConfig;
+import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.server.ClientServiceManager;
+import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
 import top.niunaijun.blackbox.utils.compat.StrictModeCompat;
@@ -67,7 +78,7 @@ import top.niunaijun.blackbox.utils.compat.StrictModeCompat;
 public class BClient extends IBClient.Stub {
     public static final String TAG = "BClient";
 
-    private static BClient sVClient;
+    private static BClient sBClient;
     private AppBindData mBoundApplication;
     private Application mInitialApplication;
     private ClientConfig mClientConfig;
@@ -80,14 +91,14 @@ public class BClient extends IBClient.Stub {
     private final Handler mH = new Handler(Looper.getMainLooper());
 
     public static BClient getClient() {
-        if (sVClient == null) {
+        if (sBClient == null) {
             synchronized (BClient.class) {
-                if (sVClient == null) {
-                    sVClient = new BClient();
+                if (sBClient == null) {
+                    sBClient = new BClient();
                 }
             }
         }
-        return sVClient;
+        return sBClient;
     }
 
     public static synchronized ClientConfig getClientConfig() {
@@ -341,6 +352,48 @@ public class BClient extends IBClient.Stub {
         }
         Binder.restoreCallingIdentity(origId);
         ContentProviderDelegate.init();
+    }
+
+    public void loadXPoesd(Context context) {
+        String vPackageName = getVPackageName();
+        String vProcessName = getVProcessName();
+        if (TextUtils.isEmpty(vPackageName) || TextUtils.isEmpty(vProcessName) || !BXpoesdManager.get().isXPEnable()) {
+            return;
+        }
+        assert vPackageName != null;
+        assert vProcessName != null;
+
+        XposedCompat.cacheDir = new File(vProcessName);
+        FileUtils.mkdirs(XposedCompat.cacheDir);
+        XposedCompat.context = context;
+        XposedCompat.classLoader = context.getClassLoader();
+        XposedCompat.isFirstApplication = vPackageName.equals(vProcessName);
+
+        XC_LoadPackage.LoadPackageParam packageParam = new XC_LoadPackage.LoadPackageParam(new XposedBridge.CopyOnWriteSortedSet<XC_LoadPackage>());
+        packageParam.appInfo = context.getApplicationInfo();
+        packageParam.classLoader = context.getClassLoader();
+        packageParam.packageName = vPackageName;
+        packageParam.processName = vProcessName;
+        packageParam.isFirstApplication = XposedCompat.isFirstApplication;
+        List<InstalledModule> installedModules = BXpoesdManager.get().getInstalledModules();
+        for (InstalledModule installedModule : installedModules) {
+            if (!installedModule.enable) {
+                continue;
+            }
+            ApplicationInfo application = installedModule.getApplication();
+            DexClassLoader dexClassLoader = new DexClassLoader(application.sourceDir,
+                    context.getCacheDir().getAbsolutePath(),
+                    application.nativeLibraryDir,
+                    BlackBoxCore.getContext().getClassLoader());
+            try {
+                Class<?> aClass = dexClassLoader.loadClass(installedModule.main.trim());
+                IXposedHookLoadPackage iXposedHookLoadPackage = (IXposedHookLoadPackage) aClass.newInstance();
+                iXposedHookLoadPackage.handleLoadPackage(packageParam);
+                Slog.d(TAG, "load module: " + installedModule.name);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

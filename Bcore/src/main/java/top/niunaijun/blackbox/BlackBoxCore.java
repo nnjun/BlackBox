@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -14,10 +15,13 @@ import android.os.Process;
 
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.client.frameworks.BUserManager;
+import top.niunaijun.blackbox.client.frameworks.BXpoesdManager;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
+import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.server.DaemonService;
+import top.niunaijun.blackbox.server.user.BUserHandle;
 import top.niunaijun.blackbox.server.user.BUserInfo;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
@@ -159,11 +163,15 @@ public class BlackBoxCore {
         return true;
     }
 
+    public boolean launchXPModule(String packageName) {
+        return launchApk(packageName, BUserHandle.USER_XPOESD);
+    }
+
     public boolean isInstalled(String packageName, int userId) {
         return getBPackageManager().isInstalled(packageName, userId);
     }
 
-    public void uninstallPackagesAsUser(String packageName, int userId) {
+    public void uninstallPackageAsUser(String packageName, int userId) {
         getBPackageManager().uninstallPackageAsUser(packageName, userId);
     }
 
@@ -183,6 +191,55 @@ public class BlackBoxCore {
 
     public InstallResult installPackageAsUser(File apk, int userId) {
         return getBPackageManager().installPackageAsUser(apk.getAbsolutePath(), InstallOption.installByStorage(), userId);
+    }
+
+    public InstallResult installPackageAsUser(Uri apk, int userId) {
+        return getBPackageManager().installPackageAsUser(apk.toString(), InstallOption.installByStorage().makeUriFile(), userId);
+    }
+
+    public InstallResult installXPModule(File apk) {
+        return getBPackageManager().installPackageAsUser(apk.getAbsolutePath(), InstallOption.installByStorage().makeXPoesd(), BUserHandle.USER_XPOESD);
+    }
+
+    public InstallResult installXPModule(Uri apk) {
+        return getBPackageManager().installPackageAsUser(apk.toString(), InstallOption.installByStorage()
+                .makeXPoesd()
+                .makeUriFile(), BUserHandle.USER_XPOESD);
+    }
+
+    public InstallResult installXPModule(String packageName) {
+        try {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, 0);
+            String path = packageInfo.applicationInfo.sourceDir;
+            return getBPackageManager().installPackageAsUser(path, InstallOption.installBySystem().makeXPoesd(), BUserHandle.USER_XPOESD);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return new InstallResult().installError(e.getMessage());
+        }
+    }
+
+    public void uninstallXPModule(String packageName) {
+        uninstallPackageAsUser(packageName, BUserHandle.USER_XPOESD);
+    }
+
+    public boolean isXPEnable() {
+        return BXpoesdManager.get().isXPEnable();
+    }
+
+    public void setXPEnable(boolean enable) {
+        BXpoesdManager.get().setXPEnable(enable);
+    }
+
+    public boolean isModuleEnable(String packageName) {
+        return BXpoesdManager.get().isModuleEnable(packageName);
+    }
+
+    public void setModuleEnable(String packageName, boolean enable) {
+        BXpoesdManager.get().setModuleEnable(packageName, enable);
+    }
+
+    public List<InstalledModule> getInstalledXPModules() {
+        return BXpoesdManager.get().getInstalledModules();
     }
 
     public List<ApplicationInfo> getInstalledApplications(int flags, int userId) {
@@ -239,7 +296,6 @@ public class BlackBoxCore {
 
     public boolean isVirtualProcess() {
         return mProcessType == ProcessType.VAppClient;
-//        return mProcessType == ProcessType.VAppClient || mProcessType == ProcessType.Main;
     }
 
     public boolean isMainProcess() {

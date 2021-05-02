@@ -135,6 +135,9 @@ public class PackageManagerStub extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             String packageName = (String) args[0];
             int flag = (int) args[1];
+            if (ClientSystemEnv.isFakePackage(packageName)) {
+                packageName = BlackBoxCore.getHostPkg();
+            }
             PackageInfo packageInfo = BlackBoxCore.getBPackageManager().getPackageInfo(packageName, flag, BClient.getUserId());
             if (packageInfo != null) {
                 return packageInfo;
@@ -272,6 +275,9 @@ public class PackageManagerStub extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             String packageName = (String) args[0];
             int flags = (int) args[1];
+            if (ClientSystemEnv.isFakePackage(packageName)) {
+                packageName = BlackBoxCore.getHostPkg();
+            }
             ApplicationInfo applicationInfo = BlackBoxCore.getBPackageManager().getApplicationInfo(packageName, flags, BClient.getUserId());
             if (applicationInfo != null) {
                 return applicationInfo;

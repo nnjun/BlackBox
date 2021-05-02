@@ -1,14 +1,19 @@
 package top.niunaijun.blackboxa.view.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.databinding.ActivityMainBinding
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.view.apps.AppsFragment
 import top.niunaijun.blackboxa.view.list.ListActivity
+import top.niunaijun.blackboxa.view.xp.XpActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-
+        setSupportActionBar(viewBinding.toolbarLayout.toolbar)
         initViewPager()
         initFab()
     }
@@ -68,17 +73,36 @@ class MainActivity : AppCompatActivity() {
         if (it.resultCode == RESULT_OK) {
             it.data?.let { data ->
                 val userId = data.getIntExtra("userId", 0)
-                val packageName = data.getStringExtra("packageName")
-                val apkPath = data.getStringExtra("apkPath")
-
-                if (packageName != null) {
-                    fragmentList[userId].installExistApk(packageName)
-                } else if (apkPath != null) {
-                    fragmentList[userId].installApk(apkPath)
+                val source = data.getStringExtra("source")
+                if (source != null) {
+                    fragmentList[userId].installApk(source)
                 }
             }
+
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.main_git->{
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nnjun/BlackBox") )
+                startActivity(intent)
+            }
+
+            R.id.main_xp->{
+                val intent = Intent(this,XpActivity::class.java)
+                startActivity(intent)
+            }
+
+
         }
 
+        return true
     }
 
 }

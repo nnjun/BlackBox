@@ -13,8 +13,17 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.BlackBox"
             tools:targetApi="n">
+        <activity
+                android:name=".view.main.WelcomeActivity"
+                android:theme="@style/WelcomeTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".view.list.ListActivity" />
+        <activity android:name=".view.xp.XpActivity" />
         <activity android:name=".view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,11 +1,9 @@
 package top.niunaijun.blackboxa.view.list
 
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.data.AppsRepository
 import top.niunaijun.blackboxa.view.base.BaseViewModel
-import java.io.InputStream
 
 /**
  *
@@ -17,17 +15,10 @@ class ListViewModel(private val repo: AppsRepository) : BaseViewModel() {
 
     val appsLiveData = MutableLiveData<List<AppInfo>>()
 
-    val copyFileLiveData = MutableLiveData<String>()
-
-    fun getInstalledApps() {
+    fun getInstalledApps(onlyShowXp: Boolean) {
         launchOnUI {
-            repo.getInstallList(appsLiveData)
+            repo.getInstallList(appsLiveData,onlyShowXp)
         }
     }
 
-    fun copyFile(uri: Uri) {
-        launchOnUI {
-            repo.copyFile(uri, copyFileLiveData)
-        }
-    }
 }

@@ -1,6 +1,9 @@
 <resources>
     <string name="choose">手动选择</string>
     <string name="choose_app">选择应用</string>
+    <string name="installed_app">已安装应用</string>
     <string name="empty_empty">空空如也</string>
     <string name="filter">过滤</string>
+    <string name="open_source_path">开源地址</string>
+    <string name="xp_setting">XP管理</string>
 </resources>

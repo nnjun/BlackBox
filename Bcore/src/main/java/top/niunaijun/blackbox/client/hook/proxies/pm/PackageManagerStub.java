@@ -83,6 +83,7 @@ public class PackageManagerStub extends BinderInvocationStub {
         addMethodHook(new QueryContentProviders());
         addMethodHook(new ResolveContentProvider());
         addMethodHook(new CanRequestPackageInstalls());
+        addMethodHook(new GetPackageUid());
     }
 
     @Override
@@ -146,6 +147,20 @@ public class PackageManagerStub extends BinderInvocationStub {
                 return method.invoke(who, args);
             }
             return null;
+        }
+    }
+
+    static class GetPackageUid extends MethodHook {
+
+        @Override
+        protected String getMethodName() {
+            return "getPackageUid";
+        }
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            MethodParameterUtils.replaceFirstAppPkg(args);
+            return method.invoke(who, args);
         }
     }
 

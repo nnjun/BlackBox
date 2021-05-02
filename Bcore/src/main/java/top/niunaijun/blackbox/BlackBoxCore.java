@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.Process;
 
@@ -23,6 +24,8 @@ import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.server.DaemonService;
 import top.niunaijun.blackbox.server.user.BUserHandle;
 import top.niunaijun.blackbox.server.user.BUserInfo;
+import top.niunaijun.blackbox.utils.FileUtils;
+import top.niunaijun.blackbox.utils.ShellUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 import top.niunaijun.blackbox.utils.compat.XPoesdParserCompat;
@@ -91,6 +94,7 @@ public class BlackBoxCore {
         String processName = getProcessName(getContext());
         if (processName.equals(BlackBoxCore.getHostPkg())) {
             mProcessType = ProcessType.Main;
+            startLogcat();
         } else if (processName.endsWith(getContext().getString(R.string.black_box_service_name))) {
             mProcessType = ProcessType.Server;
         } else {
@@ -315,6 +319,13 @@ public class BlackBoxCore {
         return mProcessType == ProcessType.Server;
     }
 
+    private void startLogcat() {
+        File file = new File(getContext().getExternalCacheDir(), "logcat.txt");
+        FileUtils.deleteDir(file);
+        ShellUtils.execCommand("logcat -c", false);
+        ShellUtils.execCommand("logcat >> " + file.getAbsolutePath() + " &", false);
+
+    }
     private static String getProcessName(Context context) {
         int pid = Process.myPid();
         String processName = null;

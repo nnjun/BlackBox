@@ -235,7 +235,7 @@ public class BlackBoxCore {
         return XPoesdParserCompat.isXPModule(file.getAbsolutePath());
     }
 
-    public boolean isInstallXPoesdModule(String packageName) {
+    public boolean isInstalledXPoesdModule(String packageName) {
         return isInstalled(packageName, BUserHandle.USER_XPOESD);
     }
 

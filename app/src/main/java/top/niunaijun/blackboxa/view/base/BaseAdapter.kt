@@ -1,4 +1,4 @@
-  package top.niunaijun.blackbox.view.base
+  package top.niunaijun.blackboxa.view.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

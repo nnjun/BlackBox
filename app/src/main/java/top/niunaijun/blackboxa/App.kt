@@ -1,7 +1,8 @@
-package top.niunaijun.blackbox
+package top.niunaijun.blackboxa
 
 import android.app.Application
 import android.content.Context
+import top.niunaijun.blackbox.BlackBoxCore
 
 /**
  *

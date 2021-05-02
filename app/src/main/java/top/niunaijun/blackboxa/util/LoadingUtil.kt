@@ -1,9 +1,9 @@
-package top.niunaijun.blackbox.util
+package top.niunaijun.blackboxa.util
 
 import android.view.KeyEvent
 import androidx.fragment.app.FragmentManager
 import com.roger.catloadinglibrary.CatLoadingView
-import top.niunaijun.blackbox.R
+import top.niunaijun.blackboxa.R
 
 /**
  *

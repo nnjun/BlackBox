@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.view.apps
+package top.niunaijun.blackboxa.view.apps
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,15 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.roger.catloadinglibrary.CatLoadingView
-import top.niunaijun.blackbox.App
+import top.niunaijun.blackboxa.App
 import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackbox.R
-import top.niunaijun.blackbox.databinding.FragmentAppsBinding
-import top.niunaijun.blackbox.util.InjectionUtil
-import top.niunaijun.blackbox.util.LoadingUtil
-import top.niunaijun.blackbox.util.inflate
-import top.niunaijun.blackbox.util.toast
-import top.niunaijun.blackbox.view.main.MainActivity
+import top.niunaijun.blackboxa.R
+import top.niunaijun.blackboxa.databinding.FragmentAppsBinding
+import top.niunaijun.blackboxa.util.InjectionUtil
+import top.niunaijun.blackboxa.util.LoadingUtil
+import top.niunaijun.blackboxa.util.inflate
+import top.niunaijun.blackboxa.util.toast
+import top.niunaijun.blackboxa.view.main.MainActivity
 import java.io.File
 
 /**

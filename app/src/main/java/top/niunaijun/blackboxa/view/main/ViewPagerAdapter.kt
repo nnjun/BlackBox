@@ -1,10 +1,10 @@
-package top.niunaijun.blackbox.view.main
+package top.niunaijun.blackboxa.view.main
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import top.niunaijun.blackbox.server.user.BUserInfo
-import top.niunaijun.blackbox.view.apps.AppsFragment
+import top.niunaijun.blackboxa.view.apps.AppsFragment
 
 /**
  *

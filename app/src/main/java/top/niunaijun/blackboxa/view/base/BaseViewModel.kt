@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.view.base
+package top.niunaijun.blackboxa.view.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

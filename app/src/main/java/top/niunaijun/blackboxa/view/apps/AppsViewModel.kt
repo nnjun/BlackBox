@@ -1,9 +1,9 @@
-package top.niunaijun.blackbox.view.apps
+package top.niunaijun.blackboxa.view.apps
 
 import androidx.lifecycle.MutableLiveData
-import top.niunaijun.blackbox.bean.AppInfo
-import top.niunaijun.blackbox.data.AppsRepository
-import top.niunaijun.blackbox.view.base.BaseViewModel
+import top.niunaijun.blackboxa.bean.AppInfo
+import top.niunaijun.blackboxa.data.AppsRepository
+import top.niunaijun.blackboxa.view.base.BaseViewModel
 import java.io.File
 import java.io.FileDescriptor
 

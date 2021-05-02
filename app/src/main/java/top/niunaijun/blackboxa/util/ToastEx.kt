@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.util
+package top.niunaijun.blackboxa.util
 
 import android.content.Context
 import android.widget.Toast

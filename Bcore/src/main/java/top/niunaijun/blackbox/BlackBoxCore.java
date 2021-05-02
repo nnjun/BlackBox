@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Process;
-import android.os.RemoteException;
 
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.client.frameworks.BUserManager;
@@ -26,14 +25,12 @@ import top.niunaijun.blackbox.server.user.BUserHandle;
 import top.niunaijun.blackbox.server.user.BUserInfo;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
-import top.niunaijun.blackbox.utils.compat.XPoesdParserCompat;
 import top.niunaijun.blackbox.utils.provider.ProviderCall;
 import top.niunaijun.blackbox.client.frameworks.BActivityManager;
 import top.niunaijun.blackbox.client.frameworks.BJobManager;
 import top.niunaijun.blackbox.client.frameworks.BPackageManager;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -299,7 +296,6 @@ public class BlackBoxCore {
 
     public boolean isVirtualProcess() {
         return mProcessType == ProcessType.VAppClient;
-//        return mProcessType == ProcessType.VAppClient || mProcessType == ProcessType.Main;
     }
 
     public boolean isMainProcess() {

@@ -1,10 +1,10 @@
-package top.niunaijun.blackbox.view.list
+package top.niunaijun.blackboxa.view.list
 
 import android.view.ViewGroup
-import top.niunaijun.blackbox.bean.AppInfo
-import top.niunaijun.blackbox.databinding.ItemPackageBinding
-import top.niunaijun.blackbox.util.newBindingViewHolder
-import top.niunaijun.blackbox.view.base.BaseAdapter
+import top.niunaijun.blackboxa.bean.AppInfo
+import top.niunaijun.blackboxa.databinding.ItemPackageBinding
+import top.niunaijun.blackboxa.util.newBindingViewHolder
+import top.niunaijun.blackboxa.view.base.BaseAdapter
 
 /**
  *
@@ -15,7 +15,7 @@ import top.niunaijun.blackbox.view.base.BaseAdapter
 
 class ListAdapter : BaseAdapter<ItemPackageBinding, AppInfo>() {
     override fun getViewBinding(parent: ViewGroup): ItemPackageBinding {
-        return newBindingViewHolder(parent,false)
+        return newBindingViewHolder(parent, false)
 
     }
 

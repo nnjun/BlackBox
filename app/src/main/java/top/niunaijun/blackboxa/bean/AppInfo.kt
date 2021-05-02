@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.bean
+package top.niunaijun.blackboxa.bean
 
 import android.graphics.drawable.Drawable
 

@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.util
+package top.niunaijun.blackboxa.util
 
 import android.app.Activity
 import android.app.Dialog

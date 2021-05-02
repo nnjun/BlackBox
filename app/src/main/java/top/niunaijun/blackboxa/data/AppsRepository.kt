@@ -1,12 +1,12 @@
-package top.niunaijun.blackbox.data
+package top.niunaijun.blackboxa.data
 
 import android.content.pm.ApplicationInfo
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import top.niunaijun.blackbox.App
+import top.niunaijun.blackboxa.App
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackbox.BlackBoxCore.getPackageManager
-import top.niunaijun.blackbox.bean.AppInfo
+import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackbox.utils.AbiUtils
 import top.niunaijun.blackbox.utils.FileUtils
 import java.io.File
@@ -69,10 +69,10 @@ class AppsRepository {
                 inputStream.close()
                 copyFileLiveData.postValue(fileName.toString())
             } else {
-                copyFileLiveData.postValue(null)
+                copyFileLiveData.postValue("")
             }
         } catch (e: IOException) {
-            copyFileLiveData.postValue(null)
+            copyFileLiveData.postValue("")
         }
     }
 

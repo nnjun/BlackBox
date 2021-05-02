@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.view.list
+package top.niunaijun.blackboxa.view.list
 
 import android.app.Activity
 import android.net.Uri
@@ -12,13 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.roger.catloadinglibrary.CatLoadingView
-import top.niunaijun.blackbox.R
-import top.niunaijun.blackbox.bean.AppInfo
-import top.niunaijun.blackbox.databinding.ActivityListBinding
-import top.niunaijun.blackbox.util.InjectionUtil
-import top.niunaijun.blackbox.util.LoadingUtil
-import top.niunaijun.blackbox.util.inflate
-import top.niunaijun.blackbox.util.toast
+import top.niunaijun.blackboxa.R
+import top.niunaijun.blackboxa.bean.AppInfo
+import top.niunaijun.blackboxa.databinding.ActivityListBinding
+import top.niunaijun.blackboxa.util.InjectionUtil
+import top.niunaijun.blackboxa.util.LoadingUtil
+import top.niunaijun.blackboxa.util.inflate
+import top.niunaijun.blackboxa.util.toast
 
 
 class ListActivity : AppCompatActivity() {

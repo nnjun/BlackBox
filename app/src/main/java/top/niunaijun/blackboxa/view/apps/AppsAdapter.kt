@@ -1,10 +1,10 @@
-package top.niunaijun.blackbox.view.apps
+package top.niunaijun.blackboxa.view.apps
 
 import android.view.ViewGroup
-import top.niunaijun.blackbox.bean.AppInfo
-import top.niunaijun.blackbox.databinding.ItemAppBinding
-import top.niunaijun.blackbox.util.inflateBinding
-import top.niunaijun.blackbox.view.base.BaseAdapter
+import top.niunaijun.blackboxa.bean.AppInfo
+import top.niunaijun.blackboxa.databinding.ItemAppBinding
+import top.niunaijun.blackboxa.util.inflateBinding
+import top.niunaijun.blackboxa.view.base.BaseAdapter
 
 /**
  *

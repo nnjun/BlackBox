@@ -1,14 +1,14 @@
-package top.niunaijun.blackbox.view.main
+package top.niunaijun.blackboxa.view.main
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackbox.databinding.ActivityMainBinding
-import top.niunaijun.blackbox.util.inflate
-import top.niunaijun.blackbox.view.apps.AppsFragment
-import top.niunaijun.blackbox.view.list.ListActivity
+import top.niunaijun.blackboxa.databinding.ActivityMainBinding
+import top.niunaijun.blackboxa.util.inflate
+import top.niunaijun.blackboxa.view.apps.AppsFragment
+import top.niunaijun.blackboxa.view.list.ListActivity
 
 
 class MainActivity : AppCompatActivity() {

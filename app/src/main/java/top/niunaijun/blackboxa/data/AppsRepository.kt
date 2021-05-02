@@ -80,7 +80,7 @@ class AppsRepository {
 
             resultLiveData.postValue("安装成功")
         }else{
-            resultLiveData.postValue("安装失败:"+installResult.msg)
+            resultLiveData.postValue("安装失败："+installResult.msg)
         }
         println()
         scanUser()

@@ -17,7 +17,7 @@ class AppsViewModel(private val repo: AppsRepository) : BaseViewModel() {
 
     val appsLiveData = MutableLiveData<List<AppInfo>>()
 
-    val resultLiveData = MutableLiveData<Boolean>()
+    val resultLiveData = MutableLiveData<String>()
 
     val launchLiveData = MutableLiveData<Boolean>()
 

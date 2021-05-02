@@ -2,15 +2,13 @@ package top.niunaijun.blackboxa.data
 
 import android.content.pm.ApplicationInfo
 import android.net.Uri
+import android.webkit.URLUtil
 import androidx.lifecycle.MutableLiveData
-import top.niunaijun.blackboxa.App
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackbox.BlackBoxCore.getPackageManager
 import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackbox.utils.AbiUtils
-import top.niunaijun.blackbox.utils.FileUtils
 import java.io.File
-import java.io.IOException
 
 
 /**
@@ -38,14 +36,22 @@ class AppsRepository {
         appsLiveData.postValue(appInfoList)
     }
 
-    fun getInstallList(appsLiveData: MutableLiveData<List<AppInfo>>) {
+    fun getInstallList(appsLiveData: MutableLiveData<List<AppInfo>>, onlyShowXp: Boolean) {
         val apps: MutableList<AppInfo> = ArrayList()
 
         val installedApplications: List<ApplicationInfo> = getPackageManager().getInstalledApplications(0)
         for (installedApplication in installedApplications) {
+            val file = File(installedApplication.sourceDir)
+
             if (installedApplication.flags and ApplicationInfo.FLAG_SYSTEM !== 0) continue
 
-            if (!AbiUtils.isSupport(File(installedApplication.sourceDir))) continue
+            if (!AbiUtils.isSupport(file)) continue
+
+            if (onlyShowXp) {
+                if (!BlackBoxCore.get().isXPoesdModule(file)) {
+                    continue
+                }
+            }
 
             val info = AppInfo(
                     installedApplication.loadLabel(getPackageManager()).toString(),
@@ -60,34 +66,18 @@ class AppsRepository {
         appsLiveData.postValue(apps)
     }
 
-    fun copyFile(uri: Uri, copyFileLiveData: MutableLiveData<String>) {
-        try {
-            val inputStream = App.getInstance().contentResolver.openInputStream(uri)
-            if (inputStream != null) {
-                val fileName = File(App.getInstance().externalCacheDir, "/tmp_" + System.nanoTime() + ".apk")
-                FileUtils.writeToFile(inputStream, fileName)
-                inputStream.close()
-                copyFileLiveData.postValue(fileName.toString())
-            } else {
-                copyFileLiveData.postValue("")
-            }
-        } catch (e: IOException) {
-            copyFileLiveData.postValue("")
+    fun installApk(source: String, userId: Int, resultLiveData: MutableLiveData<Boolean>) {
+        val blackBoxCore = BlackBoxCore.get()
+        val installResult = if (URLUtil.isValidUrl(source)) {
+            val uri = Uri.parse(source)
+            blackBoxCore.installPackageAsUser(uri, userId)
+        } else {
+            //source == packageName
+            blackBoxCore.installPackageAsUser(source, userId)
         }
-    }
 
-
-    fun installApk(apk: File, userId: Int, resultLiveData: MutableLiveData<Boolean>) {
-        val result = BlackBoxCore.get().installPackageAsUser(apk, userId)
-        apk.delete()
+        resultLiveData.postValue(installResult.success)
         scanUser()
-        resultLiveData.postValue(result.success)
-    }
-
-    fun installApk(packageName: String, userId: Int, resultLiveData: MutableLiveData<Boolean>) {
-        val result = BlackBoxCore.get().installPackageAsUser(packageName, userId)
-        scanUser()
-        resultLiveData.postValue(result.success)
     }
 
     fun launchApk(packageName: String, userId: Int, launchLiveData: MutableLiveData<Boolean>) {
@@ -110,8 +100,6 @@ class AppsRepository {
         }
 
         val id = userList.last().id
-        println("scanUser")
-        println(id)
 
         if (blackBoxCore.getInstalledApplications(0, id).isEmpty()) {
             blackBoxCore.deleteUser(id)

@@ -23,32 +23,25 @@ class AppsViewModel(private val repo: AppsRepository) : BaseViewModel() {
 
     fun getInstalledApps(userId: Int) {
         launchOnUI {
-            repo.getVmInstallList(userId,appsLiveData)
+            repo.getVmInstallList(userId, appsLiveData)
         }
     }
 
-    fun install(apk: File, userID: Int) {
+    fun install(source: String, userID: Int) {
         launchOnUI {
-            repo.installApk(apk,userID,resultLiveData)
+            repo.installApk(source, userID, resultLiveData)
         }
     }
 
-    fun install(packageName: String, userID: Int) {
+    fun unInstall(packageName: String, userID: Int) {
         launchOnUI {
-            repo.installApk(packageName,userID,resultLiveData)
+            repo.unInstall(packageName, userID, resultLiveData)
         }
     }
 
-    fun unInstall(packageName: String,userID: Int){
+    fun launchApk(packageName: String, userID: Int) {
         launchOnUI {
-            repo.unInstall(packageName,userID,resultLiveData)
-        }
-    }
-
-    fun  launchApk(packageName:String,userID: Int){
-        launchOnUI {
-            println("launch")
-            repo.launchApk(packageName,userID,launchLiveData)
+            repo.launchApk(packageName, userID, launchLiveData)
         }
     }
 }

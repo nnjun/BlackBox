@@ -4,23 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.URLUtil
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.roger.catloadinglibrary.CatLoadingView
-import top.niunaijun.blackboxa.App
 import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.databinding.FragmentAppsBinding
 import top.niunaijun.blackboxa.util.InjectionUtil
 import top.niunaijun.blackboxa.util.LoadingUtil
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.util.toast
 import top.niunaijun.blackboxa.view.main.MainActivity
-import java.io.File
 
 /**
  *
@@ -47,13 +44,12 @@ class AppsFragment(private val userID: Int) : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mAdapter = AppsAdapter()
         viewBinding.recyclerView.adapter = mAdapter
-        viewBinding.recyclerView.layoutManager = GridLayoutManager(requireContext(),4)
+        viewBinding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
         viewBinding.stateView.showEmpty()
 
         mAdapter.setOnItemClick { _, _, data ->
             showLoading()
-            println("item")
-            viewModel.launchApk(data.packageName,userID)
+            viewModel.launchApk(data.packageName, userID)
         }
 
         mAdapter.setOnItemLongClick { _, _, data ->
@@ -63,7 +59,6 @@ class AppsFragment(private val userID: Int) : Fragment() {
     }
 
     override fun onStart() {
-        println("start")
         super.onStart()
         viewBinding.stateView.showLoading()
         viewModel.getInstalledApps(userID)
@@ -96,7 +91,6 @@ class AppsFragment(private val userID: Int) : Fragment() {
 
         viewModel.launchLiveData.observe(this) {
             it?.run {
-                println(it)
                 hideLoading()
                 if (!it) {
                     Toast.makeText(requireContext(), "启动失败", Toast.LENGTH_LONG).show()
@@ -107,7 +101,6 @@ class AppsFragment(private val userID: Int) : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        println("stop")
         viewModel.appsLiveData.value = null
         viewModel.appsLiveData.removeObservers(this)
         viewModel.resultLiveData.value = null
@@ -129,46 +122,34 @@ class AppsFragment(private val userID: Int) : Fragment() {
         }
     }
 
-    fun installExistApk(packageName: String) {
-        installApk(packageName,null){
-            showLoading()
-            viewModel.install(packageName, userID)
-        }
-    }
+    fun installApk(source: String) {
+        val packageName = if (URLUtil.isValidUrl(source)) {
+            val info = requireContext().packageManager.getPackageArchiveInfo(source, 0)
+            info.packageName
 
-    fun installApk(apkPath: String) {
-        val info = requireContext().packageManager.getPackageArchiveInfo(apkPath, 0)
-        info?.run {
-            installApk(info.packageName, cancel = {
-                File(apkPath).delete()
-            }, install = {
-                showLoading()
-                viewModel.install(File(apkPath), userID)
-            })
+        } else {
+            source
         }
 
-    }
-
-    private fun installApk(packageName: String,cancel:(() ->Unit)?,install: () -> Unit) {
         if (BlackBoxCore.get().isInstalled(packageName, userID)) {
             MaterialDialog(requireContext()).show {
                 title(text = "覆盖安装")
                 message(text = "该软件已经安装到此用户，是否覆盖安装？")
                 positiveButton(text = "覆盖安装") {
-                    install()
+                    showLoading()
+                    viewModel.install(source, userID)
                 }
-                negativeButton(text = "取消安装") {
-                    if(cancel!=null){
-                        cancel()
-                    }
-                }
+                negativeButton(text = "取消安装")
             }
         } else {
-            install()
+            showLoading()
+            viewModel.install(source, userID)
         }
+
     }
 
-    private fun scanUser(){
+
+    private fun scanUser() {
         (requireActivity() as MainActivity).scanUser()
     }
 
@@ -177,7 +158,7 @@ class AppsFragment(private val userID: Int) : Fragment() {
             loadingView = CatLoadingView()
         }
 
-        LoadingUtil.showLoading(loadingView,childFragmentManager)
+        LoadingUtil.showLoading(loadingView, childFragmentManager)
     }
 
 

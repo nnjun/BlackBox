@@ -654,7 +654,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
-            if (apkFile != null) {
+            if (apkFile != null && option.isFlag(InstallOption.FLAG_URI_FILE)) {
                 FileUtils.deleteDir(apkFile);
             }
         }

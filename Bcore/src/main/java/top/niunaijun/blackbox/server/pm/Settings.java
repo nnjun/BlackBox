@@ -3,6 +3,7 @@ package top.niunaijun.blackbox.server.pm;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageParser;
+import android.os.Debug;
 import android.os.Parcel;
 import android.os.Process;
 import android.util.ArrayMap;
@@ -17,6 +18,7 @@ import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.server.BProcessManager;
+import top.niunaijun.blackbox.server.user.BUserHandle;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
 
@@ -158,7 +160,7 @@ import top.niunaijun.blackbox.utils.Slog;
             packageSettingsIn.setDataPosition(0);
 
             BPackageSettings bPackageSettings = new BPackageSettings(packageSettingsIn);
-            if ((bPackageSettings.installOption.flags & InstallOption.FLAG_SYSTEM) != 0) {
+            if (bPackageSettings.installOption.isFlag(InstallOption.FLAG_SYSTEM)) {
                 PackageInfo packageInfo = BlackBoxCore.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
                 String currPackageSourcePath = packageInfo.applicationInfo.sourceDir;
                 if (!currPackageSourcePath.equals(bPackageSettings.pkg.baseCodePath)) {
@@ -179,6 +181,7 @@ import top.niunaijun.blackbox.utils.Slog;
             FileUtils.deleteDir(app);
             mPackages.remove(packageName);
             BProcessManager.get().killAllByPackageName(packageName);
+            BPackageManagerService.get().onPackageUninstalled(packageName, BUserHandle.USER_ALL);
             Slog.d(TAG, "bad Package: " + packageName);
         } finally {
             packageSettingsIn.recycle();

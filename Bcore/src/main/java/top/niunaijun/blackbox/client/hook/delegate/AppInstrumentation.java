@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Fragment;
 import android.app.Instrumentation;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -17,11 +16,8 @@ import android.util.Log;
 import com.swift.sandhook.xposedcompat.XposedCompat;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import mirror.android.app.ActivityThread;
 import top.niunaijun.blackbox.BlackBoxCore;
@@ -118,7 +114,7 @@ public final class AppInstrumentation extends InstrumentationDelegate implements
     @Override
     public Application newApplication(ClassLoader cl, String className, Context context) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         ContextFixer.fix(context);
-        setupXpoesd(context, cl, BClient.getVProcessName());
+        BClient.getClient().loadXPoesd(context);
         return super.newApplication(cl, className, context);
     }
 

@@ -3,6 +3,7 @@ package top.niunaijun.blackbox.view.list
 import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
@@ -85,7 +86,7 @@ class ListActivity : AppCompatActivity() {
 
         viewModel.copyFileLiveData.observe(this) {
             hideLoading()
-            if (it != null) {
+            if (TextUtils.isEmpty(it)) {
                 finishWithPath(it)
             }else{
                 toast("文件读取失败")

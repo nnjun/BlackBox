@@ -54,7 +54,7 @@ public class BPackageInstallerService extends IBPackageInstallerService.Stub imp
     }
 
     @Override
-    public int uninstallPackageAsUser(BPackageSettings ps, boolean removeApp, int userId) throws RemoteException {
+    public int uninstallPackageAsUser(BPackageSettings ps, boolean removeApp, int userId) {
         List<Executor> executors = new ArrayList<>();
         if (removeApp) {
             // 移除App
@@ -74,7 +74,7 @@ public class BPackageInstallerService extends IBPackageInstallerService.Stub imp
     }
 
     @Override
-    public int updatePackage(BPackageSettings ps) throws RemoteException {
+    public int updatePackage(BPackageSettings ps) {
         List<Executor> executors = new ArrayList<>();
         executors.add(new CreatePackageExecutor());
         executors.add(new CopyExecutor());

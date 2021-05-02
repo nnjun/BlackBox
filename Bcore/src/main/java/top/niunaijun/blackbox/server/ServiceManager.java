@@ -9,6 +9,7 @@ import top.niunaijun.blackbox.server.am.BActivityManagerService;
 import top.niunaijun.blackbox.server.am.BJobManagerService;
 import top.niunaijun.blackbox.server.os.BStorageManagerService;
 import top.niunaijun.blackbox.server.pm.BPackageManagerService;
+import top.niunaijun.blackbox.server.pm.BXpoesdManagerService;
 import top.niunaijun.blackbox.server.user.BUserManagerService;
 
 /**
@@ -26,6 +27,7 @@ public class ServiceManager {
     public static final String PACKAGE_MANAGER = "package_manager";
     public static final String STORAGE_MANAGER = "storage_manager";
     public static final String USER_MANAGER = "user_manager";
+    public static final String XPOESD_MANAGER = "xpoesd_manager";
     public static final String V_SERVICE = "v_service";
 
     private Map<String, IBinder> mCaches = new HashMap<>();
@@ -51,6 +53,7 @@ public class ServiceManager {
         mCaches.put(PACKAGE_MANAGER, BPackageManagerService.get());
         mCaches.put(STORAGE_MANAGER, BStorageManagerService.get());
         mCaches.put(USER_MANAGER, BUserManagerService.get());
+        mCaches.put(XPOESD_MANAGER, BXpoesdManagerService.get());
     }
 
     public IBinder getServiceInternal(String name) {

@@ -13,19 +13,21 @@ import android.content.pm.PackageParser;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
+import android.net.Uri;
 import android.os.Binder;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.RemoteException;
 import android.text.TextUtils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
@@ -34,8 +36,11 @@ import top.niunaijun.blackbox.server.BProcessManager;
 import top.niunaijun.blackbox.server.ISystemService;
 import top.niunaijun.blackbox.server.user.BUserManagerService;
 import top.niunaijun.blackbox.utils.AbiUtils;
+import top.niunaijun.blackbox.utils.FileUtils;
+import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ObjectsCompat;
 import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
+import top.niunaijun.blackbox.utils.compat.XPoesdParserCompat;
 
 import static android.content.pm.PackageManager.MATCH_DIRECT_BOOT_UNAWARE;
 
@@ -51,12 +56,12 @@ import static android.content.pm.PackageManager.MATCH_DIRECT_BOOT_UNAWARE;
 public class BPackageManagerService extends IBPackageManagerService.Stub implements ISystemService {
     public static final String TAG = "VPackageManagerService";
     public static BPackageManagerService sService = new BPackageManagerService();
-    final Settings mSettings = new Settings();
+    private final Settings mSettings = new Settings();
     private ComponentResolver mComponentResolver;
     final Map<String, BPackageSettings> mPackages = mSettings.mPackages;
     final Object mInstallLock = new Object();
     private static BUserManagerService sUserManager = BUserManagerService.get();
-    private Handler mH = new Handler(Looper.getMainLooper());
+    private List<PackageMonitor> mPackageMonitors = new ArrayList<>();
 
     public static BPackageManagerService get() {
         return sService;
@@ -257,7 +262,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     }
 
     @Override
-    public PackageInfo getPackageInfo(String packageName, int flags, int userId) throws RemoteException {
+    public PackageInfo getPackageInfo(String packageName, int flags, int userId) {
         if (!sUserManager.exists(userId)) return null;
         if (ObjectsCompat.equals(packageName, BlackBoxCore.getHostPkg())) {
             try {
@@ -347,7 +352,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     }
 
     @Override
-    public List<PackageInfo> getInstalledPackages(int flags, int userId) throws RemoteException {
+    public List<PackageInfo> getInstalledPackages(int flags, int userId) {
         final int callingUid = Binder.getCallingUid();
 //        if (getInstantAppPackageName(callingUid) != null) {
 //            return ParceledListSlice.emptyList();
@@ -534,12 +539,13 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                     ps.removeUser(userId);
                     ps.save();
                 }
+                onPackageUninstalled(packageName, userId);
             }
         }
     }
 
     @Override
-    public void uninstallPackage(String packageName) throws RemoteException {
+    public void uninstallPackage(String packageName) {
         synchronized (mInstallLock) {
             synchronized (mPackages) {
                 BPackageSettings ps = mPackages.get(packageName);
@@ -548,6 +554,10 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 BProcessManager.get().killAllByPackageName(packageName);
                 for (Integer userId : ps.getUserIds()) {
                     int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, true, userId);
+                    if (i < 0) {
+                        continue;
+                    }
+                    onPackageUninstalled(packageName, userId);
                 }
                 mPackages.remove(packageName);
                 mComponentResolver.removeAllComponents(ps.pkg);
@@ -566,7 +576,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     }
 
     @Override
-    public boolean isInstalled(String packageName, int userId) throws RemoteException {
+    public boolean isInstalled(String packageName, int userId) {
         if (!sUserManager.exists(userId)) return false;
         synchronized (mPackages) {
             BPackageSettings ps = mPackages.get(packageName);
@@ -577,7 +587,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     }
 
     @Override
-    public List<InstalledPackage> getInstalledPackagesAsUser(int userId) throws RemoteException {
+    public List<InstalledPackage> getInstalledPackagesAsUser(int userId) {
         if (!sUserManager.exists(userId)) return Collections.emptyList();
         synchronized (mPackages) {
             List<InstalledPackage> installedPackages = new ArrayList<>();
@@ -595,16 +605,29 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 
     private InstallResult installPackageAsUserLocked(String file, InstallOption option, int userId) {
         InstallResult result = new InstallResult();
+        File apkFile = null;
         try {
             if (!sUserManager.exists(userId)) {
                 sUserManager.createUser(userId);
             }
-            boolean support = AbiUtils.isSupport(new File(file));
+            if (option.isFlag(InstallOption.FLAG_URI_FILE)) {
+                apkFile = new File(BEnvironment.getCacheDir(), UUID.randomUUID().toString() + ".apk");
+                InputStream inputStream = BlackBoxCore.getContext().getContentResolver().openInputStream(Uri.parse(file));
+                FileUtils.copyFile(inputStream, apkFile);
+            } else {
+                apkFile = new File(file);
+            }
+
+            if (option.isFlag(InstallOption.FLAG_XPOESD) && !XPoesdParserCompat.isXPModule(apkFile.getAbsolutePath())) {
+                return new InstallResult().installError("not a XP module");
+            }
+
+            boolean support = AbiUtils.isSupport(apkFile);
             if (!support) {
                 return result.installError(BlackBoxCore.is64Bit() ? "not support armeabi-v7a abi" : "not support arm64-v8a abi");
             }
 
-            PackageParser.Package aPackage = parserApk(file);
+            PackageParser.Package aPackage = parserApk(apkFile.getAbsolutePath());
             if (aPackage == null) {
                 return result.installError("parser apk error.");
             }
@@ -626,9 +649,14 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             }
             mComponentResolver.addAllComponents(bPackageSettings.pkg);
             mSettings.scanPackage();
+            onPackageInstalled(bPackageSettings.pkg.packageName, userId);
             return result;
         } catch (Throwable t) {
             t.printStackTrace();
+        } finally {
+            if (apkFile != null) {
+                FileUtils.deleteDir(apkFile);
+            }
         }
         return result;
     }
@@ -673,6 +701,32 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         if (bPackageSettings != null)
             return bPackageSettings.appId;
         return -1;
+    }
+
+    Settings getSettings() {
+        return mSettings;
+    }
+
+    public void addPackageMonitor(PackageMonitor monitor) {
+        mPackageMonitors.add(monitor);
+    }
+
+    public void removePackageMonitor(PackageMonitor monitor) {
+        mPackageMonitors.add(monitor);
+    }
+
+    void onPackageUninstalled(String packageName, int userId) {
+        for (PackageMonitor packageMonitor : mPackageMonitors) {
+            packageMonitor.onPackageUninstalled(packageName, userId);
+        }
+        Slog.d(TAG, "onPackageUninstalled: " + packageName + ", userId: " + userId);
+    }
+
+    void onPackageInstalled(String packageName, int userId) {
+        for (PackageMonitor packageMonitor : mPackageMonitors) {
+            packageMonitor.onPackageInstalled(packageName, userId);
+        }
+        Slog.d(TAG, "onPackageInstalled: " + packageName + ", userId: " + userId);
     }
 
     @Override

@@ -21,6 +21,7 @@ public class BEnvironment {
         FileUtils.mkdirs(sVirtualRoot);
         FileUtils.mkdirs(sExternalVirtualRoot);
         FileUtils.mkdirs(getSystemDir());
+        FileUtils.mkdirs(getCacheDir());
     }
 
     public static File getVirtualRoot() {
@@ -35,12 +36,20 @@ public class BEnvironment {
         return new File(sVirtualRoot, "system");
     }
 
+    public static File getCacheDir() {
+        return new File(sVirtualRoot, "cache");
+    }
+
     public static File getUserInfoConf() {
         return new File(getSystemDir(), "user.conf");
     }
 
     public static File getUidConf() {
         return new File(getSystemDir(), "uid.conf");
+    }
+
+    public static File getXPModuleConf() {
+        return new File(getSystemDir(), "xpoesd-module.conf");
     }
 
     public static File getPackageConf(String packageName) {

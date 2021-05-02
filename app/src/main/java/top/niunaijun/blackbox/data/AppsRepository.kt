@@ -96,7 +96,7 @@ class AppsRepository {
     }
 
     fun unInstall(packageName: String, userID: Int, resultLiveData: MutableLiveData<Boolean>) {
-        BlackBoxCore.get().uninstallPackagesAsUser(packageName, userID)
+        BlackBoxCore.get().uninstallPackageAsUser(packageName, userID)
         scanUser()
         resultLiveData.postValue(true)
     }

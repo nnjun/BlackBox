@@ -67,7 +67,7 @@ public class BUserManagerService extends IBUserManagerService.Stub implements IS
     }
 
     @Override
-    public List<BUserInfo> getUsers() throws RemoteException {
+    public List<BUserInfo> getUsers() {
         synchronized (mUsers) {
             ArrayList<BUserInfo> bUsers = new ArrayList<>();
             for (BUserInfo value : mUsers.values()) {
@@ -76,6 +76,12 @@ public class BUserManagerService extends IBUserManagerService.Stub implements IS
                 }
             }
             return bUsers;
+        }
+    }
+
+    public List<BUserInfo> getAllUsers() {
+        synchronized (mUsers) {
+            return new ArrayList<>(mUsers.values());
         }
     }
 

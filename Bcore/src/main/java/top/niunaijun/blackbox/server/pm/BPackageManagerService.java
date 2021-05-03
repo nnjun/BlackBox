@@ -34,6 +34,8 @@ import top.niunaijun.blackbox.entity.pm.InstallResult;
 import top.niunaijun.blackbox.entity.pm.InstalledPackage;
 import top.niunaijun.blackbox.server.BProcessManager;
 import top.niunaijun.blackbox.server.ISystemService;
+import top.niunaijun.blackbox.server.user.BUserHandle;
+import top.niunaijun.blackbox.server.user.BUserInfo;
 import top.niunaijun.blackbox.server.user.BUserManagerService;
 import top.niunaijun.blackbox.utils.AbiUtils;
 import top.niunaijun.blackbox.utils.FileUtils;
@@ -521,6 +523,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 BPackageSettings ps = mPackages.get(packageName);
                 if (ps == null)
                     return;
+                if (ps.installOption.isFlag(InstallOption.FLAG_XPOESD) && userId != BUserHandle.USER_XPOESD) {
+                    return;
+                }
                 if (!isInstalled(packageName, userId)) {
                     return;
                 }
@@ -552,12 +557,22 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 if (ps == null)
                     return;
                 BProcessManager.get().killAllByPackageName(packageName);
-                for (Integer userId : ps.getUserIds()) {
-                    int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, true, userId);
-                    if (i < 0) {
-                        continue;
+                if (ps.installOption.isFlag(InstallOption.FLAG_XPOESD)) {
+                    for (BUserInfo user : BUserManagerService.get().getAllUsers()) {
+                        int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, true, user.id);
+                        if (i < 0) {
+                            continue;
+                        }
+                        onPackageUninstalled(packageName, user.id);
                     }
-                    onPackageUninstalled(packageName, userId);
+                } else {
+                    for (Integer userId : ps.getUserIds()) {
+                        int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, true, userId);
+                        if (i < 0) {
+                            continue;
+                        }
+                        onPackageUninstalled(packageName, userId);
+                    }
                 }
                 mPackages.remove(packageName);
                 mComponentResolver.removeAllComponents(ps.pkg);
@@ -618,6 +633,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 apkFile = new File(file);
             }
 
+            if (option.isFlag(InstallOption.FLAG_XPOESD) && userId != BUserHandle.USER_XPOESD) {
+                return new InstallResult().installError("Please install the XP module in XP module management");
+            }
             if (option.isFlag(InstallOption.FLAG_XPOESD) && !XPoesdParserCompat.isXPModule(apkFile.getAbsolutePath())) {
                 return new InstallResult().installError("not a XP module");
             }

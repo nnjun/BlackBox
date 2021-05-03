@@ -94,10 +94,6 @@ QQ | 无网 | 仍在努力中，可能姿势不对
    
    BlackBoxCore.get().setModuleEnable("com.xxx", true);
 ```
-#### 启用XPoesd模块界面
-```java
-   BlackBoxCore.get().launchXPModule("com.xxx");
-```
 
 #### 获取已安装的XPoesd模块列表
 ```java

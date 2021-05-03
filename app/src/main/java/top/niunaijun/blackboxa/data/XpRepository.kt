@@ -51,9 +51,4 @@ class XpRepository {
         BlackBoxCore.get().uninstallXPModule(packageName)
         resultLiveData.postValue(true)
     }
-
-    fun launchModule(packageName: String, launchLiveData: MutableLiveData<Boolean>) {
-        val result = BlackBoxCore.get().launchXPModule(packageName)
-        launchLiveData.postValue(result)
-    }
 }

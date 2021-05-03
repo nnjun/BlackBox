@@ -101,8 +101,7 @@ class XpActivity : AppCompatActivity() {
         viewBinding.stateView.showEmpty()
 
         mAdapter.setOnItemClick { _, _, data ->
-            showLoading()
-            viewModel.launchModule(data.packageName)
+            toast("请在外部启动模块")
         }
 
         mAdapter.setOnItemLongClick { _, _, data ->

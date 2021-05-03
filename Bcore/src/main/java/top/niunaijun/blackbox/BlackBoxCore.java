@@ -168,10 +168,6 @@ public class BlackBoxCore {
         return true;
     }
 
-    public boolean launchXPModule(String packageName) {
-        return launchApk(packageName, BUserHandle.USER_XPOESD);
-    }
-
     public boolean isInstalled(String packageName, int userId) {
         return getBPackageManager().isInstalled(packageName, userId);
     }
@@ -224,7 +220,7 @@ public class BlackBoxCore {
     }
 
     public void uninstallXPModule(String packageName) {
-        uninstallPackageAsUser(packageName, BUserHandle.USER_XPOESD);
+        uninstallPackage(packageName);
     }
 
     public boolean isXPEnable() {

@@ -23,7 +23,6 @@ class App : Application() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         try {
-            context = base!!
             BlackBoxCore.get().doAttachBaseContext(base)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -33,5 +32,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         BlackBoxCore.get().doCreate()
+        context = this
     }
 }

@@ -1,5 +1,7 @@
 package top.niunaijun.blackboxa.util
 
+import android.app.Application
+import top.niunaijun.blackboxa.App
 import top.niunaijun.blackboxa.data.AppsRepository
 import top.niunaijun.blackboxa.data.XpRepository
 import top.niunaijun.blackboxa.view.apps.AppsFactory
@@ -23,7 +25,7 @@ object InjectionUtil {
     }
 
     fun getListFactory(): ListFactory {
-        return ListFactory(appsRepository)
+        return ListFactory(appsRepository,App.getInstance() as Application)
     }
 
     fun getXpFactory():XpFactory{

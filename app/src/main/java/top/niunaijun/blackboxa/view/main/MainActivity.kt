@@ -88,18 +88,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.main_git->{
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nnjun/BlackBox") )
+        when (item?.itemId) {
+            R.id.main_git -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nnjun/BlackBox"))
                 startActivity(intent)
             }
 
-            R.id.main_xp->{
-                val intent = Intent(this,XpActivity::class.java)
+            R.id.main_xp -> {
+                val intent = Intent(this, XpActivity::class.java)
                 startActivity(intent)
             }
 
 
+            R.id.main_qq -> {
+                val intent = Intent()
+                intent.data = Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3DGZQZdUkdM3yv2-VqK-XW8eB6U0Wd5fBX")
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                try {
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
 
         return true

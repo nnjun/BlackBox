@@ -43,7 +43,7 @@ abstract class BaseAdapter<T : ViewBinding, D> : RecyclerView.Adapter<BaseAdapte
             if (onLongClick != null) {
                 onLongClick!!(position, holder.bindIng, bean)
             }
-            false
+            true
         }
     }
 

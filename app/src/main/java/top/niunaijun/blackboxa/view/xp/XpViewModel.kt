@@ -39,10 +39,4 @@ class XpViewModel(private val repo:XpRepository):BaseViewModel() {
             repo.unInstallModule(packageName,resultLiveData)
         }
     }
-
-    fun  launchModule(packageName:String){
-        launchOnUI {
-            repo.launchModule(packageName,launchLiveData)
-        }
-    }
 }

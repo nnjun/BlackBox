@@ -2,6 +2,7 @@ package top.niunaijun.blackbox.server.os;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Process;
 import android.os.RemoteException;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
@@ -12,6 +13,7 @@ import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.server.ISystemService;
+import top.niunaijun.blackbox.server.user.BUserHandle;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.client.hook.provider.FileProvider;
 
@@ -38,7 +40,7 @@ public class BStorageManagerService extends IBStorageManagerService.Stub impleme
     @Override
     public StorageVolume[] getVolumeList(int uid, String packageName, int flags, int userId) throws RemoteException {
         try {
-            StorageVolume[] storageVolumes = mirror.android.os.storage.StorageManager.getVolumeList.call(0, 0);
+            StorageVolume[] storageVolumes = mirror.android.os.storage.StorageManager.getVolumeList.call(BUserHandle.getUserId(Process.myUid()), 0);
 //            if (VirtualCore.getHostPkg().equals(packageName)) {
 //                return storageVolumes;
 //            }

@@ -1,6 +1,7 @@
 package top.niunaijun.blackbox.client.hook.proxies.os.storage;
 
 import android.os.IInterface;
+import android.os.Process;
 
 import java.lang.reflect.Method;
 
@@ -64,7 +65,7 @@ public class StorageManagerStub extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             if (args == null) {
-                return BlackBoxCore.getBStorageManager().getVolumeList(0, null, 0, BClient.getUserId());
+                return BlackBoxCore.getBStorageManager().getVolumeList(Process.myUid(), null, 0, BClient.getUserId());
             }
             int uid = (int) args[0];
             String packageName = (String) args[1];

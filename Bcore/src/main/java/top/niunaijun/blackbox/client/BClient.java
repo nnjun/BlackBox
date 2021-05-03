@@ -363,7 +363,7 @@ public class BClient extends IBClient.Stub {
         assert vPackageName != null;
         assert vProcessName != null;
 
-        XposedCompat.cacheDir = new File(vProcessName);
+        XposedCompat.cacheDir = new File(context.getCacheDir(), vProcessName);
         FileUtils.mkdirs(XposedCompat.cacheDir);
         XposedCompat.context = context;
         XposedCompat.classLoader = context.getClassLoader();

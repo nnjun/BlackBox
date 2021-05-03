@@ -46,6 +46,12 @@ public class BPackageUserState implements Parcelable {
         this.hidden = in.readByte() != 0;
     }
 
+    public BPackageUserState(BPackageUserState state) {
+        this.installed = state.installed;
+        this.stopped = state.stopped;
+        this.hidden = state.hidden;
+    }
+
     public static final Parcelable.Creator<BPackageUserState> CREATOR = new Parcelable.Creator<BPackageUserState>() {
         @Override
         public BPackageUserState createFromParcel(Parcel source) {

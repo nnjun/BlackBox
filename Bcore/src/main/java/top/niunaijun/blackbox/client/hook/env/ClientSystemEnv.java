@@ -23,6 +23,7 @@ public class ClientSystemEnv {
         sSystemPackages.add("android");
         sSystemPackages.add("com.google.android.webview");
         sSystemPackages.add("com.android.webview");
+        sSystemPackages.add("com.android.camera");
     }
 
     public static boolean isOpenPackage(String packageName) {

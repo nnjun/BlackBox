@@ -43,14 +43,14 @@ public class BXposedManagerService extends IBXposedManagerService.Stub implement
     }
 
     public BXposedManagerService() {
-        mPms = BPackageManagerService.get();
-        mPms.addPackageMonitor(this);
     }
 
     @Override
     public void systemReady() {
         synchronized (mLock) {
             loadModuleStateLr();
+            mPms = BPackageManagerService.get();
+            mPms.addPackageMonitor(this);
         }
     }
 

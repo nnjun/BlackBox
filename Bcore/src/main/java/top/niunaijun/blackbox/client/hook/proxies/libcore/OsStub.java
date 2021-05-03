@@ -56,9 +56,9 @@ public class OsStub extends ClassInvocationStub {
                 if (args[i] instanceof String && ((String) args[i]).startsWith("/")) {
                     String orig = (String) args[i];
                     args[i] = IOManager.get().redirectPath(orig);
-//                    if (!ObjectsCompat.equals(orig, args[i])) {
-//                        Log.d(TAG, "redirectPath: " + orig + "  => " + args[i]);
-//                    }
+                    if (!ObjectsCompat.equals(orig, args[i])) {
+                        Log.d(TAG, "redirectPath: " + orig + "  => " + args[i]);
+                    }
                 }
             }
         }

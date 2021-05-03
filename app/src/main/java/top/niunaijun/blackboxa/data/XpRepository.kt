@@ -33,7 +33,7 @@ class XpRepository {
         modulesLiveData.postValue(result)
     }
 
-    fun installModule(source: String, resultLiveData: MutableLiveData<Boolean>) {
+    fun installModule(source: String, resultLiveData: MutableLiveData<String>) {
         val blackBoxCore = BlackBoxCore.get()
 
         val installResult = if (URLUtil.isValidUrl(source)) {
@@ -44,11 +44,16 @@ class XpRepository {
             blackBoxCore.installXPModule(source)
         }
 
-        resultLiveData.postValue(installResult.success)
+        if(installResult.success){
+
+            resultLiveData.postValue("安装成功")
+        }else{
+            resultLiveData.postValue("安装失败："+installResult.msg)
+        }
     }
 
-    fun unInstallModule(packageName: String, resultLiveData: MutableLiveData<Boolean>) {
+    fun unInstallModule(packageName: String, resultLiveData: MutableLiveData<String>) {
         BlackBoxCore.get().uninstallXPModule(packageName)
-        resultLiveData.postValue(true)
+        resultLiveData.postValue("移除成功")
     }
 }

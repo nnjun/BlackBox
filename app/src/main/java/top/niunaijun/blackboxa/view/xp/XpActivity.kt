@@ -2,6 +2,7 @@ package top.niunaijun.blackboxa.view.xp
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.URLUtil
@@ -71,16 +72,11 @@ class XpActivity : AppCompatActivity() {
         }
 
         viewModel.resultLiveData.observe(this) {
-            it?.run {
+            if (!TextUtils.isEmpty(it)) {
                 hideLoading()
-                if (it) {
-                    toast("操作成功")
-                    viewModel.getInstalledModule()
-                } else {
-                    toast("操作失败")
-                }
+                toast(it)
+                viewModel.getInstalledModule()
             }
-
         }
 
         viewModel.launchLiveData.observe(this) {
@@ -100,7 +96,7 @@ class XpActivity : AppCompatActivity() {
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         viewBinding.stateView.showEmpty()
 
-        mAdapter.setOnItemClick { _, _, data ->
+        mAdapter.setOnItemClick { _, _, _ ->
             toast("请在外部启动模块")
         }
 

@@ -3,12 +3,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+            android:id="@+id/main_xp"
+            android:title="@string/xp_setting"
+            app:showAsAction="always" />
+
+    <item
             android:id="@+id/main_git"
             android:title="@string/open_source_path"
             app:showAsAction="never" />
 
     <item
-            android:id="@+id/main_xp"
-            android:title="@string/xp_setting"
+            android:id="@+id/main_qq"
+            android:title="@string/qq_group"
             app:showAsAction="never" />
 </menu>

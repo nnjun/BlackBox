@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +25,7 @@ class ListActivity : AppCompatActivity() {
 
     private lateinit var viewModel: ListViewModel
 
-    private var appList :List<AppInfo> = ArrayList()
+    private var appList: List<AppInfo> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +53,7 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun initSearchView() {
-        viewBinding.searchView.setOnQueryTextListener(object :SimpleSearchView.OnQueryTextListener{
+        viewBinding.searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 filterApp(newText)
                 return true
@@ -70,14 +71,22 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        val onlyShowXp = intent.getBooleanExtra("onlyShowXp",false)
         viewModel = ViewModelProvider(this, InjectionUtil.getListFactory()).get(ListViewModel::class.java)
+        val onlyShowXp = intent.getBooleanExtra("onlyShowXp", false)
         viewBinding.stateView.showLoading()
-        viewModel.getInstalledApps(onlyShowXp)
+
+        if (onlyShowXp) {
+            viewModel.getInstalledModules()
+            viewBinding.toolbarLayout.toolbar.setTitle(R.string.installed_module)
+        } else {
+            viewModel.getInstallAppList()
+            viewBinding.toolbarLayout.toolbar.setTitle(R.string.installed_app)
+        }
+
         viewModel.appsLiveData.observe(this) {
             if (it != null) {
                 this.appList = it
-                viewBinding.searchView.setQuery("",false)
+                viewBinding.searchView.setQuery("", false)
                 filterApp("")
                 if (it.isNotEmpty()) {
                     viewBinding.stateView.showContent()
@@ -90,7 +99,7 @@ class ListActivity : AppCompatActivity() {
 
     private fun filterApp(newText: String) {
         val newList = this.appList.filter {
-            it.name.contains(newText,true) or it.packageName.contains(newText,true)
+            it.name.contains(newText, true) or it.packageName.contains(newText, true)
         }
         mAdapter.replaceData(newList)
     }
@@ -101,28 +110,24 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    private fun finishWithResult(source:String){
-
+    private fun finishWithResult(source: String) {
         intent.putExtra("source", source)
         setResult(Activity.RESULT_OK, intent)
+        val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        window.peekDecorView()?.run {
+            imm.hideSoftInputFromWindow(windowToken, 0)
+        }
         finish()
     }
 
+
     override fun onBackPressed() {
-        if(viewBinding.searchView.isSearchOpen){
+        if (viewBinding.searchView.isSearchOpen) {
             viewBinding.searchView.closeSearch()
-        }else{
+        } else {
             super.onBackPressed()
         }
     }
-
-    override fun onStop() {
-        super.onStop()
-        if(viewBinding.searchView.isSearchOpen){
-            viewBinding.searchView.closeSearch()
-        }
-    }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.list_choose) {

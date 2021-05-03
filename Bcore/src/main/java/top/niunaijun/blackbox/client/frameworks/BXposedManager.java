@@ -8,7 +8,7 @@ import java.util.List;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.server.ServiceManager;
-import top.niunaijun.blackbox.server.pm.IBXPoesdManagerService;
+import top.niunaijun.blackbox.server.pm.IBXposedManagerService;
 
 /**
  * Created by Milk on 5/2/21.
@@ -18,12 +18,12 @@ import top.niunaijun.blackbox.server.pm.IBXPoesdManagerService;
  * しーＪ
  * 此处无Bug
  */
-public class BXpoesdManager {
-    private IBXPoesdManagerService mService;
-    private static BXpoesdManager sXpoesdManager = new BXpoesdManager();
+public class BXposedManager {
+    private IBXposedManagerService mService;
+    private static BXposedManager sXposedManager = new BXposedManager();
 
-    public static BXpoesdManager get() {
-        return sXpoesdManager;
+    public static BXposedManager get() {
+        return sXposedManager;
     }
 
     public boolean isXPEnable() {
@@ -69,11 +69,11 @@ public class BXpoesdManager {
         return Collections.emptyList();
     }
 
-    private IBXPoesdManagerService getService() {
+    private IBXposedManagerService getService() {
         if (mService != null && mService.asBinder().isBinderAlive()) {
             return mService;
         }
-        mService = IBXPoesdManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.XPOESD_MANAGER));
+        mService = IBXposedManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.Xposed_MANAGER));
         return getService();
     }
 }

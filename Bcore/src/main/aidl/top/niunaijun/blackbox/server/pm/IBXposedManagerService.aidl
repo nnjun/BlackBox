@@ -1,11 +1,11 @@
-// IBXPoesdManagerService.aidl
+// IBXposedManagerService.aidl
 
 package top.niunaijun.blackbox.server.pm;
 
 import java.util.List;
 import top.niunaijun.blackbox.entity.pm.InstalledModule;
 
-interface IBXPoesdManagerService {
+interface IBXposedManagerService {
     boolean isXPEnable();
     void setXPEnable(boolean enable);
     boolean isModuleEnable(String packageName);

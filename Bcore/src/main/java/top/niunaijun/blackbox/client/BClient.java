@@ -39,6 +39,7 @@ import java.util.Map;
 import dalvik.system.DexClassLoader;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import mirror.android.app.ActivityManagerNative;
 import mirror.android.app.ActivityThread;
@@ -47,7 +48,8 @@ import mirror.android.app.ActivityThreadQ;
 import mirror.android.app.ContextImpl;
 import mirror.android.app.LoadedApk;
 import mirror.com.android.internal.content.ReferrerIntent;
-import top.niunaijun.blackbox.client.frameworks.BXpoesdManager;
+import mirror.dalvik.system.VMRuntime;
+import top.niunaijun.blackbox.client.frameworks.BXposedManager;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.client.hook.IOManager;
 import top.niunaijun.blackbox.client.hook.env.VirtualRuntime;
@@ -292,6 +294,7 @@ public class BClient extends IBClient.Stub {
             }
         }
 
+        VMRuntime.setTargetSdkVersion.call(VMRuntime.getRuntime.call(), applicationInfo.targetSdkVersion);
         VMCore.init(Build.VERSION.SDK_INT);
         assert packageContext != null;
         IOManager.get().enableRedirect(packageContext);
@@ -354,10 +357,10 @@ public class BClient extends IBClient.Stub {
         ContentProviderDelegate.init();
     }
 
-    public void loadXPoesd(Context context) {
+    public void loadXposed(Context context) {
         String vPackageName = getVPackageName();
         String vProcessName = getVProcessName();
-        if (TextUtils.isEmpty(vPackageName) || TextUtils.isEmpty(vProcessName) || !BXpoesdManager.get().isXPEnable()) {
+        if (TextUtils.isEmpty(vPackageName) || TextUtils.isEmpty(vProcessName) || !BXposedManager.get().isXPEnable()) {
             return;
         }
         assert vPackageName != null;
@@ -375,7 +378,7 @@ public class BClient extends IBClient.Stub {
         packageParam.packageName = vPackageName;
         packageParam.processName = vProcessName;
         packageParam.isFirstApplication = XposedCompat.isFirstApplication;
-        List<InstalledModule> installedModules = BXpoesdManager.get().getInstalledModules();
+        List<InstalledModule> installedModules = BXposedManager.get().getInstalledModules();
         for (InstalledModule installedModule : installedModules) {
             if (!installedModule.enable) {
                 continue;

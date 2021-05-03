@@ -24,7 +24,7 @@ import top.niunaijun.blackbox.utils.CloseUtils;
  * しーＪ
  * 此处无Bug
  */
-public class XPoesdParserCompat {
+public class XposedParserCompat {
 
     public static InstalledModule parseModule(ApplicationInfo applicationInfo) {
         try {

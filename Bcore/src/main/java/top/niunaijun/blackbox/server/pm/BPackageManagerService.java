@@ -42,7 +42,7 @@ import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ObjectsCompat;
 import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
-import top.niunaijun.blackbox.utils.compat.XPoesdParserCompat;
+import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
 
 import static android.content.pm.PackageManager.MATCH_DIRECT_BOOT_UNAWARE;
 
@@ -523,7 +523,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 BPackageSettings ps = mPackages.get(packageName);
                 if (ps == null)
                     return;
-                if (ps.installOption.isFlag(InstallOption.FLAG_XPOESD) && userId != BUserHandle.USER_XPOESD) {
+                if (ps.installOption.isFlag(InstallOption.FLAG_Xposed) && userId != BUserHandle.USER_XPOSED) {
                     return;
                 }
                 if (!isInstalled(packageName, userId)) {
@@ -557,7 +557,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 if (ps == null)
                     return;
                 BProcessManager.get().killAllByPackageName(packageName);
-                if (ps.installOption.isFlag(InstallOption.FLAG_XPOESD)) {
+                if (ps.installOption.isFlag(InstallOption.FLAG_Xposed)) {
                     for (BUserInfo user : BUserManagerService.get().getAllUsers()) {
                         int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, true, user.id);
                         if (i < 0) {
@@ -633,10 +633,10 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 apkFile = new File(file);
             }
 
-            if (option.isFlag(InstallOption.FLAG_XPOESD) && userId != BUserHandle.USER_XPOESD) {
+            if (option.isFlag(InstallOption.FLAG_Xposed) && userId != BUserHandle.USER_XPOSED) {
                 return new InstallResult().installError("Please install the XP module in XP module management");
             }
-            if (option.isFlag(InstallOption.FLAG_XPOESD) && !XPoesdParserCompat.isXPModule(apkFile.getAbsolutePath())) {
+            if (option.isFlag(InstallOption.FLAG_Xposed) && !XposedParserCompat.isXPModule(apkFile.getAbsolutePath())) {
                 return new InstallResult().installError("not a XP module");
             }
 

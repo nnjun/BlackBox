@@ -49,7 +49,7 @@ public class BEnvironment {
     }
 
     public static File getXPModuleConf() {
-        return new File(getSystemDir(), "xpoesd-module.conf");
+        return new File(getSystemDir(), "xposed-module.conf");
     }
 
     public static File getPackageConf(String packageName) {

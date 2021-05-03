@@ -6,7 +6,7 @@ import top.niunaijun.blackbox.server.am.BJobManagerService;
 import top.niunaijun.blackbox.server.os.BStorageManagerService;
 import top.niunaijun.blackbox.server.pm.BPackageInstallerService;
 import top.niunaijun.blackbox.server.pm.BPackageManagerService;
-import top.niunaijun.blackbox.server.pm.BXpoesdManagerService;
+import top.niunaijun.blackbox.server.pm.BXposedManagerService;
 import top.niunaijun.blackbox.server.user.BUserManagerService;
 
 /**
@@ -40,6 +40,6 @@ public class BlackBoxSystem {
         BJobManagerService.get().systemReady();
         BStorageManagerService.get().systemReady();
         BPackageInstallerService.get().systemReady();
-        BXpoesdManagerService.get().systemReady();
+        BXposedManagerService.get().systemReady();
     }
 }

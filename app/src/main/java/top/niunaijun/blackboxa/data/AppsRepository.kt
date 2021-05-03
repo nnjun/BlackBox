@@ -48,7 +48,7 @@ class AppsRepository {
             if (!AbiUtils.isSupport(file)) continue
 
             if (onlyShowXp) {
-                if (!BlackBoxCore.get().isXPoesdModule(file)) {
+                if (!BlackBoxCore.get().isXposedModule(file)) {
                     continue
                 }
             }

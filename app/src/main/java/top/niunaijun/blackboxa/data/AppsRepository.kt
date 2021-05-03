@@ -20,26 +20,13 @@ import java.io.File
 
 class AppsRepository {
 
-    fun getVmInstallList(userId: Int, appsLiveData: MutableLiveData<List<AppInfo>>) {
-        val applicationList = BlackBoxCore.get().getInstalledApplications(0, userId)
-        val appInfoList = mutableListOf<AppInfo>()
-        applicationList.forEach {
-            val info = AppInfo(
-                    it.loadLabel(getPackageManager()).toString(),
-                    it.loadIcon(getPackageManager()),
-                    it.packageName,
-                    it.sourceDir
-            )
+    private val mInstalledList = mutableListOf<AppInfo>()
 
-            appInfoList.add(info)
-        }
-        appsLiveData.postValue(appInfoList)
-    }
 
-    fun getInstallList(appsLiveData: MutableLiveData<List<AppInfo>>, onlyShowXp: Boolean) {
-        val apps: MutableList<AppInfo> = ArrayList()
+    fun previewInstallList() {
 
         val installedApplications: List<ApplicationInfo> = getPackageManager().getInstalledApplications(0)
+
         for (installedApplication in installedApplications) {
             val file = File(installedApplication.sourceDir)
 
@@ -47,23 +34,57 @@ class AppsRepository {
 
             if (!AbiUtils.isSupport(file)) continue
 
-            if (onlyShowXp) {
-                if (!BlackBoxCore.get().isXPoesdModule(file)) {
-                    continue
-                }
-            }
+            val isXpModule = BlackBoxCore.get().isXPoesdModule(file)
 
             val info = AppInfo(
                     installedApplication.loadLabel(getPackageManager()).toString(),
                     installedApplication.loadIcon(getPackageManager()),
                     installedApplication.packageName,
-                    installedApplication.sourceDir
+                    installedApplication.sourceDir,
+                    isXpModule
+            )
+            mInstalledList.add(info)
+        }
+    }
+
+    fun getInstalledAppList(appsLiveData: MutableLiveData<List<AppInfo>>) {
+        appsLiveData.postValue(ArrayList(mInstalledList))
+    }
+
+    fun getInstalledModuleList(appsLiveData: MutableLiveData<List<AppInfo>>) {
+        val moduleList = mInstalledList.filter {
+            it.isXpModule
+        }
+        appsLiveData.postValue(moduleList)
+    }
+
+
+    fun getVmInstallList(userId: Int, appsLiveData: MutableLiveData<List<AppInfo>>) {
+        val applicationList = BlackBoxCore.get().getInstalledApplications(0, userId)
+
+        val appInfoList = mutableListOf<AppInfo>()
+        applicationList.forEach {
+            val info = AppInfo(
+                    it.loadLabel(getPackageManager()).toString(),
+                    it.loadIcon(getPackageManager()),
+                    it.packageName,
+                    it.sourceDir,
+                    isInstalledXpModule(it.packageName)
             )
 
-            apps.add(info)
+            appInfoList.add(info)
+        }
+        appsLiveData.postValue(appInfoList)
+    }
+
+    private fun isInstalledXpModule(packageName: String):Boolean{
+        BlackBoxCore.get().installedXPModules.forEach {
+            if(packageName == it.packageName){
+                return@isInstalledXpModule true
+            }
         }
 
-        appsLiveData.postValue(apps)
+        return false
     }
 
     fun installApk(source: String, userId: Int, resultLiveData: MutableLiveData<String>) {
@@ -76,13 +97,11 @@ class AppsRepository {
             blackBoxCore.installPackageAsUser(source, userId)
         }
 
-        if(installResult.success){
-
+        if (installResult.success) {
             resultLiveData.postValue("安装成功")
-        }else{
-            resultLiveData.postValue("安装失败："+installResult.msg)
+        } else {
+            resultLiveData.postValue("安装失败：" + installResult.msg)
         }
-        println()
         scanUser()
     }
 

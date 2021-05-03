@@ -54,7 +54,11 @@ class AppsFragment(private val userID: Int) : Fragment() {
         }
 
         mAdapter.setOnItemLongClick { _, _, data ->
-            unInstallApk(data.packageName)
+            if (data.isXpModule) {
+                requireContext().toast("Xposed模块请在管理界面卸载")
+            } else {
+                unInstallApk(data.packageName)
+            }
         }
         return viewBinding.root
     }

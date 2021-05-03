@@ -8,4 +8,4 @@ import android.graphics.drawable.Drawable
  * @Author: wukaicheng
  * @CreateDate: 2021/4/29 21:57
  */
-data class AppInfo(val name:String,val icon:Drawable,val packageName:String,val sourceDir:String)
+data class AppInfo(val name:String,val icon:Drawable,val packageName:String,val sourceDir:String,val isXpModule:Boolean)

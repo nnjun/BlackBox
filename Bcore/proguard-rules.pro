@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class top.niunaijun.blackbox.** {*; }
+-keep class top.niunaijun.jnihook.** {*; }
+-keep class mirror.** {*; }
+-keep class android.** {*; }
+-keep class com.android.** {*; }

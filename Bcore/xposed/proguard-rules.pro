@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class de.robv.android.xposed.** {*; }
+-keep class external.** {*; }
+-keep class com.swift.sandhook.** { *; }

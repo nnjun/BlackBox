@@ -3,6 +3,7 @@ package top.niunaijun.blackboxa
 import android.app.Application
 import android.content.Context
 import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.client.ClientConfiguration
 
 /**
  *
@@ -23,7 +24,20 @@ class App : Application() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         try {
-            BlackBoxCore.get().doAttachBaseContext(base)
+            BlackBoxCore.get().doAttachBaseContext(base, object : ClientConfiguration() {
+                override fun getHostPackageName(): String {
+                    return base!!.packageName
+                }
+
+                override fun isHideRoot(): Boolean {
+                    // todo
+                    return true
+                }
+
+                override fun isHideXposed(): Boolean {
+                    return true
+                }
+            })
         } catch (e: Exception) {
             e.printStackTrace()
         }

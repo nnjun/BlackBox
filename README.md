@@ -12,7 +12,7 @@
 
 - app模块由 [@楷城同学](https://github.com/wukaicheng) 完成
 ## 反馈
-**issue 或者 QQ群：970690922**
+**issue 或者 QQ群：970690922**，由于更新迭代飞快，编译成品会放在群里。
 
 ## 支持
 暂不考虑4x，目前已兼容 5.0 ～ 11.0并跟进后续新系统 由于个人资源有限设备有限，测试范围比较小，目前正在计划用在自己或朋友项目上进行线上测试完善此项目。同时也欢迎兄弟们疯狂issue一起完善。目前经水友测试许多常规应用均可运行（能否完美使用，此处留个问号），相对传统插件化功能此项目完全够用，但是作为双开虚拟引擎，他需要做的是相对完整的生态系统，需要做的还有很多。
@@ -22,6 +22,9 @@
 ---|---|---
 QQ | 无网 | 仍在努力中，可能姿势不对
 
+## 架构特别说明
+本项目区分32位与64位，目前是2个不同的app，如在Demo已安装列表内无法找到需要开启的app说明不支持，请编译其他的架构。
+
 ## 如何使用
 #### Step 1.初始化，在Application中加入以下代码初始化
 
@@ -30,7 +33,12 @@ QQ | 无网 | 仍在努力中，可能姿势不对
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         try {
-            BlackBoxCore.get().doAttachBaseContext(base);
+            BlackBoxCore.get().doAttachBaseContext(base, new ClientConfiguration() {
+                @Override
+                public String getHostPackageName() {
+                    return base.getPackageName();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,11 +78,13 @@ QQ | 无网 | 仍在努力中，可能姿势不对
 ```java
    List<BUserInfo> users = BlackBoxCore.get().getUsers();
 ```
+更多其他操作看BlackBoxCore函数名大概就知道了。
 
-#### 黑盒已支持使用XP模块，更多其他操作看BlackBoxCore函数名大概就知道了。
 
-### 架构不支持特别说明
-由于Android系统的原因，当前进程以arm64-v8a启动，无法再运行armeabi-v7a的so库。所以如果宿主是arm64-v8a，则无法双开运行armeabi-v7a架构的APP，需要切换宿主的架构。后续会参考市面上双开的做法，集成64位或32位插件版。
+#### Xposed相关
+- 已支持使用XP模块
+- Xposed已过检测，[Xposed Checker](https://www.coolapk.com/apk/190247) 全绿
+
 
 ## 计划
  - JobService调度可优化，但是目前仍然采取占坑。

@@ -101,7 +101,7 @@ public class IOManager {
         try {
             ApplicationInfo packageInfo = BlackBoxCore.getBPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA, BClient.getUserId());
             rule.put("/data/data/" + packageName + "/lib", packageInfo.nativeLibraryDir);
-            rule.put("/data/user/0/" + packageName+ "/lib", packageInfo.nativeLibraryDir);
+            rule.put("/data/user/0/" + packageName + "/lib", packageInfo.nativeLibraryDir);
 
             rule.put("/data/data/" + packageName, packageInfo.dataDir);
             rule.put("/data/user/0/" + packageName, packageInfo.dataDir);
@@ -124,11 +124,27 @@ public class IOManager {
                 rule.put("/storage/emulated/0/Android/data/" + packageName + "/cache",
                         new File(external.getAbsolutePath(), "cache").getAbsolutePath());
             }
+            if (BlackBoxCore.get().isHideRoot()) {
+                hideRoot(rule);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         for (String key : rule.keySet()) {
             get().addRedirect(key, rule.get(key));
         }
+    }
+
+    private void hideRoot(Map<String, String> rule) {
+        rule.put("/system/app/Superuser.apk", "/system/app/Superuser.apk-fake");
+        rule.put("/sbin/su", "/sbin/su-fake");
+        rule.put("/system/bin/su", "/system/bin/su-fake");
+        rule.put("/system/xbin/su", "/system/xbin/su-fake");
+        rule.put("/data/local/xbin/su", "/data/local/xbin/su-fake");
+        rule.put("/data/local/bin/su", "/data/local/bin/su-fake");
+        rule.put("/system/sd/xbin/su", "/system/sd/xbin/su-fake");
+        rule.put("/system/bin/failsafe/su", "/system/bin/failsafe/su-fake");
+        rule.put("/data/local/su", "/data/local/su-fake");
+        rule.put("/su/bin/su", "/su/bin/su-fake");
     }
 }

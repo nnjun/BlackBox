@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Process;
 
+import top.niunaijun.blackbox.client.ClientConfiguration;
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.client.frameworks.BUserManager;
 import top.niunaijun.blackbox.client.frameworks.BXposedManager;
@@ -54,17 +55,18 @@ import top.niunaijun.blackbox.server.ServiceManager;
  * 此处无Bug
  */
 @SuppressLint("StaticFieldLeak")
-public class BlackBoxCore {
-    public static final String TAG = "VirtualCore";
+public class BlackBoxCore extends ClientConfiguration {
+    public static final String TAG = "BlackBoxCore";
 
-    private static BlackBoxCore sVirtualCore = new BlackBoxCore();
+    private static BlackBoxCore sBlackBoxCore = new BlackBoxCore();
     private static Context sContext;
     private ProcessType mProcessType;
     private Map<String, IBinder> mServices = new HashMap<>();
     private Thread.UncaughtExceptionHandler mExceptionHandler;
+    private ClientConfiguration mClientConfiguration;
 
     public static BlackBoxCore get() {
-        return sVirtualCore;
+        return sBlackBoxCore;
     }
 
     public static PackageManager getPackageManager() {
@@ -72,7 +74,7 @@ public class BlackBoxCore {
     }
 
     public static String getHostPkg() {
-        return getContext().getPackageName();
+        return get().getHostPackageName();
     }
 
     public static Context getContext() {
@@ -87,7 +89,11 @@ public class BlackBoxCore {
         mExceptionHandler = exceptionHandler;
     }
 
-    public void doAttachBaseContext(Context context) {
+    public void doAttachBaseContext(Context context, ClientConfiguration clientConfiguration) {
+        if (clientConfiguration == null) {
+            throw new IllegalArgumentException("ClientConfiguration is null!");
+        }
+        mClientConfiguration = clientConfiguration;
         Reflection.unseal(context);
         sContext = context;
         String processName = getProcessName(getContext());
@@ -97,7 +103,7 @@ public class BlackBoxCore {
         } else if (processName.endsWith(getContext().getString(R.string.black_box_service_name))) {
             mProcessType = ProcessType.Server;
         } else {
-            mProcessType = ProcessType.VAppClient;
+            mProcessType = ProcessType.BAppClient;
         }
         if (BlackBoxCore.get().isVirtualProcess()) {
             if (processName.endsWith("p0")) {
@@ -295,7 +301,7 @@ public class BlackBoxCore {
         /**
          * Virtual app process
          */
-        VAppClient,
+        BAppClient,
         /**
          * Main process
          */
@@ -303,7 +309,7 @@ public class BlackBoxCore {
     }
 
     public boolean isVirtualProcess() {
-        return mProcessType == ProcessType.VAppClient;
+        return mProcessType == ProcessType.BAppClient;
     }
 
     public boolean isMainProcess() {
@@ -312,6 +318,21 @@ public class BlackBoxCore {
 
     public boolean isServerProcess() {
         return mProcessType == ProcessType.Server;
+    }
+
+    @Override
+    public boolean isHideRoot() {
+        return mClientConfiguration.isHideRoot();
+    }
+
+    @Override
+    public boolean isHideXposed() {
+        return mClientConfiguration.isHideXposed();
+    }
+
+    @Override
+    public String getHostPackageName() {
+        return mClientConfiguration.getHostPackageName();
     }
 
     private void startLogcat() {

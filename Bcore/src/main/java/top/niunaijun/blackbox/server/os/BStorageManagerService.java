@@ -41,9 +41,6 @@ public class BStorageManagerService extends IBStorageManagerService.Stub impleme
     public StorageVolume[] getVolumeList(int uid, String packageName, int flags, int userId) throws RemoteException {
         try {
             StorageVolume[] storageVolumes = mirror.android.os.storage.StorageManager.getVolumeList.call(BUserHandle.getUserId(Process.myUid()), 0);
-//            if (VirtualCore.getHostPkg().equals(packageName)) {
-//                return storageVolumes;
-//            }
             for (StorageVolume storageVolume : storageVolumes) {
                 mirror.android.os.storage.StorageVolume.mPath.set(storageVolume, BEnvironment.getExternalUserDir(userId));
 

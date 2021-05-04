@@ -47,11 +47,9 @@ public class BXposedManagerService extends IBXposedManagerService.Stub implement
 
     @Override
     public void systemReady() {
-        synchronized (mLock) {
-            loadModuleStateLr();
-            mPms = BPackageManagerService.get();
-            mPms.addPackageMonitor(this);
-        }
+        loadModuleStateLr();
+        mPms = BPackageManagerService.get();
+        mPms.addPackageMonitor(this);
     }
 
     @Override
@@ -90,8 +88,8 @@ public class BXposedManagerService extends IBXposedManagerService.Stub implement
 
     @Override
     public List<InstalledModule> getInstalledModules() {
-        synchronized (mLock) {
-            List<ApplicationInfo> installedApplications = mPms.getInstalledApplications(PackageManager.GET_META_DATA, BUserHandle.USER_XPOSED);
+        List<ApplicationInfo> installedApplications = mPms.getInstalledApplications(PackageManager.GET_META_DATA, BUserHandle.USER_XPOSED);
+        synchronized (mCacheModule) {
             for (ApplicationInfo installedApplication : installedApplications) {
                 if (mCacheModule.containsKey(installedApplication.packageName))
                     continue;
@@ -151,8 +149,10 @@ public class BXposedManagerService extends IBXposedManagerService.Stub implement
         if (userId != BUserHandle.USER_XPOSED && userId != BUserHandle.USER_ALL) {
             return;
         }
-        synchronized (mLock) {
+        synchronized (mCacheModule) {
             mCacheModule.remove(packageName);
+        }
+        synchronized (mLock) {
             mXposedConfig.moduleState.remove(packageName);
             saveModuleStateLw();
         }
@@ -163,8 +163,10 @@ public class BXposedManagerService extends IBXposedManagerService.Stub implement
         if (userId != BUserHandle.USER_XPOSED && userId != BUserHandle.USER_ALL) {
             return;
         }
-        synchronized (mLock) {
+        synchronized (mCacheModule) {
             mCacheModule.remove(packageName);
+        }
+        synchronized (mLock) {
             mXposedConfig.moduleState.put(packageName, false);
             saveModuleStateLw();
         }

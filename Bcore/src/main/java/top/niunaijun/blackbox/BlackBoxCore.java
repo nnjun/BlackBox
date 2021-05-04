@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Process;
 
+import top.niunaijun.blackbox.client.ClientConfiguration;
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.client.frameworks.BUserManager;
 import top.niunaijun.blackbox.client.frameworks.BXposedManager;
@@ -54,7 +55,7 @@ import top.niunaijun.blackbox.server.ServiceManager;
  * 此处无Bug
  */
 @SuppressLint("StaticFieldLeak")
-public class BlackBoxCore {
+public class BlackBoxCore extends ClientConfiguration {
     public static final String TAG = "BlackBoxCore";
 
     private static BlackBoxCore sBlackBoxCore = new BlackBoxCore();
@@ -62,6 +63,7 @@ public class BlackBoxCore {
     private ProcessType mProcessType;
     private Map<String, IBinder> mServices = new HashMap<>();
     private Thread.UncaughtExceptionHandler mExceptionHandler;
+    private ClientConfiguration mClientConfiguration;
 
     public static BlackBoxCore get() {
         return sBlackBoxCore;
@@ -72,7 +74,7 @@ public class BlackBoxCore {
     }
 
     public static String getHostPkg() {
-        return getContext().getPackageName();
+        return get().getHostPackageName();
     }
 
     public static Context getContext() {
@@ -87,7 +89,11 @@ public class BlackBoxCore {
         mExceptionHandler = exceptionHandler;
     }
 
-    public void doAttachBaseContext(Context context) {
+    public void doAttachBaseContext(Context context, ClientConfiguration clientConfiguration) {
+        if (clientConfiguration == null) {
+            throw new IllegalArgumentException("ClientConfiguration is null!");
+        }
+        mClientConfiguration = clientConfiguration;
         Reflection.unseal(context);
         sContext = context;
         String processName = getProcessName(getContext());
@@ -312,6 +318,21 @@ public class BlackBoxCore {
 
     public boolean isServerProcess() {
         return mProcessType == ProcessType.Server;
+    }
+
+    @Override
+    public boolean isHideRoot() {
+        return mClientConfiguration.isHideRoot();
+    }
+
+    @Override
+    public boolean isHideXposed() {
+        return mClientConfiguration.isHideXposed();
+    }
+
+    @Override
+    public String getHostPackageName() {
+        return mClientConfiguration.getHostPackageName();
     }
 
     private void startLogcat() {

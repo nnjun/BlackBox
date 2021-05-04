@@ -22,6 +22,7 @@ import mirror.android.content.pm.ApplicationInfoN;
 import mirror.android.content.pm.SigningInfo;
 import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.client.hook.env.ClientSystemEnv;
 import top.niunaijun.blackbox.utils.ArrayUtils;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
@@ -322,6 +323,8 @@ public class PackageManagerCompat {
 
     private static boolean checkUseInstalledOrHidden(int flags, BPackageUserState state,
                                                      ApplicationInfo appInfo) {
+        if (ClientSystemEnv.isBlackPackage(appInfo.packageName))
+            return false;
         // Returns false if the package is hidden system app until installed.
         if (!state.installed || state.hidden) {
             return false;

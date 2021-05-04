@@ -33,7 +33,7 @@ QQ | 无网 | 仍在努力中，可能姿势不对
             BlackBoxCore.get().doAttachBaseContext(base, new ClientConfiguration() {
                 @Override
                 public String getHostPackageName() {
-                    return getPackageName();
+                    return base.getPackageName();
                 }
             });
         } catch (Exception e) {

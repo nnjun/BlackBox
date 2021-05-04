@@ -46,7 +46,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        UMConfigure.init(this, "60914c9b53b6726499e973ac", "default", UMConfigure.DEVICE_TYPE_PHONE, null)
+//        UMConfigure.init(this, "60914c9b53b6726499e973ac", "default", UMConfigure.DEVICE_TYPE_PHONE, null)
         BlackBoxCore.get().doCreate()
         context = this
     }

@@ -70,8 +70,14 @@ QQ | 无网 | 仍在努力中，可能姿势不对
 ```java
    List<BUserInfo> users = BlackBoxCore.get().getUsers();
 ```
+更多其他操作看BlackBoxCore函数名大概就知道了。
 
-#### 黑盒已支持使用XP模块，更多其他操作看BlackBoxCore函数名大概就知道了。
+
+#### Xposed相关
+- 已支持使用XP模块
+- Xposed已过检测，[Xposed Checker](https://www.coolapk.com/apk/190247) 全绿
+
+
 
 ### 架构不支持特别说明
 由于Android系统的原因，当前进程以arm64-v8a启动，无法再运行armeabi-v7a的so库。所以如果宿主是arm64-v8a，则无法双开运行armeabi-v7a架构的APP，需要切换宿主的架构。后续会参考市面上双开的做法，集成64位或32位插件版。

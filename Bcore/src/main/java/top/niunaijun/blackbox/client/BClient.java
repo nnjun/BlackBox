@@ -259,7 +259,7 @@ public class BClient extends IBClient.Stub {
         }
     }
 
-    public void handleBindApplication(String packageName, String processName) {
+    public synchronized void handleBindApplication(String packageName, String processName) {
         try {
             CrashHandler.create();
         } catch (Throwable ignored) {

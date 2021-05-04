@@ -1,13 +1,16 @@
 package top.niunaijun.blackbox.client.hook.proxies.accessibility;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 import java.lang.reflect.Method;
 
 import mirror.android.os.ServiceManager;
 import mirror.android.view.accessibility.IAccessibilityManager;
+import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.client.hook.MethodHook;
+import top.niunaijun.blackbox.server.user.BUserHandle;
 
 /**
  * Created by Milk on 4/25/21.
@@ -68,7 +71,8 @@ public class AccessibilityManagerStub extends BinderInvocationStub {
                 int index = args.length - 1;
                 Object arg = args[index];
                 if (arg instanceof Integer) {
-                    args[index] = 0;
+                    ApplicationInfo applicationInfo = BlackBoxCore.getContext().getApplicationInfo();
+                    args[index] = BUserHandle.getUserId(applicationInfo.uid);
                 }
             }
             return method.invoke(who, args);

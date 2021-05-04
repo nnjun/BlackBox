@@ -118,16 +118,17 @@ public class ActivityManagerStub extends ClassInvocationStub {
                     return method.invoke(who, args);
                 }
 
+                if (BuildCompat.isQ()) {
+                    args[1] = BlackBoxCore.getHostPkg();
+                }
+
                 if (auth.equals("settings") || auth.equals("media") || auth.equals("telephony")) {
                     content = method.invoke(who, args);
                     ContentProviderDelegate.update(content, (String) auth);
                     return content;
                 } else {
                     Log.d(TAG, "hook getContentProvider: " + auth);
-                    // 10.0
-                    if (BuildCompat.isQ()) {
-                        args[1] = BlackBoxCore.getHostPkg();
-                    }
+
 
                     ProviderInfo providerInfo = BlackBoxCore.getBPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BClient.getUserId());
                     if (providerInfo == null || !providerInfo.packageName.equals(BClient.getVPackageName())) {

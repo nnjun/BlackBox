@@ -145,6 +145,6 @@ public class IOManager {
         rule.put("/system/sd/xbin/su", "/system/sd/xbin/su-fake");
         rule.put("/system/bin/failsafe/su", "/system/bin/failsafe/su-fake");
         rule.put("/data/local/su", "/data/local/su-fake");
-        rule.put("/su/bin/su", "/su/bin/su");
+        rule.put("/su/bin/su", "/su/bin/su-fake");
     }
 }

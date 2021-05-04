@@ -14,7 +14,7 @@ import java.util.Map;
  * しーＪ
  * 此处无Bug
  */
-public class XPoesdConfig implements Parcelable {
+public class XposedConfig implements Parcelable {
     public boolean enable;
     public Map<String, Boolean> moduleState = new HashMap<>();
 
@@ -33,10 +33,10 @@ public class XPoesdConfig implements Parcelable {
         }
     }
 
-    public XPoesdConfig() {
+    public XposedConfig() {
     }
 
-    public XPoesdConfig(Parcel in) {
+    public XposedConfig(Parcel in) {
         this.enable = in.readByte() != 0;
         int mModuleStateSize = in.readInt();
         this.moduleState = new HashMap<String, Boolean>(mModuleStateSize);
@@ -47,15 +47,15 @@ public class XPoesdConfig implements Parcelable {
         }
     }
 
-    public static final Parcelable.Creator<XPoesdConfig> CREATOR = new Parcelable.Creator<XPoesdConfig>() {
+    public static final Parcelable.Creator<XposedConfig> CREATOR = new Parcelable.Creator<XposedConfig>() {
         @Override
-        public XPoesdConfig createFromParcel(Parcel source) {
-            return new XPoesdConfig(source);
+        public XposedConfig createFromParcel(Parcel source) {
+            return new XposedConfig(source);
         }
 
         @Override
-        public XPoesdConfig[] newArray(int size) {
-            return new XPoesdConfig[size];
+        public XposedConfig[] newArray(int size) {
+            return new XposedConfig[size];
         }
     };
 }

@@ -36,7 +36,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     implementation 'me.weishu:free_reflection:3.0.1'
-    implementation 'com.swift.sandhook:hooklib:4.2.0'
-//    // 不使用 Xposed API 则不需要引入
-    implementation 'com.swift.sandhook:xposedcompat:4.2.0'
+    implementation project(':Bcore:xposed')
 }

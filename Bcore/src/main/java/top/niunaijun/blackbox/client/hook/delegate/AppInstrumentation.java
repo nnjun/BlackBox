@@ -114,7 +114,7 @@ public final class AppInstrumentation extends InstrumentationDelegate implements
     @Override
     public Application newApplication(ClassLoader cl, String className, Context context) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         ContextFixer.fix(context);
-        BClient.getClient().loadXPoesd(context);
+        BClient.getClient().loadXposed(context);
         return super.newApplication(cl, className, context);
     }
 
@@ -206,7 +206,7 @@ public final class AppInstrumentation extends InstrumentationDelegate implements
         }
     }
 
-    public void setupXpoesd(Context context, ClassLoader classLoader, String processName) {
+    public void setupXposed(Context context, ClassLoader classLoader, String processName) {
         if (processName == null)
             return;
         XposedCompat.context = context;

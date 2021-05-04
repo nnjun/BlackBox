@@ -26,6 +26,7 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.swift.sandhook.xposedcompat.XposedCompat;
 
@@ -36,10 +37,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import dalvik.system.DexClassLoader;
-import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import mirror.android.app.ActivityManagerNative;
 import mirror.android.app.ActivityThread;
 import mirror.android.app.ActivityThreadNMR1;
@@ -47,7 +44,9 @@ import mirror.android.app.ActivityThreadQ;
 import mirror.android.app.ContextImpl;
 import mirror.android.app.LoadedApk;
 import mirror.com.android.internal.content.ReferrerIntent;
-import top.niunaijun.blackbox.client.frameworks.BXpoesdManager;
+import mirror.dalvik.system.VMRuntime;
+import top.niunaijun.blackbox.BEnvironment;
+import top.niunaijun.blackbox.client.frameworks.BXposedManager;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.client.hook.IOManager;
 import top.niunaijun.blackbox.client.hook.env.VirtualRuntime;
@@ -260,7 +259,7 @@ public class BClient extends IBClient.Stub {
         }
     }
 
-    public void handleBindApplication(String packageName, String processName) {
+    public synchronized void handleBindApplication(String packageName, String processName) {
         try {
             CrashHandler.create();
         } catch (Throwable ignored) {
@@ -292,6 +291,7 @@ public class BClient extends IBClient.Stub {
             }
         }
 
+        VMRuntime.setTargetSdkVersion.call(VMRuntime.getRuntime.call(), applicationInfo.targetSdkVersion);
         VMCore.init(Build.VERSION.SDK_INT);
         assert packageContext != null;
         IOManager.get().enableRedirect(packageContext);
@@ -354,45 +354,37 @@ public class BClient extends IBClient.Stub {
         ContentProviderDelegate.init();
     }
 
-    public void loadXPoesd(Context context) {
+    public void loadXposed(Context context) {
         String vPackageName = getVPackageName();
         String vProcessName = getVProcessName();
-        if (TextUtils.isEmpty(vPackageName) || TextUtils.isEmpty(vProcessName) || !BXpoesdManager.get().isXPEnable()) {
+        if (TextUtils.isEmpty(vPackageName) || TextUtils.isEmpty(vProcessName) || !BXposedManager.get().isXPEnable()) {
             return;
         }
         assert vPackageName != null;
         assert vProcessName != null;
 
+        XposedCompat.packageName = vPackageName;
+        XposedCompat.processName = vProcessName;
         XposedCompat.cacheDir = new File(context.getCacheDir(), vProcessName);
         FileUtils.mkdirs(XposedCompat.cacheDir);
         XposedCompat.context = context;
         XposedCompat.classLoader = context.getClassLoader();
         XposedCompat.isFirstApplication = vPackageName.equals(vProcessName);
 
-        XC_LoadPackage.LoadPackageParam packageParam = new XC_LoadPackage.LoadPackageParam(new XposedBridge.CopyOnWriteSortedSet<XC_LoadPackage>());
-        packageParam.appInfo = context.getApplicationInfo();
-        packageParam.classLoader = context.getClassLoader();
-        packageParam.packageName = vPackageName;
-        packageParam.processName = vProcessName;
-        packageParam.isFirstApplication = XposedCompat.isFirstApplication;
-        List<InstalledModule> installedModules = BXpoesdManager.get().getInstalledModules();
+        List<InstalledModule> installedModules = BXposedManager.get().getInstalledModules();
         for (InstalledModule installedModule : installedModules) {
             if (!installedModule.enable) {
                 continue;
             }
-            ApplicationInfo application = installedModule.getApplication();
-            DexClassLoader dexClassLoader = new DexClassLoader(application.sourceDir,
+            XposedCompat.loadModule(installedModule.getApplication().sourceDir,
                     context.getCacheDir().getAbsolutePath(),
-                    application.nativeLibraryDir,
+                    installedModule.getApplication().nativeLibraryDir,
                     BlackBoxCore.getContext().getClassLoader());
-            try {
-                Class<?> aClass = dexClassLoader.loadClass(installedModule.main.trim());
-                IXposedHookLoadPackage iXposedHookLoadPackage = (IXposedHookLoadPackage) aClass.newInstance();
-                iXposedHookLoadPackage.handleLoadPackage(packageParam);
-                Slog.d(TAG, "load module: " + installedModule.name);
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
+        }
+        try {
+            XposedCompat.callXposedModuleInit();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 

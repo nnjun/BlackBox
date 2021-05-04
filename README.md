@@ -71,36 +71,7 @@ QQ | 无网 | 仍在努力中，可能姿势不对
    List<BUserInfo> users = BlackBoxCore.get().getUsers();
 ```
 
-## 对XPoesd的支持
-> 基于SandHook
-
-#### 启用 / 禁用XPoesd
-```java
-   boolean isEnable = BlackBoxCore.get().isXPEnable();
-   
-   BlackBoxCore.get().setXPEnable(true);
-```
-
-#### 安装 / 卸载XP模块
-```java
-   BlackBoxCore.get().installXPModule(new File("/sdcard/module.apk"));
-   
-   BlackBoxCore.get().uninstallXPModule("com.xxx");
-```
-
-#### 启用 / 禁用模块
-```java
-   boolean isEnable = BlackBoxCore.get().isModuleEnable("com.xxx");
-   
-   BlackBoxCore.get().setModuleEnable("com.xxx", true);
-```
-
-#### 获取已安装的XPoesd模块列表
-```java
-   List<InstalledModule> installedModules = BlackBoxCore.get().getInstalledXPModules();
-```
-
-#### 更多其他操作看BlackBoxCore函数名大概就知道了。
+#### 黑盒已支持使用XP模块，更多其他操作看BlackBoxCore函数名大概就知道了。
 
 ### 架构不支持特别说明
 由于Android系统的原因，当前进程以arm64-v8a启动，无法再运行armeabi-v7a的so库。所以如果宿主是arm64-v8a，则无法双开运行armeabi-v7a架构的APP，需要切换宿主的架构。后续会参考市面上双开的做法，集成64位或32位插件版。

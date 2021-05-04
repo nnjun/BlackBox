@@ -34,7 +34,7 @@ class AppsRepository {
 
             if (!AbiUtils.isSupport(file)) continue
 
-            val isXpModule = BlackBoxCore.get().isXPoesdModule(file)
+            val isXpModule = BlackBoxCore.get().isXposedModule(file)
 
             val info = AppInfo(
                     installedApplication.loadLabel(getPackageManager()).toString(),

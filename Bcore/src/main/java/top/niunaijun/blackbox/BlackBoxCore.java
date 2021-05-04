@@ -10,13 +10,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.IBinder;
 import android.os.Process;
 
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.client.frameworks.BUserManager;
-import top.niunaijun.blackbox.client.frameworks.BXpoesdManager;
+import top.niunaijun.blackbox.client.frameworks.BXposedManager;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
@@ -28,7 +27,7 @@ import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.ShellUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
-import top.niunaijun.blackbox.utils.compat.XPoesdParserCompat;
+import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
 import top.niunaijun.blackbox.utils.provider.ProviderCall;
 import top.niunaijun.blackbox.client.frameworks.BActivityManager;
 import top.niunaijun.blackbox.client.frameworks.BJobManager;
@@ -199,20 +198,20 @@ public class BlackBoxCore {
     }
 
     public InstallResult installXPModule(File apk) {
-        return getBPackageManager().installPackageAsUser(apk.getAbsolutePath(), InstallOption.installByStorage().makeXPoesd(), BUserHandle.USER_XPOESD);
+        return getBPackageManager().installPackageAsUser(apk.getAbsolutePath(), InstallOption.installByStorage().makeXposed(), BUserHandle.USER_XPOSED);
     }
 
     public InstallResult installXPModule(Uri apk) {
         return getBPackageManager().installPackageAsUser(apk.toString(), InstallOption.installByStorage()
-                .makeXPoesd()
-                .makeUriFile(), BUserHandle.USER_XPOESD);
+                .makeXposed()
+                .makeUriFile(), BUserHandle.USER_XPOSED);
     }
 
     public InstallResult installXPModule(String packageName) {
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, 0);
             String path = packageInfo.applicationInfo.sourceDir;
-            return getBPackageManager().installPackageAsUser(path, InstallOption.installBySystem().makeXPoesd(), BUserHandle.USER_XPOESD);
+            return getBPackageManager().installPackageAsUser(path, InstallOption.installBySystem().makeXposed(), BUserHandle.USER_XPOSED);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return new InstallResult().installError(e.getMessage());
@@ -224,31 +223,31 @@ public class BlackBoxCore {
     }
 
     public boolean isXPEnable() {
-        return BXpoesdManager.get().isXPEnable();
+        return BXposedManager.get().isXPEnable();
     }
 
     public void setXPEnable(boolean enable) {
-        BXpoesdManager.get().setXPEnable(enable);
+        BXposedManager.get().setXPEnable(enable);
     }
 
-    public boolean isXPoesdModule(File file) {
-        return XPoesdParserCompat.isXPModule(file.getAbsolutePath());
+    public boolean isXposedModule(File file) {
+        return XposedParserCompat.isXPModule(file.getAbsolutePath());
     }
 
-    public boolean isInstalledXPoesdModule(String packageName) {
-        return isInstalled(packageName, BUserHandle.USER_XPOESD);
+    public boolean isInstalledXposedModule(String packageName) {
+        return isInstalled(packageName, BUserHandle.USER_XPOSED);
     }
 
     public boolean isModuleEnable(String packageName) {
-        return BXpoesdManager.get().isModuleEnable(packageName);
+        return BXposedManager.get().isModuleEnable(packageName);
     }
 
     public void setModuleEnable(String packageName, boolean enable) {
-        BXpoesdManager.get().setModuleEnable(packageName, enable);
+        BXposedManager.get().setModuleEnable(packageName, enable);
     }
 
     public List<InstalledModule> getInstalledXPModules() {
-        return BXpoesdManager.get().getInstalledModules();
+        return BXposedManager.get().getInstalledModules();
     }
 
     public List<ApplicationInfo> getInstalledApplications(int flags, int userId) {

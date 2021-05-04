@@ -60,7 +60,7 @@ public final class BUserHandle implements Parcelable {
     public static final int USER_CURRENT_OR_SELF = -3;
 
 
-    public static final int USER_XPOESD = -4;
+    public static final int USER_XPOSED = -4;
 
     /**
      * @hide A user handle to indicate that we would like to send to the current

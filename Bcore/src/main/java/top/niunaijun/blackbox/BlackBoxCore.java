@@ -55,16 +55,16 @@ import top.niunaijun.blackbox.server.ServiceManager;
  */
 @SuppressLint("StaticFieldLeak")
 public class BlackBoxCore {
-    public static final String TAG = "VirtualCore";
+    public static final String TAG = "BlackBoxCore";
 
-    private static BlackBoxCore sVirtualCore = new BlackBoxCore();
+    private static BlackBoxCore sBlackBoxCore = new BlackBoxCore();
     private static Context sContext;
     private ProcessType mProcessType;
     private Map<String, IBinder> mServices = new HashMap<>();
     private Thread.UncaughtExceptionHandler mExceptionHandler;
 
     public static BlackBoxCore get() {
-        return sVirtualCore;
+        return sBlackBoxCore;
     }
 
     public static PackageManager getPackageManager() {
@@ -97,7 +97,7 @@ public class BlackBoxCore {
         } else if (processName.endsWith(getContext().getString(R.string.black_box_service_name))) {
             mProcessType = ProcessType.Server;
         } else {
-            mProcessType = ProcessType.VAppClient;
+            mProcessType = ProcessType.BAppClient;
         }
         if (BlackBoxCore.get().isVirtualProcess()) {
             if (processName.endsWith("p0")) {
@@ -295,7 +295,7 @@ public class BlackBoxCore {
         /**
          * Virtual app process
          */
-        VAppClient,
+        BAppClient,
         /**
          * Main process
          */
@@ -303,7 +303,7 @@ public class BlackBoxCore {
     }
 
     public boolean isVirtualProcess() {
-        return mProcessType == ProcessType.VAppClient;
+        return mProcessType == ProcessType.BAppClient;
     }
 
     public boolean isMainProcess() {

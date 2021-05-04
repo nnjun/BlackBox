@@ -30,7 +30,12 @@ QQ | 无网 | 仍在努力中，可能姿势不对
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         try {
-            BlackBoxCore.get().doAttachBaseContext(base);
+            BlackBoxCore.get().doAttachBaseContext(base, new ClientConfiguration() {
+                @Override
+                public String getHostPackageName() {
+                    return getPackageName();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,7 +81,6 @@ QQ | 无网 | 仍在努力中，可能姿势不对
 #### Xposed相关
 - 已支持使用XP模块
 - Xposed已过检测，[Xposed Checker](https://www.coolapk.com/apk/190247) 全绿
-
 
 
 ### 架构不支持特别说明

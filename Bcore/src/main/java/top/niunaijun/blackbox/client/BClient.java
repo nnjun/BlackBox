@@ -362,7 +362,7 @@ public class BClient extends IBClient.Stub {
     public void loadXposed(Context context) {
         String vPackageName = getVPackageName();
         String vProcessName = getVProcessName();
-        if (!TextUtils.isEmpty(vPackageName) || !TextUtils.isEmpty(vProcessName) || BXposedManager.get().isXPEnable()) {
+        if (!TextUtils.isEmpty(vPackageName) && !TextUtils.isEmpty(vProcessName) && BXposedManager.get().isXPEnable()) {
             assert vPackageName != null;
             assert vProcessName != null;
 

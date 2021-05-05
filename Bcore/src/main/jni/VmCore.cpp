@@ -10,6 +10,7 @@
 #include <Hook/VMClassLoaderHook.h>
 #include <Hook/UnixFileSystemHook.h>
 #include <Hook/BinderHook.h>
+#include <Hook/RuntimeHook.h>
 
 struct {
     JavaVM *vm;
@@ -41,6 +42,7 @@ void nativeHook(JNIEnv *env) {
     BaseHook::init(env);
     UnixFileSystemHook::init(env);
     VMClassLoaderHook::init(env);
+//    RuntimeHook::init(env);
     BinderHook::init(env);
 }
 

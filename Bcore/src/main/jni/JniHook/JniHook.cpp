@@ -104,8 +104,12 @@ void JniHook::HookJniFun(JNIEnv *env, jobject java_method, void *new_fun,
 void
 JniHook::HookJniFun(JNIEnv *env, const char *class_name, const char *method_name, const char *sign,
                     void *new_fun, void **orig_fun, bool is_static) {
+    if (HookEnv.art_native_offset == 0) {
+        return;
+    }
     jclass clazz = env->FindClass(class_name);
     if (!clazz) {
+        ALOGD("findClass fail: %s %s", class_name, method_name);
         env->ExceptionClear();
         return;
     }

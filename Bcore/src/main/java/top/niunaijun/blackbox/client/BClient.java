@@ -26,8 +26,8 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.swift.sandhook.SandHook;
 import com.swift.sandhook.xposedcompat.XposedCompat;
 
 import java.io.File;
@@ -45,7 +45,6 @@ import mirror.android.app.ContextImpl;
 import mirror.android.app.LoadedApk;
 import mirror.com.android.internal.content.ReferrerIntent;
 import mirror.dalvik.system.VMRuntime;
-import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.client.frameworks.BXposedManager;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.client.hook.IOManager;
@@ -63,6 +62,7 @@ import top.niunaijun.blackbox.server.ClientServiceManager;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.StrictModeCompat;
 
 
@@ -370,6 +370,13 @@ public class BClient extends IBClient.Stub {
         XposedCompat.context = context;
         XposedCompat.classLoader = context.getClassLoader();
         XposedCompat.isFirstApplication = vPackageName.equals(vProcessName);
+
+        SandHook.disableVMInline();
+        //android Q
+        if (BuildCompat.isQ()) {
+            XposedCompat.useInternalStub = false;
+            XposedCompat.cacheDir = XposedCompat.context.getCacheDir();
+        }
 
         List<InstalledModule> installedModules = BXposedManager.get().getInstalledModules();
         for (InstalledModule installedModule : installedModules) {

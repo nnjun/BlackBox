@@ -317,7 +317,7 @@ public class PackageManagerCompat {
                 ApplicationInfoN.credentialProtectedDataDir.set(ai, ai.dataDir);
             }
         }
-        fixApache(ai);
+        fixJar(ai);
         return ai;
     }
 
@@ -332,7 +332,7 @@ public class PackageManagerCompat {
         return true;
     }
 
-    private static void fixApache(ApplicationInfo info) {
+    private static void fixJar(ApplicationInfo info) {
         String APACHE_LEGACY_JAR = "/system/framework/org.apache.http.legacy.boot.jar";
         String APACHE_LEGACY_JAR_Q = "/system/framework/org.apache.http.legacy.jar";
         Set<String> sharedLibraryFileList = new HashSet<>();
@@ -349,6 +349,7 @@ public class PackageManagerCompat {
 //            ApplicationInfo base = BlackBoxCore.getContext().getApplicationInfo();
 //            sharedLibraryFileList.add(base.sourceDir);
 //        }
+        sharedLibraryFileList.add(BEnvironment.JUNIT_JAR.getAbsolutePath());
         info.sharedLibraryFiles = sharedLibraryFileList.toArray(new String[]{});
     }
 }

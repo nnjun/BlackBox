@@ -21,6 +21,7 @@ LOCAL_SRC_FILES := JniHook/JniHook.cpp \
                    VmCore.cpp \
                    IO.cpp \
                    Hook/BaseHook.cpp \
+                   Hook/RuntimeHook.cpp \
                    Hook/UnixFileSystemHook.cpp \
                    Hook/BinderHook.cpp \
 

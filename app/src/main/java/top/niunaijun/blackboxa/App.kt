@@ -2,8 +2,6 @@ package top.niunaijun.blackboxa
 
 import android.app.Application
 import android.content.Context
-import com.umeng.commonsdk.UMConfigure
-import com.umeng.commonsdk.statistics.common.DeviceTypeEnum
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackbox.client.ClientConfiguration
 
@@ -46,7 +44,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-//        UMConfigure.init(this, "60914c9b53b6726499e973ac", "default", UMConfigure.DEVICE_TYPE_PHONE, null)
         BlackBoxCore.get().doCreate()
         context = this
     }

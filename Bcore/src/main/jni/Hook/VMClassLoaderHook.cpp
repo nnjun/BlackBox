@@ -19,7 +19,7 @@ HOOK_JNI(jstring, findLoadedClass, JNIEnv *env, jobject obj, jobject class_loade
             return nullptr;
         }
     }
-    ALOGD("findLoadedClass: %s", nameC);
+    // ALOGD("findLoadedClass: %s", nameC);
     jstring result = orig_findLoadedClass(env, obj, class_loader, name);
     env->ReleaseStringUTFChars(name, nameC);
     return result;

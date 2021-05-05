@@ -386,10 +386,14 @@ public class BClient extends IBClient.Stub {
                 if (!installedModule.enable) {
                     continue;
                 }
-                XposedCompat.loadModule(installedModule.getApplication().sourceDir,
-                        context.getCacheDir().getAbsolutePath(),
-                        installedModule.getApplication().nativeLibraryDir,
-                        BlackBoxCore.getContext().getClassLoader());
+                try {
+                    XposedCompat.loadModule(installedModule.getApplication().sourceDir,
+                            context.getCacheDir().getAbsolutePath(),
+                            installedModule.getApplication().nativeLibraryDir,
+                            BlackBoxCore.getContext().getClassLoader());
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
             try {
                 XposedCompat.callXposedModuleInit();

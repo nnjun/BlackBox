@@ -16,10 +16,9 @@ import top.niunaijun.blackbox.BlackBoxCore;
  * 此处无Bug
  */
 public class ClientSystemEnv {
-    private static List<String> sSystemPackages = new ArrayList<>();
-    private static List<String> sSuPackages = new ArrayList<>();
-    private static List<String> sXposedPackages = new ArrayList<>();
-    private static final String XP_PACKAGE_NAME = "de.robv.android.xposed.installer";
+    private static final List<String> sSystemPackages = new ArrayList<>();
+    private static final List<String> sSuPackages = new ArrayList<>();
+    private static final List<String> sXposedPackages = new ArrayList<>();
 
     static {
         sSystemPackages.add("android");
@@ -52,13 +51,6 @@ public class ClientSystemEnv {
         if (BlackBoxCore.get().isHideRoot() && sSuPackages.contains(packageName)) {
             return true;
         } else if (BlackBoxCore.get().isHideXposed() && sXposedPackages.contains(packageName)) {
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isFakePackage(String packageName) {
-        if (XP_PACKAGE_NAME.equals(packageName) && BlackBoxCore.get().isXPEnable()) {
             return true;
         }
         return false;

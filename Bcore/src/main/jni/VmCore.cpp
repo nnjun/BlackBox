@@ -7,6 +7,7 @@
 #include "IO.h"
 #include <jni.h>
 #include <JniHook/JniHook.h>
+#include <Hook/VMClassLoaderHook.h>
 #include <Hook/UnixFileSystemHook.h>
 #include <Hook/BinderHook.h>
 
@@ -39,9 +40,14 @@ int VmCore::getCallingUid(JNIEnv *env, int orig) {
 void nativeHook(JNIEnv *env) {
     BaseHook::init(env);
     UnixFileSystemHook::init(env);
+    VMClassLoaderHook::init(env);
     BinderHook::init(env);
 }
 
+void hideXposed(JNIEnv *env, jclass clazz) {
+    ALOGD("set hideXposed");
+    VMClassLoaderHook::hideXposed();
+}
 
 void init(JNIEnv *env, jclass clazz, jint api_level) {
     ALOGD("VmCore init.");
@@ -60,6 +66,7 @@ void addIORule(JNIEnv *env, jclass clazz, jstring target_path,
 }
 
 static JNINativeMethod gMethods[] = {
+        {"hideXposed",      "()V",                               (void *) hideXposed},
         {"addIORule", "(Ljava/lang/String;Ljava/lang/String;)V", (void *) addIORule},
         {"init",      "(I)V",                                    (void *) init},
 };

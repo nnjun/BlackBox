@@ -244,7 +244,7 @@ public class HookStubManager {
             args = entity.getArgs(stubArgs);
         }
 
-        if (XposedBridge.disableHooks) {
+        if (XposedBridge.bDisableHooks) {
             if (hasStubBackup) {
                 return callOrigin.call(stubArgs);
             } else {
@@ -330,7 +330,7 @@ public class HookStubManager {
     public static Object hookBridge(Member origin, Method backup, XposedBridge.AdditionalHookInfo additionalHookInfo, Object thiz, Object... args) throws Throwable {
 
 
-        if (XposedBridge.disableHooks) {
+        if (XposedBridge.bDisableHooks) {
             return SandHook.callOriginMethod(origin, backup, thiz, args);
         }
 

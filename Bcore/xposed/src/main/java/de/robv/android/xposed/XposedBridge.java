@@ -53,7 +53,7 @@ public final class XposedBridge {
 	private static final int RUNTIME_DALVIK = 1;
 	private static final int RUNTIME_ART = 2;
 
-	public static boolean disableHooks = false;
+	public static boolean bDisableHooks = false;
 
 	// This field is set "magically" on MIUI.
 	/*package*/ static long BOOT_START_TIME;

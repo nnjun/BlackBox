@@ -37,6 +37,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
 import mirror.android.app.ActivityManagerNative;
 import mirror.android.app.ActivityThread;
 import mirror.android.app.ActivityThreadNMR1;
@@ -342,56 +344,61 @@ public class BClient extends IBClient.Stub {
 
     private void installProviders(Context context, String processName, List<ProviderInfo> provider) {
         long origId = Binder.clearCallingIdentity();
-        for (ProviderInfo providerInfo : provider) {
-            try {
-                if (processName.equals(providerInfo.processName)) {
-                    ActivityThread.installProvider(BlackBoxCore.mainThread(), context, providerInfo, null);
+        try {
+            for (ProviderInfo providerInfo : provider) {
+                try {
+                    if (processName.equals(providerInfo.processName)) {
+                        ActivityThread.installProvider(BlackBoxCore.mainThread(), context, providerInfo, null);
+                    }
+                } catch (Throwable ignored) {
                 }
-            } catch (Throwable ignored) {
             }
+        } finally {
+            Binder.restoreCallingIdentity(origId);
+            ContentProviderDelegate.init();
         }
-        Binder.restoreCallingIdentity(origId);
-        ContentProviderDelegate.init();
     }
 
     public void loadXposed(Context context) {
         String vPackageName = getVPackageName();
         String vProcessName = getVProcessName();
-        if (TextUtils.isEmpty(vPackageName) || TextUtils.isEmpty(vProcessName) || !BXposedManager.get().isXPEnable()) {
-            return;
-        }
-        assert vPackageName != null;
-        assert vProcessName != null;
+        if (!TextUtils.isEmpty(vPackageName) || !TextUtils.isEmpty(vProcessName) || BXposedManager.get().isXPEnable()) {
+            assert vPackageName != null;
+            assert vProcessName != null;
 
-        XposedCompat.packageName = vPackageName;
-        XposedCompat.processName = vProcessName;
-        XposedCompat.cacheDir = new File(context.getCacheDir(), vProcessName);
-        FileUtils.mkdirs(XposedCompat.cacheDir);
-        XposedCompat.context = context;
-        XposedCompat.classLoader = context.getClassLoader();
-        XposedCompat.isFirstApplication = vPackageName.equals(vProcessName);
+            XposedCompat.packageName = vPackageName;
+            XposedCompat.processName = vProcessName;
+            XposedCompat.cacheDir = new File(context.getCacheDir(), vProcessName);
+            FileUtils.mkdirs(XposedCompat.cacheDir);
+            XposedCompat.context = context;
+            XposedCompat.classLoader = context.getClassLoader();
+            XposedCompat.isFirstApplication = vPackageName.equals(vProcessName);
 
-        SandHook.disableVMInline();
-        //android Q
-        if (BuildCompat.isQ()) {
-            XposedCompat.useInternalStub = false;
-            XposedCompat.cacheDir = XposedCompat.context.getCacheDir();
-        }
-
-        List<InstalledModule> installedModules = BXposedManager.get().getInstalledModules();
-        for (InstalledModule installedModule : installedModules) {
-            if (!installedModule.enable) {
-                continue;
+            SandHook.disableVMInline();
+            //android Q
+            if (BuildCompat.isQ()) {
+                XposedCompat.useInternalStub = false;
+                XposedCompat.cacheDir = XposedCompat.context.getCacheDir();
             }
-            XposedCompat.loadModule(installedModule.getApplication().sourceDir,
-                    context.getCacheDir().getAbsolutePath(),
-                    installedModule.getApplication().nativeLibraryDir,
-                    BlackBoxCore.getContext().getClassLoader());
+
+            List<InstalledModule> installedModules = BXposedManager.get().getInstalledModules();
+            for (InstalledModule installedModule : installedModules) {
+                if (!installedModule.enable) {
+                    continue;
+                }
+                XposedCompat.loadModule(installedModule.getApplication().sourceDir,
+                        context.getCacheDir().getAbsolutePath(),
+                        installedModule.getApplication().nativeLibraryDir,
+                        BlackBoxCore.getContext().getClassLoader());
+            }
+            try {
+                XposedCompat.callXposedModuleInit();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
         }
-        try {
-            XposedCompat.callXposedModuleInit();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        if (BlackBoxCore.get().isHideXposed()) {
+            VMCore.hideXposed();
         }
     }
 

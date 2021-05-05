@@ -34,6 +34,8 @@ public class VMCore {
 
     public static native void addIORule(String targetPath, String relocatePath);
 
+    public static native void hideXposed();
+
     @Keep
     public static int getCallingUid(int origCallingUid) {
 //        if (origCallingUid > 0 && origCallingUid < Process.FIRST_APPLICATION_UID)

@@ -24,6 +24,7 @@ public class ClientSystemEnv {
     static {
         sSystemPackages.add("android");
         sSystemPackages.add("com.google.android.webview");
+        sSystemPackages.add("com.google.android.webview.dev");
         sSystemPackages.add("com.android.webview");
         sSystemPackages.add("com.android.camera");
 

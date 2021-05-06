@@ -2,12 +2,14 @@ package top.niunaijun.blackbox.client.hook.proxies.os;
 
 
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 import mirror.android.os.IDeviceIdentifiersPolicyService;
 import mirror.android.os.ServiceManager;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.client.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.client.hook.MethodHook;
+import top.niunaijun.blackbox.utils.Md5Utils;
 
 /**
  * Created by Milk on 4/3/21.
@@ -44,8 +46,9 @@ public class DeviceIdentifiersPolicyStub extends BinderInvocationStub {
 
             @Override
             protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-                args[0] = BlackBoxCore.getHostPkg();
-                return method.invoke(who, args);
+//                args[0] = BlackBoxCore.getHostPkg();
+//                return method.invoke(who, args);
+                return Md5Utils.md5(BlackBoxCore.getHostPkg());
             }
         });
     }

@@ -11,13 +11,13 @@
 - 但是在此声明，本项目**并非CV项目**，项目内每一行代码都是亲自手敲下，深入至所有核心原理。
 
 - app模块由 [@楷城同学](https://github.com/wukaicheng) 完成
-## 反馈
+## 问题反馈
 **issue 或者 QQ群：970690922**，由于更新迭代飞快，编译成品会放在群里。
 
 ## 支持
 暂不考虑4x，目前已兼容 5.0 ～ 12.0并跟进后续新系统 由于个人资源有限设备有限，测试范围比较小，目前正在计划用在自己或朋友项目上进行线上测试完善此项目。同时也欢迎兄弟们疯狂issue一起完善。目前经水友测试许多常规应用均可运行（能否完美使用，此处留个问号），相对传统插件化功能此项目完全够用，但是作为双开虚拟引擎，他需要做的是相对完整的生态系统，需要做的还有很多。
 
-#### 以下是他行我不行系列
+### 问题应用
 应用 | 问题 | 然后呢
 ---|---|---
 QQ | 无网 | 仍在努力中，可能姿势不对
@@ -26,7 +26,7 @@ QQ | 无网 | 仍在努力中，可能姿势不对
 本项目区分32位与64位，目前是2个不同的app，如在Demo已安装列表内无法找到需要开启的app说明不支持，请编译其他的架构。
 
 ## 如何使用
-#### Step 1.初始化，在Application中加入以下代码初始化
+### Step 1.初始化，在Application中加入以下代码初始化
 
 ```java
     @Override
@@ -51,16 +51,16 @@ QQ | 无网 | 仍在努力中，可能姿势不对
     }
 ```
 
-#### Step 2.安装应用至黑盒内
+### Step 2.安装应用至黑盒内
 ```java
     // 已安装的应用可以提供包名
     BlackBoxCore.get().installPackageAsUser("com.tencent.mm", userId);
-    
+
     // 未安装的应用可以提供路径
     BlackBoxCore.get().installPackageAsUser(new File("/sdcard/com.tencent.mm.apk"), userId);
 ```
 
-#### Step 2.运行黑盒内的应用
+### Step 2.运行黑盒内的应用
 ```java
    BlackBoxCore.get().launchApk("com.tencent.mm", userId);
 ```
@@ -70,7 +70,7 @@ QQ | 无网 | 仍在努力中，可能姿势不对
 ```java
    // flgas与常规获取已安装应用保持一致即可
    BlackBoxCore.get().getInstalledApplications(flgas, userId);
-   
+
    BlackBoxCore.get().getInstalledPackages(flgas, userId);
 ```
 
@@ -86,23 +86,20 @@ QQ | 无网 | 仍在努力中，可能姿势不对
 - Xposed已粗略过检测，[Xposed Checker](https://www.coolapk.com/apk/190247)、[XposedDetector](https://github.com/vvb2060/XposedDetector) 均无法检测
 
 
-## 计划
- - JobService调度可优化，但是目前仍然采取占坑。
- - Service API 虚拟化（目前许多是使用系统API，只有少数已实现）
- - 太多了我靠，慢慢来吧。
- 
-
 ## 如何参与开发？
-#### 应用分2个模块
+### 应用分2个模块
 - app模块，用户操作与UI模块
 - Bcore模块，此模块为BlackBox的核心模块，负责完成整个黑盒的调度。
 
 如需要参与开发请直接pr就可以了，相关教程请百度或者看 [如何在 GitHub 提交第一个 pull request](https://chinese.freecodecamp.org/news/how-to-make-your-first-pull-request-on-github/)
-#### PR须知
+### PR须知
 1. 中英文说明都可以，但是一定要详细说明问题
 2. 请遵从原项目的代码风格、设计模式，请勿个性化。
 3. PR不分大小，有问题随时欢迎提交。
 
+## 计划
+ - 更多的Service API 虚拟化（目前许多是使用系统API，只有少数已实现）
+ - 提供更多接口给开发者（虚拟定位、应用注入等）
 
 ## 一些额外的话
 想要做成一个非常理想的状态需要花费大量时间，由于自己时间精力有限，独乐乐不如众乐乐。**欢迎大家来PR，一起造轮**。到目前为止还有许多功能暂未支持，ShortcutManager、NotificationManager等等诸如此类还有非常多无法一一列举。目前是以跑起来就行的目标去前进，更多完善功能在后续会慢慢填补。

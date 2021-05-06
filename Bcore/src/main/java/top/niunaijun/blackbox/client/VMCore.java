@@ -24,7 +24,11 @@ public class VMCore {
     static {
         new File("");
         if (BlackBoxCore.is64Bit()) {
-            System.loadLibrary("vm64");
+            try {
+                System.loadLibrary("vm64");
+            } catch (Throwable e) {
+                System.loadLibrary("vm");
+            }
         } else {
             System.loadLibrary("vm");
         }

@@ -26,6 +26,7 @@ public class ClientSystemEnv {
         sSystemPackages.add("com.google.android.webview.dev");
         sSystemPackages.add("com.google.android.webview.beta");
         sSystemPackages.add("com.google.android.webview.canary");
+        sSystemPackages.add("com.huawei.webview");
         sSystemPackages.add("com.android.webview");
         sSystemPackages.add("com.android.camera");
 

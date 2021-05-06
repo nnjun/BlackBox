@@ -78,6 +78,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
         addMethodHook(new StopService());
         addMethodHook(new BindService());
         addMethodHook(new BindIsolatedService());
+        addMethodHook(new BroadcastIntentWithFeature());
         addMethodHook(new UnbindService());
         addMethodHook(new GetRunningAppProcesses());
         addMethodHook(new GetIntentSender());
@@ -348,6 +349,13 @@ public class ActivityManagerStub extends ClassInvocationStub {
         }
     }
 
+    static class BroadcastIntentWithFeature extends BroadcastIntent {
+        @Override
+        protected String getMethodName() {
+            return "broadcastIntentWithFeature";
+        }
+    }
+
     static class BroadcastIntent extends MethodHook {
 
         @Override
@@ -357,11 +365,12 @@ public class ActivityManagerStub extends ClassInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Intent intent = (Intent) args[1];
-            String resolvedType = (String) args[2];
+            int intentIndex = getIntentIndex();
+            Intent intent = (Intent) args[intentIndex];
+            String resolvedType = (String) args[intentIndex + 1];
             Intent proxyIntent = BlackBoxCore.getBActivityManager().sendBroadcast(intent, resolvedType, BClient.getUserId());
             if (proxyIntent != null) {
-                args[1] = proxyIntent;
+                args[intentIndex] = proxyIntent;
             }
             for (int i = 0; i < args.length; i++) {
                 Object o = args[i];
@@ -370,6 +379,13 @@ public class ActivityManagerStub extends ClassInvocationStub {
                 }
             }
             return method.invoke(who, args);
+        }
+
+        int getIntentIndex() {
+            if (BuildCompat.isS()) {
+                return 2;
+            }
+            return 1;
         }
     }
 

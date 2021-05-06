@@ -31,6 +31,7 @@ import com.swift.sandhook.SandHook;
 import com.swift.sandhook.xposedcompat.XposedCompat;
 
 import java.io.File;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,6 +46,7 @@ import mirror.android.app.ActivityThreadNMR1;
 import mirror.android.app.ActivityThreadQ;
 import mirror.android.app.ContextImpl;
 import mirror.android.app.LoadedApk;
+import mirror.android.security.net.config.NetworkSecurityConfigProvider;
 import mirror.com.android.internal.content.ReferrerIntent;
 import mirror.dalvik.system.VMRuntime;
 import top.niunaijun.blackbox.client.frameworks.BXposedManager;
@@ -312,6 +314,12 @@ public class BClient extends IBClient.Stub {
         ActivityThread.AppBindData.providers.set(boundApplication, bindData.providers);
 
         mBoundApplication = bindData;
+
+        //ssl适配
+        if (NetworkSecurityConfigProvider.install != null) {
+            Security.removeProvider("AndroidNSSP");
+            NetworkSecurityConfigProvider.install.call(packageContext);
+        }
         Application application;
         try {
             application = LoadedApk.makeApplication.call(loadedApk, false, null);

@@ -1,5 +1,6 @@
 package top.niunaijun.blackboxa.view.apps
 
+import android.view.View
 import android.view.ViewGroup
 import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.databinding.ItemAppBinding
@@ -22,6 +23,10 @@ class AppsAdapter : BaseAdapter<ItemAppBinding, AppInfo>() {
     override fun initView(binding: ItemAppBinding, position: Int, data: AppInfo) {
         binding.icon.setImageDrawable(data.icon)
         binding.name.text = data.name
-
+        if(data.isXpModule){
+            binding.cornerLabel.visibility = View.VISIBLE
+        }else{
+            binding.cornerLabel.visibility = View.INVISIBLE
+        }
     }
 }

@@ -1,6 +1,7 @@
 package top.niunaijun.blackboxa.view.xp
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
@@ -15,12 +16,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.roger.catloadinglibrary.CatLoadingView
 import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.utils.compat.BuildCompat
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.databinding.ActivityXpBinding
 import top.niunaijun.blackboxa.util.InjectionUtil
 import top.niunaijun.blackboxa.util.LoadingUtil
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.util.toast
+import top.niunaijun.blackboxa.view.base.BaseActivity
 import top.niunaijun.blackboxa.view.list.ListActivity
 
 /**
@@ -29,11 +32,9 @@ import top.niunaijun.blackboxa.view.list.ListActivity
  * @Author: wukaicheng
  * @CreateDate: 2021/5/2 20:25
  */
-class XpActivity : AppCompatActivity() {
+class XpActivity : BaseActivity() {
 
     private val viewBinding: ActivityXpBinding by inflate()
-
-    private var switchView: SwitchMaterial? = null
 
     private lateinit var loadingView: CatLoadingView
 
@@ -44,8 +45,7 @@ class XpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-        setSupportActionBar(viewBinding.toolbarLayout.toolbar)
-        viewBinding.toolbarLayout.toolbar.setTitle(R.string.xp_setting)
+        initToolbar(viewBinding.toolbarLayout.toolbar, R.string.xp_setting, true)
 
         viewModel = ViewModelProvider(this, InjectionUtil.getXpFactory()).get(XpViewModel::class.java)
 
@@ -105,8 +105,10 @@ class XpActivity : AppCompatActivity() {
         }
 
         mAdapter.setOnCheckChangeListener { data, isChecked ->
+
             BlackBoxCore.get().setModuleEnable(data.packageName, isChecked)
             toast("重新启动软件修改才能生效")
+
         }
     }
 
@@ -119,14 +121,6 @@ class XpActivity : AppCompatActivity() {
 
     }
 
-
-    private fun initSwitchView(switchItem: MenuItem) {
-        switchView = switchItem.actionView as SwitchMaterial
-        switchView!!.setOnCheckedChangeListener { _, isChecked ->
-            BlackBoxCore.get().isXPEnable = isChecked
-        }
-        switchView!!.isChecked = BlackBoxCore.get().isXPEnable
-    }
 
     override fun onStart() {
         super.onStart()
@@ -190,15 +184,5 @@ class XpActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
-        menuInflater.inflate(R.menu.menu_xp, menu)
-        menu?.let {
-            val switchItem = menu.findItem(R.id.switch_view)
-            initSwitchView(switchItem)
-        }
-        return true
-    }
 
 }

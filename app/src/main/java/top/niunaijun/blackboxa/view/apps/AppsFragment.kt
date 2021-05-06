@@ -26,7 +26,11 @@ import top.niunaijun.blackboxa.view.main.MainActivity
  * @Author: wukaicheng
  * @CreateDate: 2021/4/29 22:21
  */
-class AppsFragment(private val userID: Int) : Fragment() {
+class AppsFragment constructor(private val userID:Int) : Fragment() {
+
+
+    constructor() : this(0)
+    //fragment必须要提供空构造函数
 
     private lateinit var viewModel: AppsViewModel
 

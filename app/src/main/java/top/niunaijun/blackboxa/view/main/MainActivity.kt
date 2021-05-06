@@ -12,11 +12,13 @@ import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.databinding.ActivityMainBinding
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.view.apps.AppsFragment
+import top.niunaijun.blackboxa.view.base.BaseActivity
 import top.niunaijun.blackboxa.view.list.ListActivity
+import top.niunaijun.blackboxa.view.setting.SettingActivity
 import top.niunaijun.blackboxa.view.xp.XpActivity
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private val viewBinding: ActivityMainBinding by inflate()
 
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-        setSupportActionBar(viewBinding.toolbarLayout.toolbar)
+        initToolbar(viewBinding.toolbarLayout.toolbar,R.string.app_name)
         initViewPager()
         initFab()
     }
@@ -94,11 +96,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            R.id.main_xp -> {
-                val intent = Intent(this, XpActivity::class.java)
+            R.id.main_setting->{
+                val intent = Intent(this,SettingActivity::class.java)
                 startActivity(intent)
             }
-
 
             R.id.main_qq -> {
                 val intent = Intent()

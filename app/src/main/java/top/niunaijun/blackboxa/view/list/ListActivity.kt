@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
@@ -15,9 +14,10 @@ import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.databinding.ActivityListBinding
 import top.niunaijun.blackboxa.util.InjectionUtil
 import top.niunaijun.blackboxa.util.inflate
+import top.niunaijun.blackboxa.view.base.BaseActivity
 
 
-class ListActivity : AppCompatActivity() {
+class ListActivity : BaseActivity() {
 
     private val viewBinding: ActivityListBinding by inflate()
 
@@ -31,14 +31,7 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
-        setSupportActionBar(viewBinding.toolbarLayout.toolbar)
-        viewBinding.toolbarLayout.toolbar.setTitle(R.string.installed_app)
-        viewBinding.toolbarLayout.toolbar.setNavigationOnClickListener {
-            finish()
-        }
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        initToolbar(viewBinding.toolbarLayout.toolbar, R.string.installed_app, true)
 
         mAdapter = ListAdapter()
         viewBinding.recyclerView.adapter = mAdapter
@@ -73,7 +66,6 @@ class ListActivity : AppCompatActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(this, InjectionUtil.getListFactory()).get(ListViewModel::class.java)
         val onlyShowXp = intent.getBooleanExtra("onlyShowXp", false)
-        viewBinding.stateView.showLoading()
 
         if (onlyShowXp) {
             viewModel.getInstalledModules()
@@ -83,6 +75,15 @@ class ListActivity : AppCompatActivity() {
             viewBinding.toolbarLayout.toolbar.setTitle(R.string.installed_app)
         }
 
+        viewModel.previewingLiveData.observe(this) {
+            if (it) {
+                viewBinding.stateView.showLoading()
+            } else {
+                viewBinding.stateView.showContent()
+
+            }
+        }
+
         viewModel.appsLiveData.observe(this) {
             if (it != null) {
                 this.appList = it
@@ -90,6 +91,7 @@ class ListActivity : AppCompatActivity() {
                 filterApp("")
                 if (it.isNotEmpty()) {
                     viewBinding.stateView.showContent()
+                    viewModel.previewInstalledList()
                 } else {
                     viewBinding.stateView.showEmpty()
                 }
@@ -144,4 +146,11 @@ class ListActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.previewingLiveData.postValue(true)
+        viewModel.previewingLiveData.removeObservers(this)
+        viewModel.appsLiveData.postValue(null)
+        viewModel.appsLiveData.removeObservers(this)
+    }
 }

@@ -15,7 +15,7 @@ import top.niunaijun.blackbox.client.hook.AppLifecycleCallback
  */
 class App : Application() {
 
-    companion object{
+    companion object {
         private lateinit var context: Context
 
         fun getInstance(): Context {
@@ -27,10 +27,11 @@ class App : Application() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
+        context = base!!
         try {
             BlackBoxCore.get().doAttachBaseContext(base, object : ClientConfiguration() {
                 override fun getHostPackageName(): String {
-                    return base!!.packageName
+                    return base.packageName
                 }
 
                 override fun isHideRoot(): Boolean {
@@ -43,15 +44,15 @@ class App : Application() {
             })
             BlackBoxCore.get().appLifecycleCallback = object : AppLifecycleCallback() {
                 override fun beforeCreateApplication(packageName: String?, processName: String?, context: Context?) {
-                    Log.d(Companion.TAG, "beforeCreateApplication: pkg $packageName, processName $processName")
+                    Log.d(TAG, "beforeCreateApplication: pkg $packageName, processName $processName")
                 }
 
                 override fun beforeApplicationOnCreate(packageName: String?, processName: String?, application: Application?) {
-                    Log.d(Companion.TAG, "beforeApplicationOnCreate: pkg $packageName, processName $processName")
+                    Log.d(TAG, "beforeApplicationOnCreate: pkg $packageName, processName $processName")
                 }
 
                 override fun afterApplicationOnCreate(packageName: String?, processName: String?, application: Application?) {
-                    Log.d(Companion.TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
+                    Log.d(TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
                 }
             }
         } catch (e: Exception) {
@@ -61,7 +62,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+//        UMConfigure.init(this,,BuildConfig.FLAVOR,0,String pushSecret);
         BlackBoxCore.get().doCreate()
-        context = this
     }
 }

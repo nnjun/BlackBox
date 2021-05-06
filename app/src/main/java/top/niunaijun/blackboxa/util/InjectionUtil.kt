@@ -25,7 +25,7 @@ object InjectionUtil {
     }
 
     fun getListFactory(): ListFactory {
-        return ListFactory(appsRepository,App.getInstance() as Application)
+        return ListFactory(appsRepository)
     }
 
     fun getXpFactory():XpFactory{

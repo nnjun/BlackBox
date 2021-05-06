@@ -38,6 +38,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            debuggable false
+            jniDebuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -78,7 +85,6 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
 
-
     //LiveData
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
@@ -98,6 +104,9 @@ dependencies {
     //加载dialog
     implementation 'com.github.Ferfalk:SimpleSearchView:0.2.0'
     //searchView
+    implementation 'com.github.Othershe:CornerLabelView:1.0.0'
+    //图标角标
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

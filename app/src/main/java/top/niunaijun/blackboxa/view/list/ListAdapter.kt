@@ -23,6 +23,5 @@ class ListAdapter : BaseAdapter<ItemPackageBinding, AppInfo>() {
         binding.icon.setImageDrawable(data.icon)
         binding.name.text = data.name
         binding.packageName.text = data.packageName
-
     }
 }

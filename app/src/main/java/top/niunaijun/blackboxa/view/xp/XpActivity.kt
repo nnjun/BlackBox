@@ -21,6 +21,7 @@ import top.niunaijun.blackboxa.util.InjectionUtil
 import top.niunaijun.blackboxa.util.LoadingUtil
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.util.toast
+import top.niunaijun.blackboxa.view.base.BaseActivity
 import top.niunaijun.blackboxa.view.list.ListActivity
 
 /**
@@ -29,7 +30,7 @@ import top.niunaijun.blackboxa.view.list.ListActivity
  * @Author: wukaicheng
  * @CreateDate: 2021/5/2 20:25
  */
-class XpActivity : AppCompatActivity() {
+class XpActivity : BaseActivity() {
 
     private val viewBinding: ActivityXpBinding by inflate()
 
@@ -44,8 +45,7 @@ class XpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-        setSupportActionBar(viewBinding.toolbarLayout.toolbar)
-        viewBinding.toolbarLayout.toolbar.setTitle(R.string.xp_setting)
+        initToolbar(viewBinding.toolbarLayout.toolbar, R.string.xp_setting, true)
 
         viewModel = ViewModelProvider(this, InjectionUtil.getXpFactory()).get(XpViewModel::class.java)
 

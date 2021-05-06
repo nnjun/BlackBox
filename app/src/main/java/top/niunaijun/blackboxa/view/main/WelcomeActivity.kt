@@ -1,18 +1,11 @@
 package top.niunaijun.blackboxa.view.main
 
-import android.app.Application
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import top.niunaijun.blackboxa.App
-import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.util.InjectionUtil
 import top.niunaijun.blackboxa.view.list.ListViewModel
-import kotlin.concurrent.thread
 
 class WelcomeActivity : AppCompatActivity() {
 

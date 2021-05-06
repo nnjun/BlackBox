@@ -9,6 +9,7 @@
 
 #include <list>
 #include <iostream>
+#include "VmCore.h"
 
 using namespace std;
 

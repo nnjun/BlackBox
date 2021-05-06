@@ -1,14 +1,11 @@
 package top.niunaijun.blackbox.client;
 
-import android.os.Process;
-import android.util.Log;
-
 import androidx.annotation.Keep;
 
 import java.io.File;
 
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.server.user.BUserHandle;
+import top.niunaijun.blackbox.client.hook.IOManager;
 
 /**
  * Created by Milk on 4/9/21.
@@ -51,5 +48,15 @@ public class VMCore {
 //        Log.d(TAG, "origCallingUid: " + origCallingUid + " => " + BClient.getBaseVUid());
 //        return BClient.getBaseVUid();
         return origCallingUid;
+    }
+
+    @Keep
+    public static String redirectPath(String path) {
+        return IOManager.get().redirectPath(path);
+    }
+
+    @Keep
+    public static File redirectPath(File path) {
+        return IOManager.get().redirectPath(path);
     }
 }

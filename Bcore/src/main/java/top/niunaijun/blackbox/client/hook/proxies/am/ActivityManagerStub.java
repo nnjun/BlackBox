@@ -78,12 +78,12 @@ public class ActivityManagerStub extends ClassInvocationStub {
         addMethodHook(new StopService());
         addMethodHook(new BindService());
         addMethodHook(new BindIsolatedService());
-        addMethodHook(new BroadcastIntentWithFeature());
         addMethodHook(new UnbindService());
         addMethodHook(new GetRunningAppProcesses());
         addMethodHook(new GetIntentSender());
         addMethodHook(new GetIntentSenderWithFeature());
         addMethodHook(new BroadcastIntent());
+        addMethodHook(new BroadcastIntentWithFeature());
         addMethodHook(new PublishService());
         addMethodHook(new PeekService());
         addMethodHook(new SendIntentSender());
@@ -365,7 +365,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            int intentIndex = getIntentIndex();
+            int intentIndex = getIntentIndex(args);
             Intent intent = (Intent) args[intentIndex];
             String resolvedType = (String) args[intentIndex + 1];
             Intent proxyIntent = BlackBoxCore.getBActivityManager().sendBroadcast(intent, resolvedType, BClient.getUserId());
@@ -381,9 +381,12 @@ public class ActivityManagerStub extends ClassInvocationStub {
             return method.invoke(who, args);
         }
 
-        int getIntentIndex() {
-            if (BuildCompat.isS()) {
-                return 2;
+        int getIntentIndex(Object[] args) {
+            for (int i = 0; i < args.length; i++) {
+                Object arg = args[i];
+                if (arg instanceof Intent) {
+                    return i;
+                }
             }
             return 1;
         }

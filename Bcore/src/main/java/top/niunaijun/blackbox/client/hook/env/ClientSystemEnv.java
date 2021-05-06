@@ -19,6 +19,7 @@ public class ClientSystemEnv {
     private static final List<String> sSystemPackages = new ArrayList<>();
     private static final List<String> sSuPackages = new ArrayList<>();
     private static final List<String> sXposedPackages = new ArrayList<>();
+    private static final List<String> sPreInstallPackages = new ArrayList<>();
 
     static {
         sSystemPackages.add("android");
@@ -26,10 +27,13 @@ public class ClientSystemEnv {
         sSystemPackages.add("com.google.android.webview.dev");
         sSystemPackages.add("com.google.android.webview.beta");
         sSystemPackages.add("com.google.android.webview.canary");
-        sSystemPackages.add("com.huawei.webview");
         sSystemPackages.add("com.android.webview");
         sSystemPackages.add("com.android.camera");
 
+        // 华为
+        sSystemPackages.add("com.huawei.webview");
+
+        // su
         sSuPackages.add("com.noshufou.android.su");
         sSuPackages.add("com.noshufou.android.su.elite");
         sSuPackages.add("eu.chainfire.supersu");
@@ -38,6 +42,8 @@ public class ClientSystemEnv {
         sSuPackages.add("com.yellowes.su");
 
         sXposedPackages.add("de.robv.android.xposed.installer");
+
+        sPreInstallPackages.add("com.huawei.hwid");
     }
 
     public static boolean isOpenPackage(String packageName) {
@@ -55,5 +61,9 @@ public class ClientSystemEnv {
             return true;
         }
         return false;
+    }
+
+    public static List<String> getPreInstallPackages() {
+        return sPreInstallPackages;
     }
 }

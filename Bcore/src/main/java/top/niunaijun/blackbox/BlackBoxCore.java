@@ -18,6 +18,7 @@ import top.niunaijun.blackbox.client.ClientConfiguration;
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.client.frameworks.BUserManager;
 import top.niunaijun.blackbox.client.frameworks.BXposedManager;
+import top.niunaijun.blackbox.client.hook.AppLifecycleCallback;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
@@ -69,6 +70,7 @@ public class BlackBoxCore extends ClientConfiguration {
     private Map<String, IBinder> mServices = new HashMap<>();
     private Thread.UncaughtExceptionHandler mExceptionHandler;
     private ClientConfiguration mClientConfiguration;
+    private AppLifecycleCallback mAppLifecycleCallback = AppLifecycleCallback.EMPTY;
 
     public static BlackBoxCore get() {
         return sBlackBoxCore;
@@ -280,6 +282,17 @@ public class BlackBoxCore extends ClientConfiguration {
 
     public void deleteUser(int userId) {
         BUserManager.get().deleteUser(userId);
+    }
+
+    public AppLifecycleCallback getAppLifecycleCallback() {
+        return mAppLifecycleCallback;
+    }
+
+    public void setAppLifecycleCallback(AppLifecycleCallback appLifecycleCallback) {
+        if (appLifecycleCallback == null) {
+            throw new IllegalArgumentException("AppLifecycleCallback is null!");
+        }
+        mAppLifecycleCallback = appLifecycleCallback;
     }
 
     public IBinder getService(String name) {

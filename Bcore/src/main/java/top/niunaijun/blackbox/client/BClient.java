@@ -322,6 +322,7 @@ public class BClient extends IBClient.Stub {
         }
         Application application;
         try {
+            BlackBoxCore.get().getAppLifecycleCallback().beforeCreateApplication(packageName, processName, packageContext);
             application = LoadedApk.makeApplication.call(loadedApk, false, null);
 
             mInitialApplication = application;
@@ -330,7 +331,10 @@ public class BClient extends IBClient.Stub {
             ContextFixer.fix(mInitialApplication);
             installProviders(mInitialApplication, bindData.processName, bindData.providers);
 
+            BlackBoxCore.get().getAppLifecycleCallback().beforeApplicationOnCreate(packageName, processName, application);
             AppInstrumentation.get().callApplicationOnCreate(application);
+            BlackBoxCore.get().getAppLifecycleCallback().afterApplicationOnCreate(packageName, processName, application);
+
             registerReceivers(mInitialApplication);
             application.registerActivityLifecycleCallbacks(new ActivityLifecycleDelegate());
             HookManager.get().checkEnv(HCallbackStub.class);

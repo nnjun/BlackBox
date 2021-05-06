@@ -2,8 +2,10 @@ package top.niunaijun.blackboxa
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackbox.client.ClientConfiguration
+import top.niunaijun.blackbox.client.hook.AppLifecycleCallback
 
 /**
  *
@@ -19,6 +21,8 @@ class App : Application() {
         fun getInstance(): Context {
             return context
         }
+
+        const val TAG = "BApplication"
     }
 
     override fun attachBaseContext(base: Context?) {
@@ -37,6 +41,19 @@ class App : Application() {
                     return true
                 }
             })
+            BlackBoxCore.get().appLifecycleCallback = object : AppLifecycleCallback() {
+                override fun beforeCreateApplication(packageName: String?, processName: String?, context: Context?) {
+                    Log.d(Companion.TAG, "beforeCreateApplication: pkg $packageName, processName $processName")
+                }
+
+                override fun beforeApplicationOnCreate(packageName: String?, processName: String?, application: Application?) {
+                    Log.d(Companion.TAG, "beforeApplicationOnCreate: pkg $packageName, processName $processName")
+                }
+
+                override fun afterApplicationOnCreate(packageName: String?, processName: String?, application: Application?) {
+                    Log.d(Companion.TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
+                }
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

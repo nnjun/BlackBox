@@ -13,6 +13,7 @@ import java.util.Map;
 import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.client.frameworks.BXposedManager;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
+import top.niunaijun.blackbox.server.user.BUserHandle;
 import top.niunaijun.blackbox.utils.CloseUtils;
 import top.niunaijun.blackbox.utils.FileUtils;
 
@@ -80,6 +81,9 @@ public class BPackageSettings implements Parcelable {
         if (installOption.isFlag(InstallOption.FLAG_Xposed) &&
                 BXposedManagerService.get().isModuleEnable(pkg.packageName) &&
                 BXposedManagerService.get().isXPEnable()) {
+            state.installed = true;
+        }
+        if (userState.get(BUserHandle.USER_ALL) != null) {
             state.installed = true;
         }
         return state;

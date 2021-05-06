@@ -18,6 +18,7 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.ConditionVariable;
 import android.os.Handler;
 import android.os.IBinder;
@@ -28,24 +29,29 @@ import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.swift.sandhook.SandHook;
+import com.swift.sandhook.SandHookConfig;
 import com.swift.sandhook.xposedcompat.XposedCompat;
 
 import java.io.File;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
 import mirror.android.app.ActivityManagerNative;
 import mirror.android.app.ActivityThread;
 import mirror.android.app.ActivityThreadNMR1;
 import mirror.android.app.ActivityThreadQ;
 import mirror.android.app.ContextImpl;
 import mirror.android.app.LoadedApk;
+import mirror.android.security.net.config.NetworkSecurityConfigProvider;
 import mirror.com.android.internal.content.ReferrerIntent;
 import mirror.dalvik.system.VMRuntime;
-import top.niunaijun.blackbox.BEnvironment;
 import top.niunaijun.blackbox.client.frameworks.BXposedManager;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.client.hook.IOManager;
@@ -63,6 +69,7 @@ import top.niunaijun.blackbox.server.ClientServiceManager;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.StrictModeCompat;
 
 
@@ -310,8 +317,15 @@ public class BClient extends IBClient.Stub {
         ActivityThread.AppBindData.providers.set(boundApplication, bindData.providers);
 
         mBoundApplication = bindData;
+
+        //ssl适配
+        if (NetworkSecurityConfigProvider.install != null) {
+            Security.removeProvider("AndroidNSSP");
+            NetworkSecurityConfigProvider.install.call(packageContext);
+        }
         Application application;
         try {
+            BlackBoxCore.get().getAppLifecycleCallback().beforeCreateApplication(packageName, processName, packageContext);
             application = LoadedApk.makeApplication.call(loadedApk, false, null);
 
             mInitialApplication = application;
@@ -320,7 +334,10 @@ public class BClient extends IBClient.Stub {
             ContextFixer.fix(mInitialApplication);
             installProviders(mInitialApplication, bindData.processName, bindData.providers);
 
+            BlackBoxCore.get().getAppLifecycleCallback().beforeApplicationOnCreate(packageName, processName, application);
             AppInstrumentation.get().callApplicationOnCreate(application);
+            BlackBoxCore.get().getAppLifecycleCallback().afterApplicationOnCreate(packageName, processName, application);
+
             registerReceivers(mInitialApplication);
             application.registerActivityLifecycleCallbacks(new ActivityLifecycleDelegate());
             HookManager.get().checkEnv(HCallbackStub.class);
@@ -342,49 +359,65 @@ public class BClient extends IBClient.Stub {
 
     private void installProviders(Context context, String processName, List<ProviderInfo> provider) {
         long origId = Binder.clearCallingIdentity();
-        for (ProviderInfo providerInfo : provider) {
-            try {
-                if (processName.equals(providerInfo.processName)) {
-                    ActivityThread.installProvider(BlackBoxCore.mainThread(), context, providerInfo, null);
+        try {
+            for (ProviderInfo providerInfo : provider) {
+                try {
+                    if (processName.equals(providerInfo.processName)) {
+                        ActivityThread.installProvider(BlackBoxCore.mainThread(), context, providerInfo, null);
+                    }
+                } catch (Throwable ignored) {
                 }
-            } catch (Throwable ignored) {
             }
+        } finally {
+            Binder.restoreCallingIdentity(origId);
+            ContentProviderDelegate.init();
         }
-        Binder.restoreCallingIdentity(origId);
-        ContentProviderDelegate.init();
     }
 
     public void loadXposed(Context context) {
         String vPackageName = getVPackageName();
         String vProcessName = getVProcessName();
-        if (TextUtils.isEmpty(vPackageName) || TextUtils.isEmpty(vProcessName) || !BXposedManager.get().isXPEnable()) {
-            return;
-        }
-        assert vPackageName != null;
-        assert vProcessName != null;
+        if (!TextUtils.isEmpty(vPackageName) && !TextUtils.isEmpty(vProcessName) && BXposedManager.get().isXPEnable()) {
+            assert vPackageName != null;
+            assert vProcessName != null;
 
-        XposedCompat.packageName = vPackageName;
-        XposedCompat.processName = vProcessName;
-        XposedCompat.cacheDir = new File(context.getCacheDir(), vProcessName);
-        FileUtils.mkdirs(XposedCompat.cacheDir);
-        XposedCompat.context = context;
-        XposedCompat.classLoader = context.getClassLoader();
-        XposedCompat.isFirstApplication = vPackageName.equals(vProcessName);
+            XposedCompat.packageName = vPackageName;
+            XposedCompat.processName = vProcessName;
+            XposedCompat.cacheDir = new File(context.getCacheDir(), vProcessName);
+            FileUtils.mkdirs(XposedCompat.cacheDir);
+            XposedCompat.context = context;
+            XposedCompat.classLoader = context.getClassLoader();
+            XposedCompat.isFirstApplication = vPackageName.equals(vProcessName);
 
-        List<InstalledModule> installedModules = BXposedManager.get().getInstalledModules();
-        for (InstalledModule installedModule : installedModules) {
-            if (!installedModule.enable) {
-                continue;
+            SandHook.disableVMInline();
+            //android Q
+            if (BuildCompat.isQ()) {
+                XposedCompat.useInternalStub = false;
+                XposedCompat.cacheDir = XposedCompat.context.getCacheDir();
             }
-            XposedCompat.loadModule(installedModule.getApplication().sourceDir,
-                    context.getCacheDir().getAbsolutePath(),
-                    installedModule.getApplication().nativeLibraryDir,
-                    BlackBoxCore.getContext().getClassLoader());
+
+            List<InstalledModule> installedModules = BXposedManager.get().getInstalledModules();
+            for (InstalledModule installedModule : installedModules) {
+                if (!installedModule.enable) {
+                    continue;
+                }
+                try {
+                    XposedCompat.loadModule(installedModule.getApplication().sourceDir,
+                            context.getCacheDir().getAbsolutePath(),
+                            installedModule.getApplication().nativeLibraryDir,
+                            BlackBoxCore.getContext().getClassLoader());
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                XposedCompat.callXposedModuleInit();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
         }
-        try {
-            XposedCompat.callXposedModuleInit();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        if (BlackBoxCore.get().isHideXposed()) {
+            VMCore.hideXposed();
         }
     }
 

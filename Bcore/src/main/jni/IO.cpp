@@ -50,20 +50,21 @@ const char *IO::redirectPath(const char *__path) {
 }
 
 jstring IO::redirectPath(JNIEnv *env, jstring path) {
-    const char * pathC = env->GetStringUTFChars(path, JNI_FALSE);
-    const char *redirect = redirectPath(pathC);
-    env->ReleaseStringUTFChars(path, pathC);
-    return env->NewStringUTF(redirect);
+//    const char * pathC = env->GetStringUTFChars(path, JNI_FALSE);
+//    const char *redirect = redirectPath(pathC);
+//    env->ReleaseStringUTFChars(path, pathC);
+//    return env->NewStringUTF(redirect);
+    return VmCore::redirectPathString(env, path);
 }
 
 jobject IO::redirectPath(JNIEnv *env, jobject path) {
-    auto pathStr =
-            reinterpret_cast<jstring>(env->CallObjectMethod(path, getAbsolutePathMethodId));
-    jstring redirect = redirectPath(env, pathStr);
-    jobject file = env->NewObject(fileClazz, fileNew, redirect);
-    env->DeleteLocalRef(pathStr);
-    env->DeleteLocalRef(redirect);
-    return file;
+//    auto pathStr =
+//            reinterpret_cast<jstring>(env->CallObjectMethod(path, getAbsolutePathMethodId));
+//    jstring redirect = redirectPath(env, pathStr);
+//    jobject file = env->NewObject(fileClazz, fileNew, redirect);
+//    env->DeleteLocalRef(pathStr);
+//    env->DeleteLocalRef(redirect);
+    return VmCore::redirectPathFile(env, path);
 }
 
 void IO::addRule(const char *targetPath, const char *relocatePath) {

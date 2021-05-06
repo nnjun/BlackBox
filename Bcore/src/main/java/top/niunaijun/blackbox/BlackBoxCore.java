@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.Process;
 
@@ -17,6 +18,7 @@ import top.niunaijun.blackbox.client.ClientConfiguration;
 import top.niunaijun.blackbox.client.StubManifest;
 import top.niunaijun.blackbox.client.frameworks.BUserManager;
 import top.niunaijun.blackbox.client.frameworks.BXposedManager;
+import top.niunaijun.blackbox.client.hook.AppLifecycleCallback;
 import top.niunaijun.blackbox.client.hook.HookManager;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
@@ -35,6 +37,8 @@ import top.niunaijun.blackbox.client.frameworks.BJobManager;
 import top.niunaijun.blackbox.client.frameworks.BPackageManager;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +49,8 @@ import mirror.android.app.ActivityThread;
 import top.niunaijun.blackbox.client.frameworks.BStorageManager;
 import top.niunaijun.blackbox.client.hook.delegate.ContentProviderDelegate;
 import top.niunaijun.blackbox.server.ServiceManager;
+
+import static top.niunaijun.blackbox.BEnvironment.JUNIT_JAR;
 
 /**
  * Created by Milk on 3/30/21.
@@ -64,6 +70,7 @@ public class BlackBoxCore extends ClientConfiguration {
     private Map<String, IBinder> mServices = new HashMap<>();
     private Thread.UncaughtExceptionHandler mExceptionHandler;
     private ClientConfiguration mClientConfiguration;
+    private AppLifecycleCallback mAppLifecycleCallback = AppLifecycleCallback.EMPTY;
 
     public static BlackBoxCore get() {
         return sBlackBoxCore;
@@ -100,6 +107,7 @@ public class BlackBoxCore extends ClientConfiguration {
         if (processName.equals(BlackBoxCore.getHostPkg())) {
             mProcessType = ProcessType.Main;
             startLogcat();
+            initJarEnv();
         } else if (processName.endsWith(getContext().getString(R.string.black_box_service_name))) {
             mProcessType = ProcessType.Server;
         } else {
@@ -276,6 +284,17 @@ public class BlackBoxCore extends ClientConfiguration {
         BUserManager.get().deleteUser(userId);
     }
 
+    public AppLifecycleCallback getAppLifecycleCallback() {
+        return mAppLifecycleCallback;
+    }
+
+    public void setAppLifecycleCallback(AppLifecycleCallback appLifecycleCallback) {
+        if (appLifecycleCallback == null) {
+            throw new IllegalArgumentException("AppLifecycleCallback is null!");
+        }
+        mAppLifecycleCallback = appLifecycleCallback;
+    }
+
     public IBinder getService(String name) {
         IBinder binder = mServices.get(name);
         if (binder != null && binder.isBinderAlive()) {
@@ -335,13 +354,22 @@ public class BlackBoxCore extends ClientConfiguration {
         return mClientConfiguration.getHostPackageName();
     }
 
+    private void initJarEnv() {
+        try {
+            InputStream open = getContext().getAssets().open("junit.jar");
+            FileUtils.copyFile(open, JUNIT_JAR);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void startLogcat() {
-        File file = new File(getContext().getExternalCacheDir(), "logcat.txt");
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getContext().getPackageName() + "_logcat.txt");
         FileUtils.deleteDir(file);
         ShellUtils.execCommand("logcat -c", false);
         ShellUtils.execCommand("logcat >> " + file.getAbsolutePath() + " &", false);
-
     }
+
     private static String getProcessName(Context context) {
         int pid = Process.myPid();
         String processName = null;

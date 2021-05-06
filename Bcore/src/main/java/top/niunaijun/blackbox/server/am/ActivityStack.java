@@ -222,10 +222,14 @@ public class ActivityStack {
 
         if (resultTo == null) {
             ActivityRecord top = taskRecord.getTopActivityRecord();
-            resultTo = top.token;
+            if (top != null) {
+                resultTo = top.token;
+            }
         } else if (sourceTask != null) {
             ActivityRecord top = sourceTask.getTopActivityRecord();
-            resultTo = top.token;
+            if (top != null) {
+                resultTo = top.token;
+            }
         }
         return startActivityInSourceTask(intent,
                 resolvedType, resultTo, resultWho, requestCode, flags, options, userId, topActivityRecord, activityInfo, launchModeFlags);

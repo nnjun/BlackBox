@@ -18,11 +18,13 @@ LOCAL_CPPFLAGS += -std=c++11
 LOCAL_C_INCLUDES += $(MAIN_LOCAL_PATH)
 
 LOCAL_SRC_FILES := JniHook/JniHook.cpp \
-                   VmCore.cpp \
                    IO.cpp \
                    Hook/BaseHook.cpp \
+                   Hook/RuntimeHook.cpp \
+                   Hook/VMClassLoaderHook.cpp \
                    Hook/UnixFileSystemHook.cpp \
                    Hook/BinderHook.cpp \
+                   VmCore.cpp \
 
 LOCAL_LDLIBS := -llog -latomic
 

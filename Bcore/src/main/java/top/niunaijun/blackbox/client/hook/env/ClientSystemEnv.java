@@ -16,17 +16,24 @@ import top.niunaijun.blackbox.BlackBoxCore;
  * 此处无Bug
  */
 public class ClientSystemEnv {
-    private static List<String> sSystemPackages = new ArrayList<>();
-    private static List<String> sSuPackages = new ArrayList<>();
-    private static List<String> sXposedPackages = new ArrayList<>();
-    private static final String XP_PACKAGE_NAME = "de.robv.android.xposed.installer";
+    private static final List<String> sSystemPackages = new ArrayList<>();
+    private static final List<String> sSuPackages = new ArrayList<>();
+    private static final List<String> sXposedPackages = new ArrayList<>();
+    private static final List<String> sPreInstallPackages = new ArrayList<>();
 
     static {
         sSystemPackages.add("android");
         sSystemPackages.add("com.google.android.webview");
+        sSystemPackages.add("com.google.android.webview.dev");
+        sSystemPackages.add("com.google.android.webview.beta");
+        sSystemPackages.add("com.google.android.webview.canary");
         sSystemPackages.add("com.android.webview");
         sSystemPackages.add("com.android.camera");
 
+        // 华为
+        sSystemPackages.add("com.huawei.webview");
+
+        // su
         sSuPackages.add("com.noshufou.android.su");
         sSuPackages.add("com.noshufou.android.su.elite");
         sSuPackages.add("eu.chainfire.supersu");
@@ -35,6 +42,8 @@ public class ClientSystemEnv {
         sSuPackages.add("com.yellowes.su");
 
         sXposedPackages.add("de.robv.android.xposed.installer");
+
+        sPreInstallPackages.add("com.huawei.hwid");
     }
 
     public static boolean isOpenPackage(String packageName) {
@@ -54,10 +63,7 @@ public class ClientSystemEnv {
         return false;
     }
 
-    public static boolean isFakePackage(String packageName) {
-        if (XP_PACKAGE_NAME.equals(packageName) && BlackBoxCore.get().isXPEnable()) {
-            return true;
-        }
-        return false;
+    public static List<String> getPreInstallPackages() {
+        return sPreInstallPackages;
     }
 }

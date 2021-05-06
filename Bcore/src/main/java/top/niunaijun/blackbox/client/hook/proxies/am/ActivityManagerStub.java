@@ -83,6 +83,7 @@ public class ActivityManagerStub extends ClassInvocationStub {
         addMethodHook(new GetIntentSender());
         addMethodHook(new GetIntentSenderWithFeature());
         addMethodHook(new BroadcastIntent());
+        addMethodHook(new BroadcastIntentWithFeature());
         addMethodHook(new PublishService());
         addMethodHook(new PeekService());
         addMethodHook(new SendIntentSender());
@@ -118,16 +119,17 @@ public class ActivityManagerStub extends ClassInvocationStub {
                     return method.invoke(who, args);
                 }
 
+                if (BuildCompat.isQ()) {
+                    args[1] = BlackBoxCore.getHostPkg();
+                }
+
                 if (auth.equals("settings") || auth.equals("media") || auth.equals("telephony")) {
                     content = method.invoke(who, args);
                     ContentProviderDelegate.update(content, (String) auth);
                     return content;
                 } else {
                     Log.d(TAG, "hook getContentProvider: " + auth);
-                    // 10.0
-                    if (BuildCompat.isQ()) {
-                        args[1] = BlackBoxCore.getHostPkg();
-                    }
+
 
                     ProviderInfo providerInfo = BlackBoxCore.getBPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BClient.getUserId());
                     if (providerInfo == null || !providerInfo.packageName.equals(BClient.getVPackageName())) {
@@ -347,6 +349,13 @@ public class ActivityManagerStub extends ClassInvocationStub {
         }
     }
 
+    static class BroadcastIntentWithFeature extends BroadcastIntent {
+        @Override
+        protected String getMethodName() {
+            return "broadcastIntentWithFeature";
+        }
+    }
+
     static class BroadcastIntent extends MethodHook {
 
         @Override
@@ -356,11 +365,12 @@ public class ActivityManagerStub extends ClassInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Intent intent = (Intent) args[1];
-            String resolvedType = (String) args[2];
+            int intentIndex = getIntentIndex(args);
+            Intent intent = (Intent) args[intentIndex];
+            String resolvedType = (String) args[intentIndex + 1];
             Intent proxyIntent = BlackBoxCore.getBActivityManager().sendBroadcast(intent, resolvedType, BClient.getUserId());
             if (proxyIntent != null) {
-                args[1] = proxyIntent;
+                args[intentIndex] = proxyIntent;
             }
             for (int i = 0; i < args.length; i++) {
                 Object o = args[i];
@@ -369,6 +379,16 @@ public class ActivityManagerStub extends ClassInvocationStub {
                 }
             }
             return method.invoke(who, args);
+        }
+
+        int getIntentIndex(Object[] args) {
+            for (int i = 0; i < args.length; i++) {
+                Object arg = args[i];
+                if (arg instanceof Intent) {
+                    return i;
+                }
+            }
+            return 1;
         }
     }
 

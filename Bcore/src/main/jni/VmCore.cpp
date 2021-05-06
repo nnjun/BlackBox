@@ -7,13 +7,17 @@
 #include "IO.h"
 #include <jni.h>
 #include <JniHook/JniHook.h>
+#include <Hook/VMClassLoaderHook.h>
 #include <Hook/UnixFileSystemHook.h>
 #include <Hook/BinderHook.h>
+#include <Hook/RuntimeHook.h>
 
 struct {
     JavaVM *vm;
     jclass VMCoreClass;
     jmethodID getCallingUidId;
+    jmethodID redirectPathString;
+    jmethodID redirectPathFile;
 } VMEnv;
 
 
@@ -36,17 +40,35 @@ int VmCore::getCallingUid(JNIEnv *env, int orig) {
     return env->CallStaticIntMethod(VMEnv.VMCoreClass, VMEnv.getCallingUidId, orig);
 }
 
+jstring VmCore::redirectPathString(JNIEnv *env, jstring path) {
+    env = ensureEnvCreated();
+    return (jstring) env->CallStaticObjectMethod(VMEnv.VMCoreClass, VMEnv.redirectPathString, path);
+}
+
+jobject VmCore::redirectPathFile(JNIEnv *env, jobject path) {
+    env = ensureEnvCreated();
+    return env->CallStaticObjectMethod(VMEnv.VMCoreClass, VMEnv.redirectPathFile, path);
+}
+
 void nativeHook(JNIEnv *env) {
     BaseHook::init(env);
     UnixFileSystemHook::init(env);
+    VMClassLoaderHook::init(env);
+//    RuntimeHook::init(env);
     BinderHook::init(env);
 }
 
+void hideXposed(JNIEnv *env, jclass clazz) {
+    ALOGD("set hideXposed");
+    VMClassLoaderHook::hideXposed();
+}
 
 void init(JNIEnv *env, jclass clazz, jint api_level) {
     ALOGD("VmCore init.");
     VMEnv.VMCoreClass = (jclass) env->NewGlobalRef(env->FindClass(VMCORE_CLASS));
     VMEnv.getCallingUidId = env->GetStaticMethodID(VMEnv.VMCoreClass, "getCallingUid", "(I)I");
+    VMEnv.redirectPathString = env->GetStaticMethodID(VMEnv.VMCoreClass, "redirectPath", "(Ljava/lang/String;)Ljava/lang/String;");
+    VMEnv.redirectPathFile = env->GetStaticMethodID(VMEnv.VMCoreClass, "redirectPath", "(Ljava/io/File;)Ljava/io/File;");
 
     JniHook::InitJniHook(env, api_level);
     IO::init(env);
@@ -60,6 +82,7 @@ void addIORule(JNIEnv *env, jclass clazz, jstring target_path,
 }
 
 static JNINativeMethod gMethods[] = {
+        {"hideXposed",      "()V",                               (void *) hideXposed},
         {"addIORule", "(Ljava/lang/String;Ljava/lang/String;)V", (void *) addIORule},
         {"init",      "(I)V",                                    (void *) init},
 };

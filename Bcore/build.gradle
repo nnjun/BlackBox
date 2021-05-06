@@ -37,4 +37,5 @@ dependencies {
 
     implementation 'me.weishu:free_reflection:3.0.1'
     implementation project(':Bcore:xposed')
+    implementation 'com.swift.sandhook:hooklib:4.2.0'
 }

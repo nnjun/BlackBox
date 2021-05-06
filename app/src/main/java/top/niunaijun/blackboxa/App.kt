@@ -2,10 +2,9 @@ package top.niunaijun.blackboxa
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackbox.client.ClientConfiguration
-import top.niunaijun.blackbox.client.hook.AppLifecycleCallback
+import top.niunaijun.blackbox.utils.compat.BuildCompat
+import top.niunaijun.blackboxa.view.main.BlackBoxLoadCallback
 
 /**
  *
@@ -28,33 +27,18 @@ class App : Application() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         context = base!!
+
         try {
-            BlackBoxCore.get().doAttachBaseContext(base, object : ClientConfiguration() {
-                override fun getHostPackageName(): String {
-                    return base.packageName
-                }
 
-                override fun isHideRoot(): Boolean {
-                    return true
-                }
+            val callback = BlackBoxLoadCallback()
+            callback.attachBaseContext(context)
+            callback.addLifecycleCallback()
 
-                override fun isHideXposed(): Boolean {
-                    return true
-                }
-            })
-            BlackBoxCore.get().appLifecycleCallback = object : AppLifecycleCallback() {
-                override fun beforeCreateApplication(packageName: String?, processName: String?, context: Context?) {
-                    Log.d(TAG, "beforeCreateApplication: pkg $packageName, processName $processName")
-                }
-
-                override fun beforeApplicationOnCreate(packageName: String?, processName: String?, application: Application?) {
-                    Log.d(TAG, "beforeApplicationOnCreate: pkg $packageName, processName $processName")
-                }
-
-                override fun afterApplicationOnCreate(packageName: String?, processName: String?, application: Application?) {
-                    Log.d(TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
-                }
+            if(BuildCompat.isR()){
+                BlackBoxCore.get().isXPEnable = false
             }
+            //android 11 先屏蔽xp
+
         } catch (e: Exception) {
             e.printStackTrace()
         }

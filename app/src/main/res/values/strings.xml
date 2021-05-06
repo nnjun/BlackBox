@@ -8,4 +8,11 @@
     <string name="open_source_path">开源地址</string>
     <string name="xp_setting">XP管理</string>
     <string name="qq_group">交流群</string>
+    <string name="setting">软件设置</string>
+    <string name="jump_module">点击跳转到模块管理界面</string>
+    <string name="module_setting">模块管理</string>
+    <string name="enable_xposed">启用Xposed框架</string>
+    <string name="hider">伪装</string>
+    <string name="hide_root">隐藏Root</string>
+    <string name="hide_xposed">隐藏Xposed框架</string>
 </resources>

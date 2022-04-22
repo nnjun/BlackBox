@@ -1,5 +1,5 @@
 # 开源本是一件开心的事，可惜...
-## 声明，本人仅有此BlackBox仓库，其余仓库非本人所属。
+## 声明，本人仅有此BlackBox仓库，现已删除，其余仓库非本人所属。
 
 ## 另类项目：https://github.com/CodingGay/BlackDex
 

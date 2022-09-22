@@ -1,4 +1,3 @@
-include ':Bcore:xposed'
 include ':Bcore'
 include ':app'
 rootProject.name = "BlackBox"

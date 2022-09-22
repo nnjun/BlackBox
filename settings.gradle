@@ -1,3 +1,0 @@
-include ':Bcore'
-include ':app'
-rootProject.name = "BlackBox"
